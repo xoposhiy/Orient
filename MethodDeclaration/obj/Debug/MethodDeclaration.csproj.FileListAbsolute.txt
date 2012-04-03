@@ -1,0 +1,10 @@
+D:\Users\MAK\Downloads\Orient\MethodDeclaration\bin\Debug\MethodDeclaration.dll
+D:\Users\MAK\Downloads\Orient\MethodDeclaration\bin\Debug\MethodDeclaration.pdb
+D:\Users\MAK\Downloads\Orient\MethodDeclaration\obj\Debug\ResolveAssemblyReference.cache
+D:\Users\MAK\Downloads\Orient\MethodDeclaration\obj\Debug\MethodDeclaration.dll
+D:\Users\MAK\Downloads\Orient\MethodDeclaration\obj\Debug\MethodDeclaration.pdb
+C:\EDU\1\Orient\MethodDeclaration\bin\Debug\MethodDeclaration.dll
+C:\EDU\1\Orient\MethodDeclaration\bin\Debug\MethodDeclaration.pdb
+C:\EDU\1\Orient\MethodDeclaration\obj\Debug\ResolveAssemblyReference.cache
+C:\EDU\1\Orient\MethodDeclaration\obj\Debug\MethodDeclaration.dll
+C:\EDU\1\Orient\MethodDeclaration\obj\Debug\MethodDeclaration.pdb

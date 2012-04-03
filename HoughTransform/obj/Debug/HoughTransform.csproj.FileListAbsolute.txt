@@ -1,0 +1,14 @@
+D:\Users\MAK\Downloads\Orient\HoughTransform\bin\Debug\HoughTransform.dll
+D:\Users\MAK\Downloads\Orient\HoughTransform\bin\Debug\HoughTransform.pdb
+D:\Users\MAK\Downloads\Orient\HoughTransform\bin\Debug\MethodDeclaration.dll
+D:\Users\MAK\Downloads\Orient\HoughTransform\bin\Debug\MethodDeclaration.pdb
+D:\Users\MAK\Downloads\Orient\HoughTransform\obj\Debug\ResolveAssemblyReference.cache
+D:\Users\MAK\Downloads\Orient\HoughTransform\obj\Debug\HoughTransform.dll
+D:\Users\MAK\Downloads\Orient\HoughTransform\obj\Debug\HoughTransform.pdb
+C:\EDU\1\Orient\HoughTransform\bin\Debug\HoughTransform.dll
+C:\EDU\1\Orient\HoughTransform\bin\Debug\HoughTransform.pdb
+C:\EDU\1\Orient\HoughTransform\bin\Debug\MethodDeclaration.dll
+C:\EDU\1\Orient\HoughTransform\bin\Debug\MethodDeclaration.pdb
+C:\EDU\1\Orient\HoughTransform\obj\Debug\ResolveAssemblyReference.cache
+C:\EDU\1\Orient\HoughTransform\obj\Debug\HoughTransform.dll
+C:\EDU\1\Orient\HoughTransform\obj\Debug\HoughTransform.pdb

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dataModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.3.5" ProviderManifestToken="3.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="dataModelStoreContainer">
+    <EntitySet Name="OrientationSet" EntityType="dataModel.Store.OrientationSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DocumentSet" EntityType="dataModel.Store.DocumentSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LineSet" EntityType="dataModel.Store.LineSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SymbolSet" EntityType="dataModel.Store.SymbolSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="OrientationLine" Association="dataModel.Store.OrientationLine">
+      <End Role="Orientation" EntitySet="OrientationSet" />
+      <End Role="Line" EntitySet="LineSet" />
+    </AssociationSet>
+    <AssociationSet Name="OrientationDocument" Association="dataModel.Store.OrientationDocument">
+      <End Role="Orientation" EntitySet="OrientationSet" />
+      <End Role="Document" EntitySet="DocumentSet" />
+    </AssociationSet>
+    <AssociationSet Name="OrientationSymbol" Association="dataModel.Store.OrientationSymbol">
+      <End Role="Orientation" EntitySet="OrientationSet" />
+      <End Role="Symbol" EntitySet="SymbolSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="OrientationSet">
+    <Key>
+      <PropertyRef Name="ObjectId" />
+    </Key>
+    <Property Name="Rotation" Type="smallint" Nullable="false" />
+    <Property Name="ObjectId" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Line_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Document_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Symbol_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DocumentSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Image" Type="varbinary" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LineSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Image" Type="varbinary" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SymbolSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Image" Type="varbinary" Nullable="false" />
+  </EntityType>
+  <Association Name="OrientationLine">
+    <End Role="Orientation" Type="dataModel.Store.OrientationSet" Multiplicity="*" />
+    <End Role="Line" Type="dataModel.Store.LineSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Line">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orientation">
+        <PropertyRef Name="Line_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrientationDocument">
+    <End Role="Orientation" Type="dataModel.Store.OrientationSet" Multiplicity="*" />
+    <End Role="Document" Type="dataModel.Store.DocumentSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Document">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orientation">
+        <PropertyRef Name="Document_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrientationSymbol">
+    <End Role="Orientation" Type="dataModel.Store.OrientationSet" Multiplicity="*" />
+    <End Role="Symbol" Type="dataModel.Store.SymbolSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Symbol">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Orientation">
+        <PropertyRef Name="Symbol_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
