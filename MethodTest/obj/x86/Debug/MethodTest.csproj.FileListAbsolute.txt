@@ -26,3 +26,12 @@ C:\EDU\1\Orient\MethodTest\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\EDU\1\Orient\MethodTest\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\EDU\1\Orient\MethodTest\obj\x86\Debug\MethodTest.exe
 C:\EDU\1\Orient\MethodTest\obj\x86\Debug\MethodTest.pdb
+C:\EDU\Orient\MethodTest\obj\x86\Debug\MethodTest.exe
+C:\EDU\Orient\MethodTest\obj\x86\Debug\MethodTest.pdb
+C:\EDU\Orient\MethodTest\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\EDU\Orient\MethodTest\obj\x86\Debug\MethodTest.Form1.resources
+C:\EDU\Orient\MethodTest\obj\x86\Debug\MethodTest.Properties.Resources.resources
+C:\EDU\Orient\MethodTest\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\EDU\Orient\MethodTest\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\EDU\Orient\MethodTest\bin\Debug\MethodTest.exe
+C:\EDU\Orient\MethodTest\bin\Debug\MethodTest.pdb

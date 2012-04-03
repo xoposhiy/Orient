@@ -12,20 +12,21 @@ namespace Contour
         public Form1()
         {
             InitializeComponent();
-            var img = new Image<Bgr, byte>(@"C:\Emgu\emgucv-windows-x86 2.3.0.1416\Solution\VS2010\Orient\bin\Debug\IMG052.jpg");
-            img = img.Resize(400, 400, INTER.CV_INTER_LINEAR, true);
-            originalImageBox.Image = img.Copy();
+            imageFileDialog.FileName = @"20.1.png";
+            imageFileDialog.InitialDirectory = @"..\..\base\certificates\";
+            ImageFileClick(this, null);
+        }
 
-            //lineImageBox.Image = HoughTransform();
-            var gray = img.Convert<Gray, Byte>().Canny(new Gray(180), new Gray(120));
-            var contour = gray.FindContours();
-            while ( contour != null)
-            {
-                img.Draw(contour.BoundingRectangle, new Bgr(Color.Green), 1);
-                contour = contour.HNext;
-            }
+        private void ImageFileClick(object sender, EventArgs e)
+        {
+            if (imageFileDialog.ShowDialog() != DialogResult.OK) return;
+            var img = new Image<Bgr, byte>(imageFileDialog.FileName);
+            originalImageBox.Image = img.Copy().Resize(400, 400, INTER.CV_INTER_LINEAR, true); ;
 
-            lineImageBox.Image = img;
+            foreach (var rect in SymbolSegmentation.GetBoundingBoxes(imageFileDialog.FileName))
+                img.Draw(rect, new Bgr(Color.Green), 1);
+
+            lineImageBox.Image = img.Resize(400, 400, INTER.CV_INTER_LINEAR, true);
         }
     }
 }

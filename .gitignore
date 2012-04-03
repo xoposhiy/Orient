@@ -1,2 +1,6 @@
 
 /_ReSharper.Orient
+/Contour/obj
+/HoughDemonstration/obj
+/MethodTest/obj
+*.suo
