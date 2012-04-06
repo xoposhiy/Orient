@@ -4,3 +4,17 @@
 /HoughDemonstration/obj
 /MethodTest/obj
 *.suo
+/bin/Debug/Contour.pdb
+/bin/Debug/Contour.exe
+/bin/Debug/HoughDemonstration.pdb
+/bin/Debug/HoughDemonstration.exe
+/bin/Debug/MethodTest.vshost.exe.manifest
+/bin/Debug/MethodTest.exe
+/bin/Debug/MethodTest.pdb
+/bin/Debug/MethodTest.vshost.exe
+/bin/Debug/HoughDemonstration.vshost.exe
+/bin/Debug/HoughDemonstration.vshost.exe.manifest
+/bin/Debug/Contour.vshost.exe.manifest
+/bin/Debug/Contour.exe
+/bin/Debug/Contour.pdb
+/bin/Debug/Contour.vshost.exe

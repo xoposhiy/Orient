@@ -21,12 +21,12 @@ namespace Contour
         {
             if (imageFileDialog.ShowDialog() != DialogResult.OK) return;
             var img = new Image<Bgr, byte>(imageFileDialog.FileName);
-            originalImageBox.Image = img.Copy().Resize(400, 400, INTER.CV_INTER_LINEAR, true); ;
+            originalImageBox.Image = img.Copy();
 
             foreach (var rect in SymbolSegmentation.GetBoundingBoxes(imageFileDialog.FileName))
                 img.Draw(rect, new Bgr(Color.Green), 1);
 
-            lineImageBox.Image = img.Resize(400, 400, INTER.CV_INTER_LINEAR, true);
+            lineImageBox.Image = img;
         }
     }
 }

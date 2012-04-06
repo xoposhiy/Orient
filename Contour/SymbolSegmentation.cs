@@ -22,7 +22,7 @@ namespace Contour
 
         public static Rectangle[] GetBoundingBoxes(Image<Bgr, byte> img)
         {
-            var gray = img.Convert<Gray, Byte>().Canny(new Gray(180), new Gray(120));
+            var gray = img.Convert<Gray, Byte>();//.Canny(new Gray(180), new Gray(120));
             var result = new List<Rectangle>();
             for (var contour = gray.FindContours(); contour != null; contour = contour.HNext)
                 result.Add(contour.BoundingRectangle);
