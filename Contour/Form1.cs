@@ -23,10 +23,13 @@ namespace Contour
             var img = new Image<Bgr, byte>(imageFileDialog.FileName);
             originalImageBox.Image = img.Copy();
 
-            foreach (var rect in SymbolSegmentation.GetBoundingBoxes(imageFileDialog.FileName))
+            var gray = Util.Procecc(img);
+            
+            var boxes = SymbolSegmentation.GetBoundingBoxes(gray);
+            foreach (var rect in boxes)
                 img.Draw(rect, new Bgr(Color.Green), 1);
 
-            lineImageBox.Image = img.SmoothMedian(1);
+            lineImageBox.Image = img;
         }
     }
 }
