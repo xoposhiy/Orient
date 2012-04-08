@@ -26,7 +26,7 @@ namespace Contour
             foreach (var rect in SymbolSegmentation.GetBoundingBoxes(imageFileDialog.FileName))
                 img.Draw(rect, new Bgr(Color.Green), 1);
 
-            lineImageBox.Image = img;
+            lineImageBox.Image = img.SmoothMedian(1);
         }
     }
 }
