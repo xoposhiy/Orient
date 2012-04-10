@@ -26,13 +26,16 @@ namespace Contour
             var gray = img.Process();
             
             boxes = SymbolSegmentation.GetBoundingBoxes(gray);
-            foreach (var rect in boxes.FilterChars())
+            var filterChars = boxes.FilterChars();
+            foreach (var rect in filterChars)
                 img.Draw(rect, new Bgr(Color.Green), 1);
 
             foreach (var rect in boxes.FilterPoints())
                 img.Draw(rect, new Bgr(Color.Red), 1);
 
             lineImageBox.Image = img;
+
+            filterChars.GetLines(100);
         }
 
         private Rectangle[] boxes;
