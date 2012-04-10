@@ -23,13 +23,23 @@ namespace Contour
             var img = new Image<Bgr, byte>(imageFileDialog.FileName);
             originalImageBox.Image = img.Copy();
 
-            var gray = Util.Procecc(img);
+            var gray = img.Process();
             
-            var boxes = SymbolSegmentation.GetBoundingBoxes(gray);
-            foreach (var rect in boxes)
+            boxes = SymbolSegmentation.GetBoundingBoxes(gray);
+            foreach (var rect in boxes.FilterChars())
                 img.Draw(rect, new Bgr(Color.Green), 1);
 
+            foreach (var rect in boxes.FilterPoints())
+                img.Draw(rect, new Bgr(Color.Red), 1);
+
             lineImageBox.Image = img;
+        }
+
+        private Rectangle[] boxes;
+
+        private void HistClick(object sender, EventArgs e)
+        {
+            new Histogram(boxes) {Visible = true};
         }
     }
 }

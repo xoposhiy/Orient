@@ -32,6 +32,7 @@
             this.originalImageBox = new Emgu.CV.UI.ImageBox();
             this.imageFile = new System.Windows.Forms.Button();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.hist = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.lineImageBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.originalImageBox)).BeginInit();
             this.SuspendLayout();
@@ -72,11 +73,22 @@
             // 
             this.imageFileDialog.FileName = "imageFileDialog";
             // 
+            // hist
+            // 
+            this.hist.Location = new System.Drawing.Point(93, 12);
+            this.hist.Name = "hist";
+            this.hist.Size = new System.Drawing.Size(75, 23);
+            this.hist.TabIndex = 15;
+            this.hist.Text = "Histogram";
+            this.hist.UseVisualStyleBackColor = true;
+            this.hist.Click += new System.EventHandler(this.HistClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(832, 454);
+            this.Controls.Add(this.hist);
             this.Controls.Add(this.imageFile);
             this.Controls.Add(this.lineImageBox);
             this.Controls.Add(this.originalImageBox);
@@ -94,6 +106,7 @@
         private Emgu.CV.UI.ImageBox originalImageBox;
         private System.Windows.Forms.Button imageFile;
         private System.Windows.Forms.OpenFileDialog imageFileDialog;
+        private System.Windows.Forms.Button hist;
 
     }
 }
