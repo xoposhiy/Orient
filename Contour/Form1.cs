@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
@@ -35,7 +36,8 @@ namespace Contour
 
             lineImageBox.Image = img;
 
-            filterChars.GetLines(100);
+            foreach (var rectangle in filterChars.GetLines(100).SelectMany(line => line))
+                img.Draw(rectangle, new Bgr(Color.RoyalBlue), 1);
         }
 
         private Rectangle[] boxes;

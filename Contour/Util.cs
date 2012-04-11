@@ -49,10 +49,9 @@ namespace Contour
                 var rectangles = boxes.ToList();
                 while (rectangles.Count != 0)
                 {
-
-                    var start =
-                        rectangles.Single(
-                            box => box.X == rectangles.Min(rect => rect.X) && box.Y == rectangles.Min(rect => rect.Y));
+                    var leftBoxes = rectangles.Where(box => box.X == rectangles.Min(rect => rect.X));
+                    if (!leftBoxes.Any()) break;
+                    var start = leftBoxes.First();//. && box.Y == rectangles.Min(rect => rect.Y));
                     var line = new List<Rectangle> {start};
                     rectangles.Remove(start);
 
