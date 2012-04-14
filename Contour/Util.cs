@@ -11,7 +11,7 @@ namespace Contour
     {
         public static Image<Gray, byte> Process(this Image<Bgr, byte> img)
         {
-            return img.Convert<Gray, Byte>().SmoothMedian(3).ThresholdBinary(new Gray(200), new Gray(255));
+            return img.Convert<Gray, Byte>().SmoothMedian(3).ThresholdBinary(new Gray(180), new Gray(255));
         }
 
         public static Image<Gray, byte> Process(string file)
@@ -22,18 +22,6 @@ namespace Contour
         public static bool InRange(this int value, int min, int max)
         {
             return min <= value && value <= max;
-        }
-
-        public static Rectangle[] FilterPoints(this Rectangle[] boxes)
-        {
-            Rectangle[] points = boxes.Where(box => box.Diameter().InRange(2, 9)).ToArray();
-            Rectangle[] chars = boxes.FilterChars();
-            return points.Where(box => !chars.IntersectsWith(box)).ToArray();
-        }
-
-        public static Rectangle[] FilterChars(this Rectangle[] boxes)
-        {
-            return boxes.Where(box => box.Area().InRange(100, 1000) && box.Diameter().InRange(10, 70)).ToArray();
         }
 
         public static int Area(this Rectangle rect)
@@ -74,57 +62,5 @@ namespace Contour
         {
             return new Point((rect.Left + rect.Right)/2, rect.Top);
         }
-
-        public static TextLine[] GetLines(this Rectangle[] boxes, int separator)
-        {
-            var result = new List<TextLine>();
-            List<Rectangle> remainingBoxes = boxes.OrderBy(box => box.X).ToList();
-            while (remainingBoxes.Any())
-            {
-                var leftmost = remainingBoxes.First();
-                var line = new List<Rectangle> {leftmost};
-                remainingBoxes.Remove(leftmost);
-
-                do
-                {
-                    var lineEnding = GetLineEndingMBR(line, 3);
-                    var yCompatible = remainingBoxes.Where(r => IntersectsY(r, lineEnding));
-                    var yxCompatible = yCompatible.Where(r => r.Left.InRange(lineEnding.Right, lineEnding.Right + separator));
-                    Rectangle? next = yxCompatible.OrderBy(b => b.X).Cast<Rectangle?>().FirstOrDefault();
-                    if (next == null) break;
-                    line.Add(next.Value);
-                    remainingBoxes.Remove(next.Value);
-                } while (true);
-
-                if (line.Count > 1)
-                    result.Add(new TextLine(line.ToArray()));
-            }
-            return result.ToArray();
-        }
-
-        private static bool IntersectsY(Rectangle r1, Rectangle r2)
-        {
-            int lowestCommon = Math.Min(r1.Bottom, r2.Bottom);
-            int highestCommon = Math.Max(r1.Top, r2.Top);
-            return lowestCommon >= highestCommon;
-        }
-
-        private static Rectangle GetLineEndingMBR(ICollection<Rectangle> line, int count)
-        {
-            var ending = line.Skip(Math.Max(0, line.Count - count)).ToList();
-            return ending.Aggregate(ending.First(), Util.Join);
-        }
-    }
-
-    public class TextLine
-    {
-        public TextLine(Rectangle[] chars)
-        {
-            Chars = chars;
-            MBR = Chars.Aggregate(Chars.First(), Util.Join);
-        }
-
-        public Rectangle[] Chars { get; private set; }
-        public Rectangle MBR { get; private set; }
     }
 }

@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.openFileButton = new System.Windows.Forms.ToolStripButton();
@@ -39,21 +39,40 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.rotateButton = new System.Windows.Forms.ToolStripButton();
             this.prevFileButton = new System.Windows.Forms.ToolStripButton();
             this.nextFileButton = new System.Windows.Forms.ToolStripButton();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.optionsPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.maxCharSize = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.minCharSize = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.minPunctuationSize = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.maxWordDistance = new System.Windows.Forms.NumericUpDown();
             this.hist = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.imageBox = new Emgu.CV.UI.ImageBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prevToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.histogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rotateImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.optionsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxCharSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.minCharSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.minPunctuationSize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maxWordDistance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hist)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox)).BeginInit();
             this.menuStrip.SuspendLayout();
@@ -108,26 +127,26 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openFileButton,
             this.histButton,
-            this.toolStripButton1,
+            this.rotateButton,
             this.prevFileButton,
             this.nextFileButton,
             this.toolStripSeparator1,
             this.toolStripLabel1});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(832, 39);
+            this.toolStrip1.Size = new System.Drawing.Size(908, 39);
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // rotateButton
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(36, 36);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.rotateButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.rotateButton.Image = ((System.Drawing.Image)(resources.GetObject("rotateButton.Image")));
+            this.rotateButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.rotateButton.Name = "rotateButton";
+            this.rotateButton.Size = new System.Drawing.Size(36, 36);
+            this.rotateButton.Text = "Rotate image";
+            this.rotateButton.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // prevFileButton
             // 
@@ -151,76 +170,205 @@
             this.nextFileButton.ToolTipText = "Next file";
             this.nextFileButton.Click += new System.EventHandler(this.nextFileButton_Click);
             // 
-            // panel1
+            // splitContainer1
             // 
-            this.panel1.Controls.Add(this.hist);
-            this.panel1.Controls.Add(this.imageBox);
-            this.panel1.Controls.Add(this.menuStrip);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 39);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(832, 415);
-            this.panel1.TabIndex = 18;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 63);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.optionsPanel);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.hist);
+            this.splitContainer1.Panel2.Controls.Add(this.imageBox);
+            this.splitContainer1.Panel2.Resize += new System.EventHandler(this.Image_Resize);
+            this.splitContainer1.Size = new System.Drawing.Size(908, 443);
+            this.splitContainer1.SplitterDistance = 222;
+            this.splitContainer1.SplitterWidth = 10;
+            this.splitContainer1.TabIndex = 20;
+            // 
+            // optionsPanel
+            // 
+            this.optionsPanel.AutoScroll = true;
+            this.optionsPanel.Controls.Add(this.label2);
+            this.optionsPanel.Controls.Add(this.maxCharSize);
+            this.optionsPanel.Controls.Add(this.label3);
+            this.optionsPanel.Controls.Add(this.minCharSize);
+            this.optionsPanel.Controls.Add(this.label4);
+            this.optionsPanel.Controls.Add(this.minPunctuationSize);
+            this.optionsPanel.Controls.Add(this.label1);
+            this.optionsPanel.Controls.Add(this.maxWordDistance);
+            this.optionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.optionsPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.optionsPanel.Location = new System.Drawing.Point(0, 0);
+            this.optionsPanel.Name = "optionsPanel";
+            this.optionsPanel.Padding = new System.Windows.Forms.Padding(8);
+            this.optionsPanel.Size = new System.Drawing.Size(222, 443);
+            this.optionsPanel.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(11, 16);
+            this.label2.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(113, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "max size of char MBR:";
+            // 
+            // maxCharSize
+            // 
+            this.maxCharSize.Location = new System.Drawing.Point(11, 32);
+            this.maxCharSize.Name = "maxCharSize";
+            this.maxCharSize.Size = new System.Drawing.Size(120, 20);
+            this.maxCharSize.TabIndex = 3;
+            this.maxCharSize.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.maxCharSize.ValueChanged += new System.EventHandler(this.options_ValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(11, 63);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(110, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "min size of char MBR:";
+            // 
+            // minCharSize
+            // 
+            this.minCharSize.Location = new System.Drawing.Point(11, 79);
+            this.minCharSize.Name = "minCharSize";
+            this.minCharSize.Size = new System.Drawing.Size(120, 20);
+            this.minCharSize.TabIndex = 5;
+            this.minCharSize.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.minCharSize.ValueChanged += new System.EventHandler(this.options_ValueChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(11, 110);
+            this.label4.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(145, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "min size of punctuation MBR:";
+            // 
+            // minPunctuationSize
+            // 
+            this.minPunctuationSize.Location = new System.Drawing.Point(11, 126);
+            this.minPunctuationSize.Name = "minPunctuationSize";
+            this.minPunctuationSize.Size = new System.Drawing.Size(120, 20);
+            this.minPunctuationSize.TabIndex = 7;
+            this.minPunctuationSize.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.minPunctuationSize.ValueChanged += new System.EventHandler(this.options_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(11, 157);
+            this.label1.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(198, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "max distance between words in one line:";
+            // 
+            // maxWordDistance
+            // 
+            this.maxWordDistance.Location = new System.Drawing.Point(11, 173);
+            this.maxWordDistance.Name = "maxWordDistance";
+            this.maxWordDistance.Size = new System.Drawing.Size(120, 20);
+            this.maxWordDistance.TabIndex = 9;
+            this.maxWordDistance.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.maxWordDistance.ValueChanged += new System.EventHandler(this.options_ValueChanged);
             // 
             // hist
             // 
-            chartArea3.Name = "ChartArea1";
-            this.hist.ChartAreas.Add(chartArea3);
-            this.hist.Location = new System.Drawing.Point(0, 58);
+            chartArea1.Name = "ChartArea1";
+            this.hist.ChartAreas.Add(chartArea1);
+            this.hist.Location = new System.Drawing.Point(333, 236);
             this.hist.Name = "hist";
-            series3.ChartArea = "ChartArea1";
-            series3.Name = "Series1";
-            this.hist.Series.Add(series3);
-            this.hist.Size = new System.Drawing.Size(278, 177);
-            this.hist.TabIndex = 15;
-            this.hist.Text = "chart";
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Series1";
+            this.hist.Series.Add(series1);
+            this.hist.Size = new System.Drawing.Size(316, 178);
+            this.hist.TabIndex = 22;
+            this.hist.Text = "chart1";
             this.hist.Visible = false;
             // 
             // imageBox
             // 
             this.imageBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageBox.Location = new System.Drawing.Point(0, 24);
+            this.imageBox.Location = new System.Drawing.Point(0, 0);
             this.imageBox.Name = "imageBox";
-            this.imageBox.Size = new System.Drawing.Size(832, 391);
-            this.imageBox.TabIndex = 14;
+            this.imageBox.Size = new System.Drawing.Size(676, 443);
+            this.imageBox.TabIndex = 20;
             this.imageBox.TabStop = false;
             // 
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.viewToolStripMenuItem});
+            this.viewToolStripMenuItem,
+            this.operationsToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(832, 24);
+            this.menuStrip.Size = new System.Drawing.Size(908, 24);
             this.menuStrip.TabIndex = 16;
             this.menuStrip.Text = "menuStrip1";
-            this.menuStrip.Visible = false;
             // 
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openFileToolStripMenuItem,
             this.prevToolStripMenuItem,
-            this.nextToolStripMenuItem,
-            this.openFileToolStripMenuItem});
+            this.nextToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // openFileToolStripMenuItem
+            // 
+            this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
+            this.openFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.openFileToolStripMenuItem.Text = "Open file";
+            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
             // 
             // prevToolStripMenuItem
             // 
             this.prevToolStripMenuItem.Name = "prevToolStripMenuItem";
             this.prevToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Left)));
-            this.prevToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.prevToolStripMenuItem.Text = "prev";
+            this.prevToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.prevToolStripMenuItem.Text = "Previous file";
             this.prevToolStripMenuItem.Click += new System.EventHandler(this.prevToolStripMenuItem_Click);
             // 
             // nextToolStripMenuItem
             // 
             this.nextToolStripMenuItem.Name = "nextToolStripMenuItem";
             this.nextToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Right)));
-            this.nextToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.nextToolStripMenuItem.Text = "next";
+            this.nextToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+            this.nextToolStripMenuItem.Text = "Next file";
             this.nextToolStripMenuItem.Click += new System.EventHandler(this.nextToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
@@ -233,41 +381,57 @@
             // 
             // histogramToolStripMenuItem
             // 
+            this.histogramToolStripMenuItem.CheckOnClick = true;
             this.histogramToolStripMenuItem.Name = "histogramToolStripMenuItem";
             this.histogramToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.histogramToolStripMenuItem.Text = "Histogram";
+            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.histogramToolStripMenuItem.Text = "Show histogram";
             this.histogramToolStripMenuItem.Click += new System.EventHandler(this.histogramToolStripMenuItem_Click);
             // 
-            // openFileToolStripMenuItem
+            // operationsToolStripMenuItem
             // 
-            this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
-            this.openFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.openFileToolStripMenuItem.Text = "open file";
-            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
+            this.operationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.rotateImageToolStripMenuItem});
+            this.operationsToolStripMenuItem.Name = "operationsToolStripMenuItem";
+            this.operationsToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
+            this.operationsToolStripMenuItem.Text = "Operations";
+            // 
+            // rotateImageToolStripMenuItem
+            // 
+            this.rotateImageToolStripMenuItem.Name = "rotateImageToolStripMenuItem";
+            this.rotateImageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
+            this.rotateImageToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.rotateImageToolStripMenuItem.Text = "Rotate image";
+            this.rotateImageToolStripMenuItem.Click += new System.EventHandler(this.rotateImageToolStripMenuItem_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(832, 454);
-            this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(908, 506);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.menuStrip);
             this.KeyPreview = true;
-            this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.Text = "Orient";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyUp);
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.optionsPanel.ResumeLayout(false);
+            this.optionsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxCharSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.minCharSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.minPunctuationSize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.maxWordDistance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hist)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox)).EndInit();
             this.menuStrip.ResumeLayout(false);
@@ -286,12 +450,21 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.Panel panel1;
-        private Emgu.CV.UI.ImageBox imageBox;
-        private System.Windows.Forms.DataVisualization.Charting.Chart hist;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton rotateButton;
         private System.Windows.Forms.ToolStripButton prevFileButton;
         private System.Windows.Forms.ToolStripButton nextFileButton;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private Emgu.CV.UI.ImageBox imageBox;
+        private System.Windows.Forms.DataVisualization.Charting.Chart hist;
+        private System.Windows.Forms.FlowLayoutPanel optionsPanel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown maxCharSize;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown minCharSize;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown minPunctuationSize;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown maxWordDistance;
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem prevToolStripMenuItem;
@@ -299,7 +472,8 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem histogramToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
-
+        private System.Windows.Forms.ToolStripMenuItem operationsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rotateImageToolStripMenuItem;
     }
 }
 
