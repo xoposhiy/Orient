@@ -28,39 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.hist = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            ((System.ComponentModel.ISupportInitialize)(this.hist)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // hist
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.hist.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.hist.Legends.Add(legend1);
-            this.hist.Location = new System.Drawing.Point(13, 13);
-            this.hist.Name = "hist";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.hist.Series.Add(series1);
-            this.hist.Size = new System.Drawing.Size(897, 462);
-            this.hist.TabIndex = 0;
-            this.hist.Text = "chart1";
-            // 
-            // Histogram
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(922, 487);
-            this.Controls.Add(this.hist);
-            this.Name = "Histogram";
-            this.Text = "Histogram";
-            ((System.ComponentModel.ISupportInitialize)(this.hist)).EndInit();
-            this.ResumeLayout(false);
+			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+			System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+			this.hist = new System.Windows.Forms.DataVisualization.Charting.Chart();
+			((System.ComponentModel.ISupportInitialize)(this.hist)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// hist
+			// 
+			chartArea1.Name = "ChartArea1";
+			this.hist.ChartAreas.Add(chartArea1);
+			this.hist.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.hist.Location = new System.Drawing.Point(0, 0);
+			this.hist.Name = "hist";
+			series1.ChartArea = "ChartArea1";
+			series1.Name = "Series1";
+			this.hist.Series.Add(series1);
+			this.hist.Size = new System.Drawing.Size(922, 487);
+			this.hist.TabIndex = 0;
+			this.hist.Text = "chart";
+			// 
+			// Histogram
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(922, 487);
+			this.Controls.Add(this.hist);
+			this.Name = "Histogram";
+			this.Text = "Histogram";
+			((System.ComponentModel.ISupportInitialize)(this.hist)).EndInit();
+			this.ResumeLayout(false);
 
         }
 

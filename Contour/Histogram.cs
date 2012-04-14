@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,21 +11,18 @@ namespace Contour
         public Histogram(IEnumerable<Rectangle> boxes)
         {
             InitializeComponent();
-            hist.Series.Clear();
-            var ser = new Series();
-            
-            hist.Titles.Add("Колличество/Площадь");
+            hist.Titles.Add("Колличество — Диаметр");
 
-            var boxList = new List<Rectangle>(boxes);
-            var data = boxList
-                .GroupBy(Util.Area).Select(grp => grp.First())
-                .ToDictionary(Util.Area, box => boxList.FindAll(rectangle => rectangle.Area().Equals(box.Area())).Count)
+            IEnumerable<KeyValuePair<int, int>> data = boxes
+                .GroupBy(Util.Diameter)
+                .ToDictionary(grp => grp.Key, grp => grp.Count())
                 .OrderByDescending(entry => entry.Key)
-                .Where(entry => entry.Value > 7);
+                .Where(entry => entry.Key < 100);
 
+            var ser = new Series();
             foreach (var dataEntry in data)
                 ser.Points.AddXY(dataEntry.Key, dataEntry.Value);
-
+            hist.Series.Clear();
             hist.Series.Add(ser);
         }
     }

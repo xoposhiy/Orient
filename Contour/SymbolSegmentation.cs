@@ -11,9 +11,12 @@ namespace Contour
         {
             var result = new List<Rectangle>();
             for (var contour = gray.FindContours(); contour != null; contour = contour.HNext)
-                result.Add(contour.BoundingRectangle);
+            {
+            	var rect = contour.BoundingRectangle;
+            	result.Add(new Rectangle(rect.X, rect.Y, rect.Width-1, rect.Height-1));
+            }
 
-            return result.ToArray();
+        	return result.ToArray();
         }
     }
 }
