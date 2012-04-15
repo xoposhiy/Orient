@@ -52,6 +52,9 @@
             this.minPunctuationSize = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.maxWordDistance = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.binarizationThreshold = new System.Windows.Forms.NumericUpDown();
+            this.smoothMedianCheckbox = new System.Windows.Forms.CheckBox();
             this.hist = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.imageBox = new Emgu.CV.UI.ImageBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -61,6 +64,8 @@
             this.nextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.histogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
@@ -73,6 +78,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.minCharSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.minPunctuationSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxWordDistance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.binarizationThreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hist)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox)).BeginInit();
             this.menuStrip.SuspendLayout();
@@ -202,6 +208,9 @@
             this.optionsPanel.Controls.Add(this.minPunctuationSize);
             this.optionsPanel.Controls.Add(this.label1);
             this.optionsPanel.Controls.Add(this.maxWordDistance);
+            this.optionsPanel.Controls.Add(this.label5);
+            this.optionsPanel.Controls.Add(this.binarizationThreshold);
+            this.optionsPanel.Controls.Add(this.smoothMedianCheckbox);
             this.optionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.optionsPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.optionsPanel.Location = new System.Drawing.Point(0, 0);
@@ -302,6 +311,47 @@
             0});
             this.maxWordDistance.ValueChanged += new System.EventHandler(this.options_ValueChanged);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(11, 204);
+            this.label5.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(106, 13);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "binarization threshold";
+            // 
+            // binarizationThreshold
+            // 
+            this.binarizationThreshold.Location = new System.Drawing.Point(11, 220);
+            this.binarizationThreshold.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.binarizationThreshold.Name = "binarizationThreshold";
+            this.binarizationThreshold.Size = new System.Drawing.Size(120, 20);
+            this.binarizationThreshold.TabIndex = 11;
+            this.binarizationThreshold.Value = new decimal(new int[] {
+            230,
+            0,
+            0,
+            0});
+            this.binarizationThreshold.ValueChanged += new System.EventHandler(this.options_ValueChanged);
+            // 
+            // smoothMedianCheckbox
+            // 
+            this.smoothMedianCheckbox.AutoSize = true;
+            this.smoothMedianCheckbox.Checked = true;
+            this.smoothMedianCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.smoothMedianCheckbox.Location = new System.Drawing.Point(11, 246);
+            this.smoothMedianCheckbox.Name = "smoothMedianCheckbox";
+            this.smoothMedianCheckbox.Size = new System.Drawing.Size(97, 17);
+            this.smoothMedianCheckbox.TabIndex = 13;
+            this.smoothMedianCheckbox.Text = "smooth median";
+            this.smoothMedianCheckbox.UseVisualStyleBackColor = true;
+            this.smoothMedianCheckbox.CheckedChanged += new System.EventHandler(this.options_ValueChanged);
+            // 
             // hist
             // 
             chartArea1.Name = "ChartArea1";
@@ -374,7 +424,9 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.histogramToolStripMenuItem});
+            this.histogramToolStripMenuItem,
+            this.colorHistogramToolStripMenuItem,
+            this.showMarksToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -384,9 +436,26 @@
             this.histogramToolStripMenuItem.CheckOnClick = true;
             this.histogramToolStripMenuItem.Name = "histogramToolStripMenuItem";
             this.histogramToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.histogramToolStripMenuItem.Text = "Show histogram";
+            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.histogramToolStripMenuItem.Text = "Show MBR size histogram";
             this.histogramToolStripMenuItem.Click += new System.EventHandler(this.histogramToolStripMenuItem_Click);
+            // 
+            // colorHistogramToolStripMenuItem
+            // 
+            this.colorHistogramToolStripMenuItem.Name = "colorHistogramToolStripMenuItem";
+            this.colorHistogramToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.colorHistogramToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.colorHistogramToolStripMenuItem.Text = "Intensity histogram";
+            this.colorHistogramToolStripMenuItem.Click += new System.EventHandler(this.colorHistogramToolStripMenuItem_Click);
+            // 
+            // showMarksToolStripMenuItem
+            // 
+            this.showMarksToolStripMenuItem.CheckOnClick = true;
+            this.showMarksToolStripMenuItem.Name = "showMarksToolStripMenuItem";
+            this.showMarksToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.showMarksToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.showMarksToolStripMenuItem.Text = "Show MBR marks";
+            this.showMarksToolStripMenuItem.Click += new System.EventHandler(this.showMarksToolStripMenuItem_Click);
             // 
             // operationsToolStripMenuItem
             // 
@@ -432,6 +501,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.minCharSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.minPunctuationSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxWordDistance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.binarizationThreshold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hist)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox)).EndInit();
             this.menuStrip.ResumeLayout(false);
@@ -474,6 +544,11 @@
         private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem operationsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rotateImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem colorHistogramToolStripMenuItem;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown binarizationThreshold;
+        private System.Windows.Forms.ToolStripMenuItem showMarksToolStripMenuItem;
+        private System.Windows.Forms.CheckBox smoothMedianCheckbox;
     }
 }
 

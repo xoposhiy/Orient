@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using Emgu.CV.UI;
 
 namespace Contour
 {
@@ -17,14 +18,14 @@ namespace Contour
         private string filename;
         private Image<Bgr, byte> markedImg;
         private SymbolSegmentation segmentation;
+        private Binarizaton binarizaton;
 
         private MainFormState state;
 
         public MainForm()
         {
             InitializeComponent();
-            imageFileDialog.InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) +
-                                               @"\..\..\base\certificates\";
+            imageFileDialog.InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\..\..\base\certificates\";
         }
 
         private void ImageFileClick(object sender, EventArgs e)
@@ -45,7 +46,8 @@ namespace Contour
             if (state == null && image == null) return;
             analyser = new DocumentAnalyser((int) maxWordDistance.Value);
             segmentation = new SymbolSegmentation((int) maxCharSize.Value, (int) minPunctuationSize.Value, (int)minCharSize.Value);
-            state = new MainFormState(image ?? state.OriginalImg, analyser, segmentation);
+            binarizaton = new Binarizaton((int)binarizationThreshold.Value, smoothMedianCheckbox.Checked);
+            state = new MainFormState(image ?? state.OriginalImg, analyser, segmentation, binarizaton);
             UpdateImage();
             UpdateHistogram();
         }
@@ -72,31 +74,39 @@ namespace Contour
         private void UpdateImage()
         {
             markedImg = state.GrayImage.Convert<Bgr, byte>();
-
-            foreach (Rectangle box in state.Boxes.Except(state.Chars).Except(state.Points))
-                markedImg.Draw(box, new Bgr(Color.DarkGray), 1);
-
-            foreach (TextLine line in state.Lines)
-                markedImg.Draw(line.MBR, new Bgr(Color.Cyan), 1);
-
-            foreach (Rectangle rect in state.Chars)
-                markedImg.Draw(rect, new Bgr(Color.Green), 1);
-
-            foreach (Rectangle rect in state.Points)
-                markedImg.Draw(rect, new Bgr(Color.Red), 1);
-
-            foreach (TextLine line in state.Lines)
+            if (ShowMarks)
             {
-                Rectangle prev = line.Chars.First();
-                foreach (Rectangle next in line.Chars.Skip(1))
+                foreach (Rectangle box in state.Boxes.Except(state.Chars).Except(state.Points))
+                    markedImg.Draw(box, new Bgr(Color.DarkGray), 1);
+
+                foreach (TextLine line in state.Lines)
+                    markedImg.Draw(line.MBR, new Bgr(Color.Cyan), 1);
+
+                foreach (Rectangle rect in state.Chars)
+                    markedImg.Draw(rect, new Bgr(Color.Green), 1);
+
+                foreach (Rectangle rect in state.Points)
+                    markedImg.Draw(rect, new Bgr(Color.Red), 1);
+
+                foreach (TextLine line in state.Lines)
                 {
-                    markedImg.Draw(new LineSegment2D(prev.CenterBottom(), next.CenterBottom()), new Bgr(Color.RoyalBlue),
-                                   2);
-                    markedImg.Draw(new CircleF(next.CenterBottom(), 2), new Bgr(Color.Aqua), 2);
-                    prev = next;
+                    Rectangle prev = line.Chars.First();
+                    foreach (Rectangle next in line.Chars.Skip(1))
+                    {
+                        markedImg.Draw(new LineSegment2D(prev.CenterBottom(), next.CenterBottom()),
+                                       new Bgr(Color.RoyalBlue),
+                                       2);
+                        markedImg.Draw(new CircleF(next.CenterBottom(), 2), new Bgr(Color.Aqua), 2);
+                        prev = next;
+                    }
                 }
             }
             imageBox.Image = markedImg;
+        }
+
+        protected bool ShowMarks
+        {
+            get { return showMarksToolStripMenuItem.Checked; }
         }
 
         private void HistClick(object sender, EventArgs e)
@@ -202,6 +212,16 @@ namespace Contour
         {
             rotateButton.PerformClick();
         }
+
+        private void colorHistogramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HistogramViewer.Show(state.OriginalImg.Convert<Gray, byte>(), 128);
+        }
+
+        private void showMarksToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateImage();
+        }
     }
 
     public class MainFormState
@@ -213,10 +233,10 @@ namespace Contour
         public Image<Bgr, byte> OriginalImg;
         public Rectangle[] Points;
 
-        public MainFormState(Image<Bgr, byte> image, DocumentAnalyser analyser, SymbolSegmentation segmentation)
+        public MainFormState(Image<Bgr, byte> image, DocumentAnalyser analyser, SymbolSegmentation segmentation, Binarizaton binarizaton)
         {
             OriginalImg = image;
-            GrayImage = OriginalImg.Process();
+            GrayImage = binarizaton.Process(OriginalImg);
             Boxes = segmentation.GetBoundingBoxes(GrayImage);
             Chars = segmentation.FindChars(Boxes);
             Points = segmentation.FindPunctuation(Boxes);
