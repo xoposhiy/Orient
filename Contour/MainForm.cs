@@ -90,7 +90,7 @@ namespace Contour
 
                 foreach (TextLine line in state.Lines)
                 {
-                    Rectangle prev = line.Chars.First();
+                    /*Rectangle prev = line.Chars.First();
                     foreach (Rectangle next in line.Chars.Skip(1))
                     {
                         markedImg.Draw(new LineSegment2D(prev.CenterBottom(), next.CenterBottom()),
@@ -98,7 +98,8 @@ namespace Contour
                                        2);
                         markedImg.Draw(new CircleF(next.CenterBottom(), 2), new Bgr(Color.Aqua), 2);
                         prev = next;
-                    }
+                    }*/
+                    markedImg.Draw(line.LinearRegression(), new Bgr(Color.RoyalBlue), 2);
                 }
             }
             imageBox.Image = markedImg;

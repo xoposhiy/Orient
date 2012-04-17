@@ -91,5 +91,17 @@ namespace Contour
         {
             return new Point((rect.Left + rect.Right)/2, rect.Top);
         }
+
+        public static double XProbability(this Point point, int leftBound, int rightBound)
+        {
+            if(leftBound == rightBound) throw new DivideByZeroException();
+            return (double) (point.X - leftBound)/(rightBound - leftBound);
+        }
+        
+        public static double YProbability(this Point point, int topBound, int bottomBound)
+        {
+            if(topBound == bottomBound) throw new DivideByZeroException();
+            return (double)(point.Y - topBound)/(bottomBound - topBound);
+        }
     }
 }
