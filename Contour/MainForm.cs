@@ -115,7 +115,7 @@ namespace Contour
             hist.Visible = histButton.Checked;
         }
 
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        private void MainFormKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
             {
@@ -124,7 +124,7 @@ namespace Contour
             }
         }
 
-        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        private void MainFormKeyUp(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space)
             {
@@ -133,11 +133,11 @@ namespace Contour
             }
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
+        private void MainFormLoad(object sender, EventArgs e)
         {
         }
 
-        private void Image_Resize(object sender, EventArgs e)
+        private void ImageResize(object sender, EventArgs e)
         {
             UpdateHistPosition();
         }
@@ -150,24 +150,24 @@ namespace Contour
             hist.Top = hist.Parent.ClientSize.Height - hist.Height - SystemInformation.HorizontalScrollBarHeight;
         }
 
-        private void MainForm_Shown(object sender, EventArgs e)
+        private void MainFormShown(object sender, EventArgs e)
         {
             UpdateHistPosition();
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void ToolStripButton1Click(object sender, EventArgs e)
         {
             if (state == null) return;
             Image<Bgr, byte> rotate = state.OriginalImg.Rotate(90, new Bgr(Color.Red), false);
             UpdateSettings(rotate);
         }
 
-        private void nextFileButton_Click(object sender, EventArgs e)
+        private void NextFileButtonClick(object sender, EventArgs e)
         {
             MoveInDirectoryBy(1);
         }
 
-        private void prevFileButton_Click(object sender, EventArgs e)
+        private void PrevFileButtonClick(object sender, EventArgs e)
         {
             MoveInDirectoryBy(-1);
         }
@@ -184,42 +184,42 @@ namespace Contour
                 OpenFile(files[ind]);
         }
 
-        private void prevToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PrevToolStripMenuItemClick(object sender, EventArgs e)
         {
             prevFileButton.PerformClick();
         }
 
-        private void nextToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NextToolStripMenuItemClick(object sender, EventArgs e)
         {
             nextFileButton.PerformClick();
         }
 
-        private void histogramToolStripMenuItem_Click(object sender, EventArgs e)
+        private void HistogramToolStripMenuItemClick(object sender, EventArgs e)
         {
             histButton.PerformClick();
         }
 
-        private void openFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenFileToolStripMenuItemClick(object sender, EventArgs e)
         {
             openFileButton.PerformClick();
         }
 
-        private void options_ValueChanged(object sender, EventArgs e)
+        private void OptionsValueChanged(object sender, EventArgs e)
         {
             UpdateSettings();
         }
 
-        private void rotateImageToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RotateImageToolStripMenuItemClick(object sender, EventArgs e)
         {
             rotateButton.PerformClick();
         }
 
-        private void colorHistogramToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ColorHistogramToolStripMenuItemClick(object sender, EventArgs e)
         {
             HistogramViewer.Show(state.OriginalImg.Convert<Gray, byte>(), 128);
         }
 
-        private void showMarksToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ShowMarksToolStripMenuItemClick(object sender, EventArgs e)
         {
             UpdateImage();
         }

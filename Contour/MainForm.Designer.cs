@@ -152,7 +152,7 @@
             this.rotateButton.Name = "rotateButton";
             this.rotateButton.Size = new System.Drawing.Size(36, 36);
             this.rotateButton.Text = "Rotate image";
-            this.rotateButton.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.rotateButton.Click += new System.EventHandler(this.ToolStripButton1Click);
             // 
             // prevFileButton
             // 
@@ -163,7 +163,7 @@
             this.prevFileButton.Size = new System.Drawing.Size(36, 36);
             this.prevFileButton.Text = "Previous file";
             this.prevFileButton.ToolTipText = "Previous file";
-            this.prevFileButton.Click += new System.EventHandler(this.prevFileButton_Click);
+            this.prevFileButton.Click += new System.EventHandler(this.PrevFileButtonClick);
             // 
             // nextFileButton
             // 
@@ -174,7 +174,7 @@
             this.nextFileButton.Size = new System.Drawing.Size(36, 36);
             this.nextFileButton.Text = "Next file";
             this.nextFileButton.ToolTipText = "Next file";
-            this.nextFileButton.Click += new System.EventHandler(this.nextFileButton_Click);
+            this.nextFileButton.Click += new System.EventHandler(this.NextFileButtonClick);
             // 
             // splitContainer1
             // 
@@ -191,7 +191,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.hist);
             this.splitContainer1.Panel2.Controls.Add(this.imageBox);
-            this.splitContainer1.Panel2.Resize += new System.EventHandler(this.Image_Resize);
+            this.splitContainer1.Panel2.Resize += new System.EventHandler(this.ImageResize);
             this.splitContainer1.Size = new System.Drawing.Size(908, 443);
             this.splitContainer1.SplitterDistance = 222;
             this.splitContainer1.SplitterWidth = 10;
@@ -240,7 +240,7 @@
             0,
             0,
             0});
-            this.maxCharSize.ValueChanged += new System.EventHandler(this.options_ValueChanged);
+            this.maxCharSize.ValueChanged += new System.EventHandler(this.OptionsValueChanged);
             // 
             // label3
             // 
@@ -263,7 +263,7 @@
             0,
             0,
             0});
-            this.minCharSize.ValueChanged += new System.EventHandler(this.options_ValueChanged);
+            this.minCharSize.ValueChanged += new System.EventHandler(this.OptionsValueChanged);
             // 
             // label4
             // 
@@ -286,7 +286,7 @@
             0,
             0,
             0});
-            this.minPunctuationSize.ValueChanged += new System.EventHandler(this.options_ValueChanged);
+            this.minPunctuationSize.ValueChanged += new System.EventHandler(this.OptionsValueChanged);
             // 
             // label1
             // 
@@ -309,7 +309,7 @@
             0,
             0,
             0});
-            this.maxWordDistance.ValueChanged += new System.EventHandler(this.options_ValueChanged);
+            this.maxWordDistance.ValueChanged += new System.EventHandler(this.OptionsValueChanged);
             // 
             // label5
             // 
@@ -337,7 +337,7 @@
             0,
             0,
             0});
-            this.binarizationThreshold.ValueChanged += new System.EventHandler(this.options_ValueChanged);
+            this.binarizationThreshold.ValueChanged += new System.EventHandler(this.OptionsValueChanged);
             // 
             // smoothMedianCheckbox
             // 
@@ -350,7 +350,7 @@
             this.smoothMedianCheckbox.TabIndex = 13;
             this.smoothMedianCheckbox.Text = "smooth median";
             this.smoothMedianCheckbox.UseVisualStyleBackColor = true;
-            this.smoothMedianCheckbox.CheckedChanged += new System.EventHandler(this.options_ValueChanged);
+            this.smoothMedianCheckbox.CheckedChanged += new System.EventHandler(this.OptionsValueChanged);
             // 
             // hist
             // 
@@ -403,7 +403,7 @@
             this.openFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openFileToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.openFileToolStripMenuItem.Text = "Open file";
-            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.openFileToolStripMenuItem_Click);
+            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.OpenFileToolStripMenuItemClick);
             // 
             // prevToolStripMenuItem
             // 
@@ -411,7 +411,7 @@
             this.prevToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Left)));
             this.prevToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.prevToolStripMenuItem.Text = "Previous file";
-            this.prevToolStripMenuItem.Click += new System.EventHandler(this.prevToolStripMenuItem_Click);
+            this.prevToolStripMenuItem.Click += new System.EventHandler(this.PrevToolStripMenuItemClick);
             // 
             // nextToolStripMenuItem
             // 
@@ -419,7 +419,7 @@
             this.nextToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Right)));
             this.nextToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
             this.nextToolStripMenuItem.Text = "Next file";
-            this.nextToolStripMenuItem.Click += new System.EventHandler(this.nextToolStripMenuItem_Click);
+            this.nextToolStripMenuItem.Click += new System.EventHandler(this.NextToolStripMenuItemClick);
             // 
             // viewToolStripMenuItem
             // 
@@ -438,7 +438,7 @@
             this.histogramToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
             this.histogramToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
             this.histogramToolStripMenuItem.Text = "Show MBR size histogram";
-            this.histogramToolStripMenuItem.Click += new System.EventHandler(this.histogramToolStripMenuItem_Click);
+            this.histogramToolStripMenuItem.Click += new System.EventHandler(this.HistogramToolStripMenuItemClick);
             // 
             // colorHistogramToolStripMenuItem
             // 
@@ -446,7 +446,7 @@
             this.colorHistogramToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
             this.colorHistogramToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
             this.colorHistogramToolStripMenuItem.Text = "Intensity histogram";
-            this.colorHistogramToolStripMenuItem.Click += new System.EventHandler(this.colorHistogramToolStripMenuItem_Click);
+            this.colorHistogramToolStripMenuItem.Click += new System.EventHandler(this.ColorHistogramToolStripMenuItemClick);
             // 
             // showMarksToolStripMenuItem
             // 
@@ -455,7 +455,7 @@
             this.showMarksToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.showMarksToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
             this.showMarksToolStripMenuItem.Text = "Show MBR marks";
-            this.showMarksToolStripMenuItem.Click += new System.EventHandler(this.showMarksToolStripMenuItem_Click);
+            this.showMarksToolStripMenuItem.Click += new System.EventHandler(this.ShowMarksToolStripMenuItemClick);
             // 
             // operationsToolStripMenuItem
             // 
@@ -471,7 +471,7 @@
             this.rotateImageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
             this.rotateImageToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.rotateImageToolStripMenuItem.Text = "Rotate image";
-            this.rotateImageToolStripMenuItem.Click += new System.EventHandler(this.rotateImageToolStripMenuItem_Click);
+            this.rotateImageToolStripMenuItem.Click += new System.EventHandler(this.RotateImageToolStripMenuItemClick);
             // 
             // MainForm
             // 
@@ -485,10 +485,10 @@
             this.Name = "MainForm";
             this.Text = "Orient";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.MainForm_Load);
-            this.Shown += new System.EventHandler(this.MainForm_Shown);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
+            this.Load += new System.EventHandler(this.MainFormLoad);
+            this.Shown += new System.EventHandler(this.MainFormShown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainFormKeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainFormKeyUp);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
