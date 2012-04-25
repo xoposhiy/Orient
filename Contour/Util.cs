@@ -95,5 +95,19 @@ namespace Contour
         {
             return new Rectangle(rect.Location, rect.Size);
         }
+		
+		public static LineSegment2D LinearRegression<T>(this IList<T> items, Func<T, double> getX, Func<T, double> getY)
+		{
+			var xAvg = items.Average(getX);
+			var yAvg = items.Average(getY);
+			var b = (items.Average(item => getX(item) * getY(item)) - xAvg * yAvg) /
+				   (items.Average(item => Math.Pow(getX(item), 2)) - Math.Pow(xAvg, 2));
+			var a = yAvg - b * xAvg;
+			var left = items.Min(getX);
+			var right = items.Max(getX);
+			return new LineSegment2D(new Point((int) left, (int)(a + b * left)),
+									 new Point((int) right, (int)(a + b * right)));
+		}
+
     }
 }

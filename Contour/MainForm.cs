@@ -99,8 +99,9 @@ namespace Contour
                         markedImg.Draw(new CircleF(next.CenterBottom(), 2), new Bgr(Color.Aqua), 2);
                         prev = next;
                     }*/
-                    markedImg.Draw(line.LinearRegression(), new Bgr(Color.RoyalBlue), 2);
-                }
+					markedImg.Draw(line.LinearRegression(false), new Bgr(Color.RoyalBlue), 2);
+					markedImg.Draw(line.LinearRegression(true), new Bgr(Color.BlueViolet), 2);
+				}
             }
             imageBox.Image = markedImg;
         }
