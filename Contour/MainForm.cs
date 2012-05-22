@@ -156,7 +156,7 @@ namespace Contour
             UpdateHistPosition();
         }
 
-        private void ToolStripButton1Click(object sender, EventArgs e)
+        private void RotateButtonClick(object sender, EventArgs e)
         {
             if (state == null) return;
             Image<Bgr, byte> rotate = state.OriginalImg.Rotate(90, new Bgr(Color.Red), false);
@@ -223,6 +223,20 @@ namespace Contour
         private void ShowMarksToolStripMenuItemClick(object sender, EventArgs e)
         {
             UpdateImage();
+        }
+
+        private void Run90ToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var skew = new double[4];
+            for (int i = 0; i < 4; i++)
+            {
+                skew[i] = state.Lines.Where(line => line.Chars.Count() > 9).
+                    Average(line => Math.Abs(line.LinearRegression(false).Skew()));
+                RotateButtonClick(null, null);
+            }
+            if (skew[1] < skew[0] || skew[1] < skew[2] ||
+                skew[3] < skew[0] || skew[3] < skew[2])
+                MessageBox.Show("Image rotated to the right or left by 90° degrees");
         }
     }
 

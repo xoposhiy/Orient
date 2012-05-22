@@ -109,5 +109,11 @@ namespace Contour
 									 new Point((int) right, (int)(a + b * right)));
 		}
 
+        public static double Skew(this LineSegment2D line)
+        {
+            return line.GetExteriorAngleDegree(HorizontalLine);
+        }
+
+        public static LineSegment2D HorizontalLine = new LineSegment2D(new Point(0, 0), new Point(1, 0));
     }
 }

@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.openFileButton = new System.Windows.Forms.ToolStripButton();
@@ -68,6 +68,7 @@
             this.showMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.run90ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -152,7 +153,7 @@
             this.rotateButton.Name = "rotateButton";
             this.rotateButton.Size = new System.Drawing.Size(36, 36);
             this.rotateButton.Text = "Rotate image";
-            this.rotateButton.Click += new System.EventHandler(this.ToolStripButton1Click);
+            this.rotateButton.Click += new System.EventHandler(this.RotateButtonClick);
             // 
             // prevFileButton
             // 
@@ -354,13 +355,13 @@
             // 
             // hist
             // 
-            chartArea1.Name = "ChartArea1";
-            this.hist.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.hist.ChartAreas.Add(chartArea2);
             this.hist.Location = new System.Drawing.Point(333, 236);
             this.hist.Name = "hist";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.hist.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "Series1";
+            this.hist.Series.Add(series2);
             this.hist.Size = new System.Drawing.Size(316, 178);
             this.hist.TabIndex = 22;
             this.hist.Text = "chart1";
@@ -426,7 +427,8 @@
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.histogramToolStripMenuItem,
             this.colorHistogramToolStripMenuItem,
-            this.showMarksToolStripMenuItem});
+            this.showMarksToolStripMenuItem,
+            this.run90ToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -472,6 +474,14 @@
             this.rotateImageToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.rotateImageToolStripMenuItem.Text = "Rotate image";
             this.rotateImageToolStripMenuItem.Click += new System.EventHandler(this.RotateImageToolStripMenuItemClick);
+            // 
+            // run90ToolStripMenuItem
+            // 
+            this.run90ToolStripMenuItem.Name = "run90ToolStripMenuItem";
+            this.run90ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
+            this.run90ToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.run90ToolStripMenuItem.Text = "Run 90° criteria";
+            this.run90ToolStripMenuItem.Click += new System.EventHandler(this.Run90ToolStripMenuItemClick);
             // 
             // MainForm
             // 
@@ -549,6 +559,7 @@
         private System.Windows.Forms.NumericUpDown binarizationThreshold;
         private System.Windows.Forms.ToolStripMenuItem showMarksToolStripMenuItem;
         private System.Windows.Forms.CheckBox smoothMedianCheckbox;
+        private System.Windows.Forms.ToolStripMenuItem run90ToolStripMenuItem;
     }
 }
 
