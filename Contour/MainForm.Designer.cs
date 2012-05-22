@@ -66,9 +66,10 @@
             this.histogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.run90ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.run90ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -144,6 +145,7 @@
             this.toolStrip1.Size = new System.Drawing.Size(908, 39);
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
+            this.toolStrip1.Visible = false;
             // 
             // rotateButton
             // 
@@ -428,8 +430,10 @@
             this.histogramToolStripMenuItem,
             this.colorHistogramToolStripMenuItem,
             this.showMarksToolStripMenuItem,
-            this.run90ToolStripMenuItem});
+            this.run90ToolStripMenuItem,
+            this.showToolbarToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
             // 
@@ -459,6 +463,14 @@
             this.showMarksToolStripMenuItem.Text = "Show MBR marks";
             this.showMarksToolStripMenuItem.Click += new System.EventHandler(this.ShowMarksToolStripMenuItemClick);
             // 
+            // run90ToolStripMenuItem
+            // 
+            this.run90ToolStripMenuItem.Name = "run90ToolStripMenuItem";
+            this.run90ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
+            this.run90ToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.run90ToolStripMenuItem.Text = "Run 90° criteria";
+            this.run90ToolStripMenuItem.Click += new System.EventHandler(this.Run90ToolStripMenuItemClick);
+            // 
             // operationsToolStripMenuItem
             // 
             this.operationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -475,13 +487,13 @@
             this.rotateImageToolStripMenuItem.Text = "Rotate image";
             this.rotateImageToolStripMenuItem.Click += new System.EventHandler(this.RotateImageToolStripMenuItemClick);
             // 
-            // run90ToolStripMenuItem
+            // showToolbarToolStripMenuItem
             // 
-            this.run90ToolStripMenuItem.Name = "run90ToolStripMenuItem";
-            this.run90ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
-            this.run90ToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
-            this.run90ToolStripMenuItem.Text = "Run 90° criteria";
-            this.run90ToolStripMenuItem.Click += new System.EventHandler(this.Run90ToolStripMenuItemClick);
+            this.showToolbarToolStripMenuItem.Name = "showToolbarToolStripMenuItem";
+            this.showToolbarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.showToolbarToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.showToolbarToolStripMenuItem.Text = "Show toolbar";
+            this.showToolbarToolStripMenuItem.Click += new System.EventHandler(this.ShowToolbarToolStripMenuItemClick);
             // 
             // MainForm
             // 
@@ -560,6 +572,7 @@
         private System.Windows.Forms.ToolStripMenuItem showMarksToolStripMenuItem;
         private System.Windows.Forms.CheckBox smoothMedianCheckbox;
         private System.Windows.Forms.ToolStripMenuItem run90ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showToolbarToolStripMenuItem;
     }
 }
 

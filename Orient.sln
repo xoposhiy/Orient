@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoughDemonstration", "Hough
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contour", "Contour\Contour.csproj", "{FFF26B45-E340-4333-AD87-EE4945FFCAB7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTree", "..\..\Users\MAK\Downloads\RTree_v01\RTree\RTree.csproj", "{4085BA67-60D7-4679-886E-457AAF37EC7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTree", "RTree\RTree.csproj", "{4085BA67-60D7-4679-886E-457AAF37EC7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

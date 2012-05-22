@@ -227,6 +227,11 @@ namespace Contour
 
         private void Run90ToolStripMenuItemClick(object sender, EventArgs e)
         {
+            MessageBox.Show(Criteria90() ? "Image rotated to the right or left by 90° degrees" : "All right");
+        }
+
+        private bool Criteria90()
+        {
             var skew = new double[4];
             for (int i = 0; i < 4; i++)
             {
@@ -234,9 +239,14 @@ namespace Contour
                     Average(line => Math.Abs(line.LinearRegression(false).Skew()));
                 RotateButtonClick(null, null);
             }
-            if (skew[1] < skew[0] || skew[1] < skew[2] ||
-                skew[3] < skew[0] || skew[3] < skew[2])
-                MessageBox.Show("Image rotated to the right or left by 90° degrees");
+            return skew[1] < skew[0] || skew[1] < skew[2] ||
+                   skew[3] < skew[0] || skew[3] < skew[2];
+        }
+
+        private void ShowToolbarToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            if (toolStrip1.Visible) toolStrip1.Hide();
+            else toolStrip1.Show();
         }
     }
 
