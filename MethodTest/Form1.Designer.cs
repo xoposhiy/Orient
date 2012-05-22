@@ -28,14 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.FolderDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.DllDialog = new System.Windows.Forms.OpenFileDialog();
             this.Out = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // DllDialog
-            // 
-            this.DllDialog.FileName = "openFileDialog1";
             // 
             // Out
             // 
@@ -48,14 +44,29 @@
             this.Out.Size = new System.Drawing.Size(0, 13);
             this.Out.TabIndex = 0;
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(479, 377);
+            this.dataGridView1.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(503, 401);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.Out);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -63,8 +74,7 @@
 
         #endregion
 
-        private System.Windows.Forms.FolderBrowserDialog FolderDialog;
-        private System.Windows.Forms.OpenFileDialog DllDialog;
         private System.Windows.Forms.Label Out;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }

@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.openFileButton = new System.Windows.Forms.ToolStripButton();
@@ -67,9 +67,9 @@
             this.colorHistogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showMarksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.run90ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -183,7 +183,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 63);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -195,7 +195,7 @@
             this.splitContainer1.Panel2.Controls.Add(this.hist);
             this.splitContainer1.Panel2.Controls.Add(this.imageBox);
             this.splitContainer1.Panel2.Resize += new System.EventHandler(this.ImageResize);
-            this.splitContainer1.Size = new System.Drawing.Size(908, 443);
+            this.splitContainer1.Size = new System.Drawing.Size(908, 482);
             this.splitContainer1.SplitterDistance = 222;
             this.splitContainer1.SplitterWidth = 10;
             this.splitContainer1.TabIndex = 20;
@@ -219,7 +219,7 @@
             this.optionsPanel.Location = new System.Drawing.Point(0, 0);
             this.optionsPanel.Name = "optionsPanel";
             this.optionsPanel.Padding = new System.Windows.Forms.Padding(8);
-            this.optionsPanel.Size = new System.Drawing.Size(222, 443);
+            this.optionsPanel.Size = new System.Drawing.Size(222, 482);
             this.optionsPanel.TabIndex = 0;
             // 
             // label2
@@ -357,13 +357,13 @@
             // 
             // hist
             // 
-            chartArea2.Name = "ChartArea1";
-            this.hist.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.hist.ChartAreas.Add(chartArea1);
             this.hist.Location = new System.Drawing.Point(333, 236);
             this.hist.Name = "hist";
-            series2.ChartArea = "ChartArea1";
-            series2.Name = "Series1";
-            this.hist.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Series1";
+            this.hist.Series.Add(series1);
             this.hist.Size = new System.Drawing.Size(316, 178);
             this.hist.TabIndex = 22;
             this.hist.Text = "chart1";
@@ -374,7 +374,7 @@
             this.imageBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageBox.Location = new System.Drawing.Point(0, 0);
             this.imageBox.Name = "imageBox";
-            this.imageBox.Size = new System.Drawing.Size(676, 443);
+            this.imageBox.Size = new System.Drawing.Size(676, 482);
             this.imageBox.TabIndex = 20;
             this.imageBox.TabStop = false;
             // 
@@ -471,6 +471,14 @@
             this.run90ToolStripMenuItem.Text = "Run 90° criteria";
             this.run90ToolStripMenuItem.Click += new System.EventHandler(this.Run90ToolStripMenuItemClick);
             // 
+            // showToolbarToolStripMenuItem
+            // 
+            this.showToolbarToolStripMenuItem.Name = "showToolbarToolStripMenuItem";
+            this.showToolbarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.showToolbarToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.showToolbarToolStripMenuItem.Text = "Show toolbar";
+            this.showToolbarToolStripMenuItem.Click += new System.EventHandler(this.ShowToolbarToolStripMenuItemClick);
+            // 
             // operationsToolStripMenuItem
             // 
             this.operationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -486,14 +494,6 @@
             this.rotateImageToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.rotateImageToolStripMenuItem.Text = "Rotate image";
             this.rotateImageToolStripMenuItem.Click += new System.EventHandler(this.RotateImageToolStripMenuItemClick);
-            // 
-            // showToolbarToolStripMenuItem
-            // 
-            this.showToolbarToolStripMenuItem.Name = "showToolbarToolStripMenuItem";
-            this.showToolbarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
-            this.showToolbarToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
-            this.showToolbarToolStripMenuItem.Text = "Show toolbar";
-            this.showToolbarToolStripMenuItem.Click += new System.EventHandler(this.ShowToolbarToolStripMenuItemClick);
             // 
             // MainForm
             // 

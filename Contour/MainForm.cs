@@ -235,12 +235,19 @@ namespace Contour
             var skew = new double[4];
             for (int i = 0; i < 4; i++)
             {
-                skew[i] = state.Lines.Where(line => line.Chars.Count() > 9).
+                int longetLineLength = state.Lines.Max(lin => lin.Chars.Count())/2;
+                skew[i] = state.Lines.Where(line => line.Chars.Count() > longetLineLength).
                     Average(line => Math.Abs(line.LinearRegression(false).Skew()));
                 RotateButtonClick(null, null);
             }
             return skew[1] < skew[0] || skew[1] < skew[2] ||
                    skew[3] < skew[0] || skew[3] < skew[2];
+        }
+
+        public bool Criteria90(string fileName)
+        {
+            OpenFile(fileName);
+            return Criteria90();
         }
 
         private void ShowToolbarToolStripMenuItemClick(object sender, EventArgs e)
