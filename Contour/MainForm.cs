@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Emgu.CV;
+using Emgu.CV.ML;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
 
@@ -235,13 +236,46 @@ namespace Contour
             var skew = new double[4];
             for (int i = 0; i < 4; i++)
             {
-                int longetLineLength = state.Lines.Max(lin => lin.Chars.Count())/2;
-                skew[i] = state.Lines.Where(line => line.Chars.Count() > longetLineLength).
-                    Average(line => Math.Abs(line.LinearRegression(false).Skew()));
+                double angle = GetAvgAngleOfLongLines();
+//                double angle = GetAngle();
+                skew[i] = angle;
                 RotateButtonClick(null, null);
             }
             return skew[1] < skew[0] || skew[1] < skew[2] ||
                    skew[3] < skew[0] || skew[3] < skew[2];
+        }
+
+        private double GetAngle()
+        {
+            using (var model = new SVM())
+            {
+                var param = new SVMParams
+                            {
+                                KernelType = Emgu.CV.ML.MlEnum.SVM_KERNEL_TYPE.LINEAR,
+                                SVMType = Emgu.CV.ML.MlEnum.SVM_TYPE.C_SVC,
+                                C = 1,
+                                TermCrit = new MCvTermCriteria(100, 0.00001)
+                            };
+                TrainData(model, param);
+//                model.Predict()
+            }
+            return 0;
+        }
+
+        private void TrainData(SVM model, SVMParams param) {
+            bool trained = false;
+            while (!trained)
+            {
+                var trainData = new Matrix<float>(state.Lines.Length, 2);
+                var trainClass = new Matrix<float>(state.Lines.Length, 1);
+                trained = model.TrainAuto(trainData, trainClass, null, null, param.MCvSVMParams, 5);
+            }
+        }
+
+        private double GetAvgAngleOfLongLines() {
+            int longetLineLength = state.Lines.Max(lin => lin.Chars.Count())/2;
+            return state.Lines.Where(line => line.Chars.Count() > longetLineLength).
+                Average(line => Math.Abs(line.LinearRegression(false).Skew()));
         }
 
         public bool Criteria90(string fileName)
