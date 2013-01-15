@@ -236,8 +236,8 @@ namespace Contour
             var skew = new double[4];
             for (int i = 0; i < 4; i++)
             {
-                double angle = GetAvgAngleOfLongLines();
-//                double angle = GetAngle();
+//                double angle = GetAvgAngleOfLongLines();
+                double angle = GetAngle();
                 skew[i] = angle;
                 RotateButtonClick(null, null);
             }
@@ -266,8 +266,13 @@ namespace Contour
             bool trained = false;
             while (!trained)
             {
-                var trainData = new Matrix<float>(state.Lines.Length, 2);
+                var trainData = new Matrix<float>(state.Lines.Length, 1);
                 var trainClass = new Matrix<float>(state.Lines.Length, 1);
+                for (int i = 0; i <= state.Lines.Length; ++i)
+                {
+                    trainData.Data[i, 0] = state.Lines[i].Chars.Length;
+                    trainClass.Data[i, 0] = (float) state.Lines[i].LinearRegression(false).Skew();
+                }
                 trained = model.TrainAuto(trainData, trainClass, null, null, param.MCvSVMParams, 5);
             }
         }
