@@ -22,11 +22,27 @@ namespace Contour
         private Binarizaton binarizaton;
 
         private MainFormState state;
+        private SVM model;
+        private bool b = true;
 
         public MainForm()
         {
             InitializeComponent();
             imageFileDialog.InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\..\..\base\certificates\";
+            TrainSvm();
+        }
+
+        private void TrainSvm()
+        {
+            model = new SVM();
+            var param = new SVMParams
+            {
+                KernelType = Emgu.CV.ML.MlEnum.SVM_KERNEL_TYPE.LINEAR,
+                SVMType = Emgu.CV.ML.MlEnum.SVM_TYPE.C_SVC,
+                C = 1,
+                TermCrit = new MCvTermCriteria(100, 0.00001)
+            };
+            TrainData(model, param, b);
         }
 
         private void ImageFileClick(object sender, EventArgs e)
@@ -236,8 +252,7 @@ namespace Contour
             var skew = new double[4];
             for (int i = 0; i < 4; i++)
             {
-//                double angle = GetAvgAngleOfLongLines();
-                double angle = GetAngle();
+                double angle = GetAvgAngleOfLongLines();
                 skew[i] = angle;
                 RotateButtonClick(null, null);
             }
@@ -245,9 +260,9 @@ namespace Contour
                    skew[3] < skew[0] || skew[3] < skew[2];
         }
 
-        private double GetAngle()
+        private bool CriteriaBySvm()
         {
-            using (var model = new SVM())
+            /*using (var model = new SVM())
             {
                 var param = new SVMParams
                             {
@@ -256,22 +271,25 @@ namespace Contour
                                 C = 1,
                                 TermCrit = new MCvTermCriteria(100, 0.00001)
                             };
-                TrainData(model, param);
+                TrainData(model, param, b);
 //                model.Predict()
             }
-            return 0;
+            return 0;*/
+            return model.GetSupportVector(0)[0] == 1;
         }
 
-        private void TrainData(SVM model, SVMParams param) {
+        private void TrainData(SVM model, SVMParams param, bool b) {
             bool trained = false;
             while (!trained)
             {
-                var trainData = new Matrix<float>(state.Lines.Length, 1);
-                var trainClass = new Matrix<float>(state.Lines.Length, 1);
-                for (int i = 0; i <= state.Lines.Length; ++i)
+                TextLine[] textLines = state.Lines;
+                var trainData = new Matrix<float>(textLines.Length, 2);
+                var trainClass = new Matrix<float>(textLines.Length, 1);
+                for (int i = 0; i <= textLines.Length; ++i)
                 {
-                    trainData.Data[i, 0] = state.Lines[i].Chars.Length;
-                    trainClass.Data[i, 0] = (float) state.Lines[i].LinearRegression(false).Skew();
+                    trainData.Data[i, 0] = textLines[i].Chars.Length;
+                    trainData.Data[i, 1] = (float) textLines[i].LinearRegression(false).Skew();
+                    trainClass.Data[i, 0] = b ? 1 : 0;
                 }
                 trained = model.TrainAuto(trainData, trainClass, null, null, param.MCvSVMParams, 5);
             }
