@@ -6,12 +6,13 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Contour;
 using Emgu.CV;
 using Emgu.CV.ML;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
 
-namespace Contour
+namespace TrainSVM
 {
     public partial class MainForm : Form
     {
@@ -22,7 +23,7 @@ namespace Contour
         private Binarizaton binarizaton;
 
         private MainFormState state;
-        private SVM model;
+//        private SVM model;
         private bool b = true;
 
         public MainForm()
@@ -34,15 +35,17 @@ namespace Contour
 
         private void TrainSvm()
         {
-            model = new SVM();
-            var param = new SVMParams
+            using (var model = new SVM())
             {
-                KernelType = Emgu.CV.ML.MlEnum.SVM_KERNEL_TYPE.LINEAR,
-                SVMType = Emgu.CV.ML.MlEnum.SVM_TYPE.C_SVC,
-                C = 1,
-                TermCrit = new MCvTermCriteria(100, 0.00001)
-            };
-            TrainData(model, param, b);
+                var param = new SVMParams
+                    {
+                        KernelType = Emgu.CV.ML.MlEnum.SVM_KERNEL_TYPE.LINEAR,
+                        SVMType = Emgu.CV.ML.MlEnum.SVM_TYPE.C_SVC,
+                        C = 1,
+                        TermCrit = new MCvTermCriteria(100, 0.00001)
+                    };
+                TrainData(model, param, b);
+            }
         }
 
         private void ImageFileClick(object sender, EventArgs e)
@@ -275,9 +278,8 @@ namespace Contour
 //                model.Predict()
             }
             return 0;*/
-//            model.Save("");
-//            model.l
-            return model.GetSupportVector(0)[0] == 1;
+//            return model.GetSupportVector(0)[0] == 1;
+            return true;
         }
 
         private void TrainData(SVM model, SVMParams param, bool b) {
