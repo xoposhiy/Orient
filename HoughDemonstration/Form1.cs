@@ -29,8 +29,8 @@ namespace HoughDemonstration
                 var cannyThreshold = new Gray(180);
                 var cannyThresholdLinking = new Gray(120);
 
-//                var cannyEdges = gray.Canny(cannyThreshold, cannyThresholdLinking);
-                var cannyEdges = gray.Canny(180, 120);
+                var cannyEdges = gray.Canny(cannyThreshold, cannyThresholdLinking);
+//                var cannyEdges = gray.Canny(180, 120);
                 var contours = cannyEdges.FindContours();
 //                contours[0].
 //                image.Draw(contours);
@@ -48,8 +48,8 @@ namespace HoughDemonstration
             var cannyThreshold = new Gray(180);
             var cannyThresholdLinking = new Gray(120);
 
-//            var cannyEdges = gray.Canny(cannyThreshold, cannyThresholdLinking);
-            var cannyEdges = gray.Canny(180, 120);
+            var cannyEdges = gray.Canny(cannyThreshold, cannyThresholdLinking);
+//            var cannyEdges = gray.Canny(180, 120);
             var lines = cannyEdges.HoughLinesBinary(
                 (double) distanceResolution.Value, //Distance resolution in pixel-related units
                 Math.PI / 45.0, //Angle resolution measured in radians.
