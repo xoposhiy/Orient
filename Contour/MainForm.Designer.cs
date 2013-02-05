@@ -535,7 +535,7 @@
 
         #endregion
 
-        private System.Windows.Forms.OpenFileDialog imageFileDialog;
+        protected System.Windows.Forms.OpenFileDialog imageFileDialog;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripButton openFileButton;
         private System.Windows.Forms.ToolStripButton histButton;

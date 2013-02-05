@@ -21,18 +21,18 @@ namespace Contour
         private SymbolSegmentation segmentation;
         private Binarizaton binarizaton;
 
-        private MainFormState state;
-        private SVM model;
+        public MainFormState state;
+//        private SVM model;
         private bool b = true;
 
         public MainForm()
         {
             InitializeComponent();
             imageFileDialog.InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\..\..\base\certificates\";
-            TrainSvm();
+//            TrainSvm();
         }
 
-        private void TrainSvm()
+        /*private void TrainSvm()
         {
             model = new SVM();
             var param = new SVMParams
@@ -43,7 +43,7 @@ namespace Contour
                 TermCrit = new MCvTermCriteria(100, 0.00001)
             };
             TrainData(model, param, b);
-        }
+        }*/
 
         private void ImageFileClick(object sender, EventArgs e)
         {
@@ -51,7 +51,7 @@ namespace Contour
             OpenFile(imageFileDialog.FileName);
         }
 
-        private void OpenFile(string filenameToOpen)
+        public void OpenFile(string filenameToOpen)
         {
             filename = filenameToOpen;
             Text = filenameToOpen;
@@ -260,7 +260,7 @@ namespace Contour
                    skew[3] < skew[0] || skew[3] < skew[2];
         }
 
-        private bool CriteriaBySvm()
+        /*private bool CriteriaBySvm()
         {
             /*using (var model = new SVM())
             {
@@ -274,13 +274,13 @@ namespace Contour
                 TrainData(model, param, b);
 //                model.Predict()
             }
-            return 0;*/
+            return 0;#1#
 //            model.Save("");
 //            model.l
             return model.GetSupportVector(0)[0] == 1;
-        }
+        }*/
 
-        private void TrainData(SVM model, SVMParams param, bool b) {
+        /*private void TrainData(SVM model, SVMParams param, bool b) {
             bool trained = false;
             while (!trained)
             {
@@ -295,7 +295,7 @@ namespace Contour
                 }
                 trained = model.TrainAuto(trainData, trainClass, null, null, param.MCvSVMParams, 5);
             }
-        }
+        }*/
 
         private double GetAvgAngleOfLongLines() {
             int longetLineLength = state.Lines.Max(lin => lin.Chars.Count())/2;
