@@ -1,6 +1,6 @@
 ﻿namespace TrainSVM
 {
-    partial class Form1
+    partial class TrainForm
     {
         /// <summary>
         /// Required designer variable.

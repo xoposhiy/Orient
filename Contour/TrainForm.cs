@@ -9,7 +9,7 @@ using Emgu.CV.Structure;
 
 namespace TrainSVM
 {
-    public partial class Form1 : Form
+    public partial class TrainForm : Form
     {
         private SVM model;
         private SVMParams param;
@@ -18,7 +18,7 @@ namespace TrainSVM
         private MainFormState state;
         private Dictionary<int, List<TextLine>> data = new Dictionary<int, List<TextLine>>(); 
 
-        public Form1()
+        public TrainForm()
         {
             InitializeComponent();
             CreateSvm();

@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Emgu.CV;
-using Emgu.CV.ML;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
 

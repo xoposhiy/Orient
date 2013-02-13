@@ -38,10 +38,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\bin\Debug\Emgu.CV.dll</HintPath>
     </Reference>
-    <Reference Include="Emgu.CV.ML, Version=2.4.9.1847, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\Debug\Emgu.CV.ML.dll</HintPath>
-    </Reference>
     <Reference Include="Emgu.CV.UI, Version=2.4.9.1847, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\bin\Debug\Emgu.CV.UI.dll</HintPath>

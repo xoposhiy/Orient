@@ -115,5 +115,42 @@ namespace Contour
         }
 
         public static LineSegment2D HorizontalLine = new LineSegment2D(new Point(0, 0), new Point(1, 0));
+
+//        alpha, N_blocks, W_line%, H_line%, дисперсия_расстояния_блоков_от_линии_регрессии, средняя_высота_блока%, среднеквадратичное_отклонение_высоты_блока%
+        public static double RelativeWidth(this TextLine line, Image img)
+        {
+            return line.Chars.Sum(rect => rect.Width)/img.Width;
+        }
+
+        public static double RelativeHeight(this TextLine line, Image img)
+        {
+            return line.Chars.Sum(rect => rect.Height) / img.Height;
+        }
+
+        public static double RegressionVariance(this TextLine line)
+        {
+            var regression = line.LinearRegression(true);
+        }
+
+        public static double Sqr(this double num)
+        {
+            return num*num;
+        }
+
+        public static double Distance(this LineSegment2D line, Point p)
+        {
+            var v = line.P1;
+            var w = line.P2;
+            if (line.Length == 0) return Distance(p, v);
+            var t = ((p.X - v.X) * (w.X - v.X) + (p.Y - v.Y) * (w.Y - v.Y)) / line.Length.Sqr();
+            if (t < 0) return Distance(p, v);
+            if (t > 1) return Distance(p, w);
+            return Distance(p, new Point((int) (v.X + t * (w.X - v.X)), (int) (v.Y + t * (w.Y - v.Y))));
+        }
+
+        private static double Distance(Point p, Point v)
+        {
+            return Math.Sqrt(Math.Pow(p.X - v.X, 2) + Math.Pow(p.Y - v.Y, 2));
+        }
     }
 }
