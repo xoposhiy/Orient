@@ -313,6 +313,11 @@ namespace Contour
             if (toolStrip1.Visible) toolStrip1.Hide();
             else toolStrip1.Show();
         }
+
+        private void trainSVMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new TrainForm().Show();
+        }
     }
 
     public class MainFormState

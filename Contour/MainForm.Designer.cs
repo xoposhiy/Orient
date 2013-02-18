@@ -70,6 +70,7 @@
             this.showToolbarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trainSVMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -482,8 +483,10 @@
             // operationsToolStripMenuItem
             // 
             this.operationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.rotateImageToolStripMenuItem});
+            this.rotateImageToolStripMenuItem,
+            this.trainSVMToolStripMenuItem});
             this.operationsToolStripMenuItem.Name = "operationsToolStripMenuItem";
+            this.operationsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.operationsToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
             this.operationsToolStripMenuItem.Text = "Operations";
             // 
@@ -494,6 +497,14 @@
             this.rotateImageToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.rotateImageToolStripMenuItem.Text = "Rotate image";
             this.rotateImageToolStripMenuItem.Click += new System.EventHandler(this.RotateImageToolStripMenuItemClick);
+            // 
+            // trainSVMToolStripMenuItem
+            // 
+            this.trainSVMToolStripMenuItem.Name = "trainSVMToolStripMenuItem";
+            this.trainSVMToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.trainSVMToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.trainSVMToolStripMenuItem.Text = "Train SVM";
+            this.trainSVMToolStripMenuItem.Click += new System.EventHandler(this.trainSVMToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -573,6 +584,7 @@
         private System.Windows.Forms.CheckBox smoothMedianCheckbox;
         private System.Windows.Forms.ToolStripMenuItem run90ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showToolbarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem trainSVMToolStripMenuItem;
     }
 }
 

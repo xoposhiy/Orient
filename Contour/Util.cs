@@ -122,17 +122,17 @@ namespace Contour
         /// <summary>
         /// Относительная ширина линии
         /// </summary>
-        public static double RelativeWidth(this TextLine line, Image img)
+        public static double RelativeWidth(this TextLine line, int imgWidth)
         {
-            return line.Chars.Sum(rect => rect.Width)/img.Width;
+            return line.Chars.Sum(rect => rect.Width) / imgWidth;
         }
 
         /// <summary>
         /// Относительная высота линии
         /// </summary>
-        public static double RelativeHeight(this TextLine line, Image img)
+        public static double RelativeHeight(this TextLine line, int imgHeight)
         {
-            return line.Chars.Max(rect => rect.Height) / img.Height;
+            return line.Chars.Max(rect => rect.Height) / imgHeight;
         }
 
         /// <summary>
@@ -148,9 +148,9 @@ namespace Contour
         /// <summary>
         /// Относительная средняя высота блоков
         /// </summary>
-        public static double MeanHeight(this TextLine line, Image img)
+        public static double MeanHeight(this TextLine line, int imgHeight)
         {
-            return line.Chars.Average(rect => rect.Height) / img.Height;
+            return line.Chars.Average(rect => rect.Height) / imgHeight;
         }
 
         /// <summary>
