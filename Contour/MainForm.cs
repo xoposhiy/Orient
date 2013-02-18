@@ -285,43 +285,6 @@ namespace Contour
                    skew[3] < skew[0] || skew[3] < skew[2];
         }
 
-        /*private bool CriteriaBySvm()
-        {
-            /*using (var model = new SVM())
-            {
-                var param = new SVMParams
-                            {
-                                KernelType = Emgu.CV.ML.MlEnum.SVM_KERNEL_TYPE.LINEAR,
-                                SVMType = Emgu.CV.ML.MlEnum.SVM_TYPE.C_SVC,
-                                C = 1,
-                                TermCrit = new MCvTermCriteria(100, 0.00001)
-                            };
-                TrainData(model, param, b);
-//                model.Predict()
-            }
-            return 0;#1#
-//            model.Save("");
-//            model.l
-            return model.GetSupportVector(0)[0] == 1;
-        }*/
-
-        /*private void TrainData(SVM model, SVMParams param, bool b) {
-            bool trained = false;
-            while (!trained)
-            {
-                TextLine[] textLines = state.Lines;
-                var trainData = new Matrix<float>(textLines.Length, 2);
-                var trainClass = new Matrix<float>(textLines.Length, 1);
-                for (int i = 0; i <= textLines.Length; ++i)
-                {
-                    trainData.Data[i, 0] = textLines[i].Chars.Length;
-                    trainData.Data[i, 1] = (float) textLines[i].LinearRegression(false).Skew();
-                    trainClass.Data[i, 0] = b ? 1 : 0;
-                }
-                trained = model.TrainAuto(trainData, trainClass, null, null, param.MCvSVMParams, 5);
-            }
-        }*/
-
         private double GetAvgAngleOfLongLines() {
             int longetLineLength = state.Lines.Max(lin => lin.Chars.Count())/2;
             return state.Lines.Where(line => line.Chars.Count() > longetLineLength).
@@ -373,6 +336,17 @@ namespace Contour
         private void ShowLinearRegressionToolStripMenuItemClick(object sender, EventArgs e)
         {
             UpdateImage();
+        }
+
+        private void RunSvmFilterCriteriaToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var skew = new int[4];
+            for (int i = 0; i < 4; i++)
+            {
+                skew[i] = state.Lines.Count(line => model.Predict(Util.GetVector(line, state.OriginalImg.Size)) == 1);
+                RotateButtonClick(null, null);
+            }
+            MessageBox.Show(skew[0] >= skew[1] || skew[0] >= skew[3] || skew[2] >= skew[1] || skew[2] >= skew[3] ? "Write orientation" : "Rotated by 90 degrees");
         }
     }
 
