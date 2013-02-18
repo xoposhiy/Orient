@@ -109,6 +109,9 @@ namespace Contour
 									 new Point((int) right, (int)(a + b * right)));
 		}
 
+        /// <summary>
+        /// Угол наклона
+        /// </summary>
         public static double Skew(this LineSegment2D line)
         {
             return line.GetExteriorAngleDegree(HorizontalLine);
@@ -116,20 +119,47 @@ namespace Contour
 
         public static LineSegment2D HorizontalLine = new LineSegment2D(new Point(0, 0), new Point(1, 0));
 
-//        alpha, N_blocks, W_line%, H_line%, дисперсия_расстояния_блоков_от_линии_регрессии, средняя_высота_блока%, среднеквадратичное_отклонение_высоты_блока%
+        /// <summary>
+        /// Относительная ширина линии
+        /// </summary>
         public static double RelativeWidth(this TextLine line, Image img)
         {
             return line.Chars.Sum(rect => rect.Width)/img.Width;
         }
 
+        /// <summary>
+        /// Относительная высота линии
+        /// </summary>
         public static double RelativeHeight(this TextLine line, Image img)
         {
-            return line.Chars.Sum(rect => rect.Height) / img.Height;
+            return line.Chars.Max(rect => rect.Height) / img.Height;
         }
 
+        /// <summary>
+        /// Дисперсия расстояний от блоков до линии регрессии
+        /// </summary>
         public static double RegressionVariance(this TextLine line)
         {
             var regression = line.LinearRegression(true);
+            var res = line.Chars.Sum(rec => Distance(regression, rec.CenterTop()).Sqr()) - line.Chars.Sum(rec => Distance(regression, rec.CenterTop())).Sqr();
+            return res;
+        }
+
+        /// <summary>
+        /// Относительная средняя высота блоков
+        /// </summary>
+        public static double MeanHeight(this TextLine line, Image img)
+        {
+            return line.Chars.Average(rect => rect.Height) / img.Height;
+        }
+
+        /// <summary>
+        /// Среднеквадратичное отклонение высоты блоков
+        /// </summary>
+        public static double StandartDeviationHeight(this TextLine line)
+        {
+            var mean = line.Chars.Average(rec => rec.Height);
+            return Math.Sqrt(line.Chars.Sum(rec => (rec.Height - mean).Sqr()) / line.Chars.Count());
         }
 
         public static double Sqr(this double num)
@@ -143,14 +173,17 @@ namespace Contour
             var w = line.P2;
             if (line.Length == 0) return Distance(p, v);
             var t = ((p.X - v.X) * (w.X - v.X) + (p.Y - v.Y) * (w.Y - v.Y)) / line.Length.Sqr();
-            if (t < 0) return Distance(p, v);
-            if (t > 1) return Distance(p, w);
-            return Distance(p, new Point((int) (v.X + t * (w.X - v.X)), (int) (v.Y + t * (w.Y - v.Y))));
+            return Distance(p, v.X + t * (w.X - v.X), v.Y + t * (w.Y - v.Y));
+        }
+
+        private static double Distance(Point p, double x, double y)
+        {
+            return Math.Sqrt(Math.Pow(p.X - x, 2) + Math.Pow(p.Y - y, 2));
         }
 
         private static double Distance(Point p, Point v)
         {
-            return Math.Sqrt(Math.Pow(p.X - v.X, 2) + Math.Pow(p.Y - v.Y, 2));
+            return Distance(p, v.X, v.Y);
         }
     }
 }
