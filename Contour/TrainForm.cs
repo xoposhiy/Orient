@@ -51,13 +51,14 @@ namespace Contour
             int i = 0;
             foreach (var info in dataInfo)
             {
-                trainData.Data[i, 0] = (float) info.Line.LinearRegression(true).Skew();
+                /*trainData.Data[i, 0] = (float) info.Line.LinearRegression(true).Skew();
                 trainData.Data[i, 1] = info.Line.Chars.Length;
                 trainData.Data[i, 2] = (float) info.Line.RelativeWidth(info.Size.Width);
                 trainData.Data[i, 3] = (float) info.Line.RelativeHeight(info.Size.Height);
                 trainData.Data[i, 4] = (float) info.Line.RegressionVariance();
                 trainData.Data[i, 5] = (float) info.Line.MeanHeight(info.Size.Height);
-                trainData.Data[i, 6] = (float) info.Line.StandartDeviationHeight();
+                trainData.Data[i, 6] = (float) info.Line.StandartDeviationHeight();*/
+                trainData.Add(Util.GetVector(info.Line, info.Size));
                 trainClass.Data[i++, 0] = info.Orientation ? 1 : 0;
             }
             return model.TrainAuto(trainData, trainClass, null, null, param.MCvSVMParams, 5);

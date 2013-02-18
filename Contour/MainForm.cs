@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Emgu.CV;
+using Emgu.CV.ML;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
 
@@ -21,28 +22,15 @@ namespace Contour
         private Binarizaton binarizaton;
 
         public MainFormState state;
-//        private SVM model;
+        private SVM model;
         private bool b = true;
 
         public MainForm()
         {
             InitializeComponent();
             imageFileDialog.InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\..\..\base\certificates\";
-//            TrainSvm();
+            model = TrainForm.CreateSvm();
         }
-
-        /*private void TrainSvm()
-        {
-            model = new SVM();
-            var param = new SVMParams
-            {
-                KernelType = Emgu.CV.ML.MlEnum.SVM_KERNEL_TYPE.LINEAR,
-                SVMType = Emgu.CV.ML.MlEnum.SVM_TYPE.C_SVC,
-                C = 1,
-                TermCrit = new MCvTermCriteria(100, 0.00001)
-            };
-            TrainData(model, param, b);
-        }*/
 
         private void ImageFileClick(object sender, EventArgs e)
         {
@@ -92,32 +80,40 @@ namespace Contour
             markedImg = state.GrayImage.Convert<Bgr, byte>();
             if (ShowMarks)
             {
-                foreach (Rectangle box in state.Boxes.Except(state.Chars).Except(state.Points))
-                    markedImg.Draw(box, new Bgr(Color.DarkGray), 1);
+                if (ShowBoxes)
+                    foreach (Rectangle box in state.Boxes.Except(state.Chars).Except(state.Points))
+                        markedImg.Draw(box, new Bgr(Color.DarkGray), 1);
+                if (ShowLines)
+                    foreach (TextLine line in state.Lines)
+                        markedImg.Draw(line.MBR, new Bgr(Color.Cyan), 1);
 
-                foreach (TextLine line in state.Lines)
-                    markedImg.Draw(line.MBR, new Bgr(Color.Cyan), 1);
+                if (ShowChars)
+                    foreach (Rectangle rect in state.Chars)
+                        markedImg.Draw(rect, new Bgr(Color.Green), 1);
 
-                foreach (Rectangle rect in state.Chars)
-                    markedImg.Draw(rect, new Bgr(Color.Green), 1);
+                if (ShowFilteredLines)
+                    foreach (TextLine line in state.Lines.Where(line => model.Predict(Util.GetVector(line, state.OriginalImg.Size)) == 1))
+                        markedImg.Draw(line.MBR, new Bgr(Color.Orange), 1);
 
-                foreach (Rectangle rect in state.Points)
-                    markedImg.Draw(rect, new Bgr(Color.Red), 1);
+                if (ShowPunctuation)
+                    foreach (Rectangle rect in state.Points)
+                        markedImg.Draw(rect, new Bgr(Color.Red), 1);
 
-                foreach (TextLine line in state.Lines)
-                {
-                    /*Rectangle prev = line.Chars.First();
-                    foreach (Rectangle next in line.Chars.Skip(1))
+                if (ShowLinearRegression)
+                    foreach (TextLine line in state.Lines)
                     {
-                        markedImg.Draw(new LineSegment2D(prev.CenterBottom(), next.CenterBottom()),
-                                       new Bgr(Color.RoyalBlue),
-                                       2);
-                        markedImg.Draw(new CircleF(next.CenterBottom(), 2), new Bgr(Color.Aqua), 2);
-                        prev = next;
-                    }*/
-					markedImg.Draw(line.LinearRegression(false), new Bgr(Color.RoyalBlue), 2);
-					markedImg.Draw(line.LinearRegression(true), new Bgr(Color.BlueViolet), 2);
-				}
+                        /*Rectangle prev = line.Chars.First();
+                        foreach (Rectangle next in line.Chars.Skip(1))
+                        {
+                            markedImg.Draw(new LineSegment2D(prev.CenterBottom(), next.CenterBottom()),
+                                           new Bgr(Color.RoyalBlue),
+                                           2);
+                            markedImg.Draw(new CircleF(next.CenterBottom(), 2), new Bgr(Color.Aqua), 2);
+                            prev = next;
+                        }*/
+					    markedImg.Draw(line.LinearRegression(false), new Bgr(Color.RoyalBlue), 2);
+					    markedImg.Draw(line.LinearRegression(true), new Bgr(Color.BlueViolet), 2);
+				    }
             }
             imageBox.Image = markedImg;
         }
@@ -125,6 +121,36 @@ namespace Contour
         protected bool ShowMarks
         {
             get { return showMarksToolStripMenuItem.Checked; }
+        }
+
+        protected bool ShowLines
+        {
+            get { return showTextLineToolStripMenuItem.Checked; }
+        }
+
+        protected bool ShowFilteredLines
+        {
+            get { return showFilteredTextLineToolStripMenuItem.Checked; }
+        }
+        
+        protected bool ShowBoxes
+        {
+            get { return showBoxToolStripMenuItem.Checked; }
+        }
+
+        protected bool ShowChars
+        {
+            get { return showCharToolStripMenuItem.Checked; }
+        }
+
+        protected bool ShowLinearRegression
+        {
+            get { return showLinearRegressionToolStripMenuItem.Checked; }
+        }
+        
+        protected bool ShowPunctuation
+        {
+            get { return showPointPunctuationToolStripMenuItem.Checked; }
         }
 
         private void HistClick(object sender, EventArgs e)
@@ -314,9 +340,39 @@ namespace Contour
             else toolStrip1.Show();
         }
 
-        private void trainSVMToolStripMenuItem_Click(object sender, EventArgs e)
+        private void TrainSvmToolStripMenuItemClick(object sender, EventArgs e)
         {
             new TrainForm().Show();
+        }
+
+        private void ShowFilteredTextLineToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            UpdateImage();
+        }
+
+        private void ShowTextLineToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            UpdateImage();
+        }
+
+        private void ShowCharToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            UpdateImage();
+        }
+
+        private void ShowBoxToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            UpdateImage();
+        }
+
+        private void ShowPointPunctuationToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            UpdateImage();
+        }
+
+        private void ShowLinearRegressionToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            UpdateImage();
         }
     }
 

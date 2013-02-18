@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.openFileButton = new System.Windows.Forms.ToolStripButton();
@@ -71,6 +71,13 @@
             this.operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trainSVMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.markToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showFilteredTextLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showTextLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showCharToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showPointPunctuationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showLinearRegressionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -358,13 +365,13 @@
             // 
             // hist
             // 
-            chartArea1.Name = "ChartArea1";
-            this.hist.ChartAreas.Add(chartArea1);
+            chartArea6.Name = "ChartArea1";
+            this.hist.ChartAreas.Add(chartArea6);
             this.hist.Location = new System.Drawing.Point(333, 236);
             this.hist.Name = "hist";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.hist.Series.Add(series1);
+            series6.ChartArea = "ChartArea1";
+            series6.Name = "Series1";
+            this.hist.Series.Add(series6);
             this.hist.Size = new System.Drawing.Size(316, 178);
             this.hist.TabIndex = 22;
             this.hist.Text = "chart1";
@@ -384,7 +391,8 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.viewToolStripMenuItem,
-            this.operationsToolStripMenuItem});
+            this.operationsToolStripMenuItem,
+            this.markToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(908, 24);
@@ -504,7 +512,78 @@
             this.trainSVMToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.trainSVMToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.trainSVMToolStripMenuItem.Text = "Train SVM";
-            this.trainSVMToolStripMenuItem.Click += new System.EventHandler(this.trainSVMToolStripMenuItem_Click);
+            this.trainSVMToolStripMenuItem.Click += new System.EventHandler(this.TrainSvmToolStripMenuItemClick);
+            // 
+            // markToolStripMenuItem
+            // 
+            this.markToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showFilteredTextLineToolStripMenuItem,
+            this.showTextLineToolStripMenuItem,
+            this.showCharToolStripMenuItem,
+            this.showBoxToolStripMenuItem,
+            this.showPointPunctuationToolStripMenuItem,
+            this.showLinearRegressionToolStripMenuItem});
+            this.markToolStripMenuItem.Name = "markToolStripMenuItem";
+            this.markToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.markToolStripMenuItem.Text = "Mark";
+            // 
+            // showFilteredTextLineToolStripMenuItem
+            // 
+            this.showFilteredTextLineToolStripMenuItem.Checked = true;
+            this.showFilteredTextLineToolStripMenuItem.CheckOnClick = true;
+            this.showFilteredTextLineToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showFilteredTextLineToolStripMenuItem.Name = "showFilteredTextLineToolStripMenuItem";
+            this.showFilteredTextLineToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.showFilteredTextLineToolStripMenuItem.Text = "Show Filtered TextLine";
+            this.showFilteredTextLineToolStripMenuItem.Click += new System.EventHandler(this.ShowFilteredTextLineToolStripMenuItemClick);
+            // 
+            // showTextLineToolStripMenuItem
+            // 
+            this.showTextLineToolStripMenuItem.CheckOnClick = true;
+            this.showTextLineToolStripMenuItem.Name = "showTextLineToolStripMenuItem";
+            this.showTextLineToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.showTextLineToolStripMenuItem.Text = "Show TextLine";
+            this.showTextLineToolStripMenuItem.Click += new System.EventHandler(this.ShowTextLineToolStripMenuItemClick);
+            // 
+            // showCharToolStripMenuItem
+            // 
+            this.showCharToolStripMenuItem.Checked = true;
+            this.showCharToolStripMenuItem.CheckOnClick = true;
+            this.showCharToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showCharToolStripMenuItem.Name = "showCharToolStripMenuItem";
+            this.showCharToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.showCharToolStripMenuItem.Text = "Show Char";
+            this.showCharToolStripMenuItem.Click += new System.EventHandler(this.ShowCharToolStripMenuItemClick);
+            // 
+            // showBoxToolStripMenuItem
+            // 
+            this.showBoxToolStripMenuItem.Checked = true;
+            this.showBoxToolStripMenuItem.CheckOnClick = true;
+            this.showBoxToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showBoxToolStripMenuItem.Name = "showBoxToolStripMenuItem";
+            this.showBoxToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.showBoxToolStripMenuItem.Text = "Show Bounding Box";
+            this.showBoxToolStripMenuItem.Click += new System.EventHandler(this.ShowBoxToolStripMenuItemClick);
+            // 
+            // showPointPunctuationToolStripMenuItem
+            // 
+            this.showPointPunctuationToolStripMenuItem.Checked = true;
+            this.showPointPunctuationToolStripMenuItem.CheckOnClick = true;
+            this.showPointPunctuationToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showPointPunctuationToolStripMenuItem.Name = "showPointPunctuationToolStripMenuItem";
+            this.showPointPunctuationToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.showPointPunctuationToolStripMenuItem.Text = "Show Point (Punctuation)";
+            this.showPointPunctuationToolStripMenuItem.Click += new System.EventHandler(this.ShowPointPunctuationToolStripMenuItemClick);
+            // 
+            // showLinearRegressionToolStripMenuItem
+            // 
+            this.showLinearRegressionToolStripMenuItem.Checked = true;
+            this.showLinearRegressionToolStripMenuItem.CheckOnClick = true;
+            this.showLinearRegressionToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showLinearRegressionToolStripMenuItem.Name = "showLinearRegressionToolStripMenuItem";
+            this.showLinearRegressionToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.showLinearRegressionToolStripMenuItem.Text = "Show Linear Regression";
+            this.showLinearRegressionToolStripMenuItem.Click += new System.EventHandler(this.ShowLinearRegressionToolStripMenuItemClick);
             // 
             // MainForm
             // 
@@ -585,6 +664,13 @@
         private System.Windows.Forms.ToolStripMenuItem run90ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showToolbarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trainSVMToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem markToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showTextLineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showCharToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showBoxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showPointPunctuationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showLinearRegressionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showFilteredTextLineToolStripMenuItem;
     }
 }
 

@@ -185,5 +185,18 @@ namespace Contour
         {
             return Distance(p, v.X, v.Y);
         }
+
+        public static Matrix<float> GetVector(TextLine line, Size size)
+        {
+            var res = new Matrix<float>(1, 7);
+            res.Data[0, 0] = (float)line.LinearRegression(true).Skew();
+            res.Data[0, 1] = line.Chars.Length;
+            res.Data[0, 2] = (float)line.RelativeWidth(size.Width);
+            res.Data[0, 3] = (float)line.RelativeHeight(size.Height);
+            res.Data[0, 4] = (float)line.RegressionVariance();
+            res.Data[0, 5] = (float)line.MeanHeight(size.Height);
+            res.Data[0, 6] = (float)line.StandartDeviationHeight();
+            return res;
+        }
     }
 }
