@@ -22,7 +22,10 @@ namespace Contour
         {
             var processed = img.Convert<Gray, Byte>();
             if (smoothMedian) processed = processed.SmoothMedian(3);
-            return processed.ThresholdBinary(new Gray(threshold), new Gray(255));
+            var binary = processed.ThresholdBinary(new Gray(threshold), new Gray(255));
+//            binary.Erode(1).Dilate(1);
+//            binary.Dilate(1).Erode(1);
+            return binary;
         }
     }
 

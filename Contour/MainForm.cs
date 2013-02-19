@@ -73,6 +73,11 @@ namespace Contour
             hist.ChartAreas[0].AxisX.Minimum = 0;
             hist.Series.Clear();
             hist.Series.Add(ser);
+
+            //Find peak of small boxes (pepper noise)
+            var sum = data.Where(keyValuePair => keyValuePair.Key < 5).Sum(keyValuePair => keyValuePair.Value);
+            if (!smoothMedianCheckbox.Checked && sum > 5000)
+                smoothMedianCheckbox.Checked = true;
         }
 
         private void UpdateImage()

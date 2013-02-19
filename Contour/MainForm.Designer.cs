@@ -354,8 +354,6 @@
             // smoothMedianCheckbox
             // 
             this.smoothMedianCheckbox.AutoSize = true;
-            this.smoothMedianCheckbox.Checked = true;
-            this.smoothMedianCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.smoothMedianCheckbox.Location = new System.Drawing.Point(11, 246);
             this.smoothMedianCheckbox.Name = "smoothMedianCheckbox";
             this.smoothMedianCheckbox.Size = new System.Drawing.Size(97, 17);
