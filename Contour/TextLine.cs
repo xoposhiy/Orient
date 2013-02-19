@@ -5,6 +5,7 @@ using Emgu.CV.Structure;
 
 namespace Contour
 {
+    [Serializable]
     public class TextLine
     {
         public TextLine(Rectangle[] chars)

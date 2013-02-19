@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.ML;
@@ -20,7 +21,8 @@ namespace Contour
                 C = 1,
                 TermCrit = new MCvTermCriteria(100, 0.00001)
             };
-        private const string FileName = @"..\..\Contour\Resources\model";
+        private const string ModelFileName = @"..\..\Contour\Resources\model";
+        private const string InfoFileName = @"..\..\Contour\Resources\info.xml";
         private MainForm form = new MainForm();
         private MainFormState state;
         private Dictionary<string, List<TextLineInfo>> data;
@@ -34,12 +36,13 @@ namespace Contour
             model = CreateSvm();
             data = Directory.GetDirectories(TestBase).SelectMany(Directory.GetFiles).ToDictionary(file => file, file => new List<TextLineInfo>());
             OpenNext();
+            LoadDetectedLine();
         }
 
         public static SVM CreateSvm()
         {
             var model = new SVM();
-            model.Load(FileName);
+            model.Load(ModelFileName);
             return model;
         }
 
@@ -58,7 +61,14 @@ namespace Contour
                 trainData.Data[i, 4] = (float) info.Line.RegressionVariance();
                 trainData.Data[i, 5] = (float) info.Line.MeanHeight(info.Size.Height);
                 trainData.Data[i, 6] = (float) info.Line.StandartDeviationHeight();*/
-                trainData.Add(Util.GetVector(info.Line, info.Size));
+                var vector = Util.GetVector(info.Line, info.Size);
+                trainData.Data[i, 0] = vector.Data[0, 0];
+                trainData.Data[i, 1] = vector.Data[0, 1];
+                trainData.Data[i, 2] = vector.Data[0, 2];
+                trainData.Data[i, 3] = vector.Data[0, 3];
+                trainData.Data[i, 4] = vector.Data[0, 4];
+                trainData.Data[i, 5] = vector.Data[0, 5];
+                trainData.Data[i, 6] = vector.Data[0, 6];
                 trainClass.Data[i++, 0] = info.Orientation ? 1 : 0;
             }
             return model.TrainAuto(trainData, trainClass, null, null, param.MCvSVMParams, 5);
@@ -67,7 +77,40 @@ namespace Contour
         private void SaveButtonClick(object sender, EventArgs e)
         {
             TrainData();
-            model.Save(FileName);
+            model.Save(ModelFileName);
+            SaveDetectedLine();
+        }
+
+        private void LoadDetectedLine()
+        {
+            var serializer = new BinaryFormatter();
+            if (!File.Exists(InfoFileName)) return;
+            var reader = new FileStream(InfoFileName, FileMode.Open);
+            try
+            {
+                TextLineInfo[] infos = (TextLineInfo[]) serializer.Deserialize(reader);
+                foreach (var info in infos)
+                {
+                    data[info.FileName].Add(info);
+                }
+            }
+            finally
+            {
+                reader.Close();
+            }
+        }
+
+        private void SaveDetectedLine()
+        {
+//            var serializer = new XmlSerializer(typeof (TextLineInfo));
+//            var writer = XmlWriter.Create(InfoFileName); 
+//            var reader = XmlReader.Create(InfoFileName);
+            var serializer = new BinaryFormatter();
+            var writer = new FileStream(InfoFileName, FileMode.Append);
+//            foreach (var info in data.Values.SelectMany(list => list))
+//                serializer.Serialize(writer, info);
+            serializer.Serialize(writer, data.Values.SelectMany(list => list).ToArray());
+            writer.Close();
         }
 
         private void TrueButtonClick(object sender, EventArgs e)
