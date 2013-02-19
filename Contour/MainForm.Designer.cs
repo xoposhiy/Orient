@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.openFileButton = new System.Windows.Forms.ToolStripButton();
@@ -224,6 +224,7 @@
             this.optionsPanel.Controls.Add(this.binarizationThreshold);
             this.optionsPanel.Controls.Add(this.smoothMedianCheckbox);
             this.optionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.optionsPanel.Enabled = false;
             this.optionsPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.optionsPanel.Location = new System.Drawing.Point(0, 0);
             this.optionsPanel.Name = "optionsPanel";
@@ -335,6 +336,7 @@
             // 
             // binarizationThreshold
             // 
+            this.binarizationThreshold.Enabled = false;
             this.binarizationThreshold.Location = new System.Drawing.Point(11, 220);
             this.binarizationThreshold.Maximum = new decimal(new int[] {
             255,
@@ -354,6 +356,7 @@
             // smoothMedianCheckbox
             // 
             this.smoothMedianCheckbox.AutoSize = true;
+            this.smoothMedianCheckbox.Enabled = false;
             this.smoothMedianCheckbox.Location = new System.Drawing.Point(11, 246);
             this.smoothMedianCheckbox.Name = "smoothMedianCheckbox";
             this.smoothMedianCheckbox.Size = new System.Drawing.Size(97, 17);
@@ -364,13 +367,13 @@
             // 
             // hist
             // 
-            chartArea1.Name = "ChartArea1";
-            this.hist.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.hist.ChartAreas.Add(chartArea2);
             this.hist.Location = new System.Drawing.Point(333, 236);
             this.hist.Name = "hist";
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.hist.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "Series1";
+            this.hist.Series.Add(series2);
             this.hist.Size = new System.Drawing.Size(316, 178);
             this.hist.TabIndex = 22;
             this.hist.Text = "chart1";
