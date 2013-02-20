@@ -69,7 +69,8 @@ namespace Contour
                 trainData.Data[i, 4] = vector.Data[0, 4];
                 trainData.Data[i, 5] = vector.Data[0, 5];
                 trainData.Data[i, 6] = vector.Data[0, 6];
-                trainClass.Data[i++, 0] = info.Orientation ? 1 : 0;
+                trainClass.Data[i, 0] = info.Orientation ? 1 : 0;
+	            i++;
             }
             return model.TrainAuto(trainData, trainClass, null, null, param.MCvSVMParams, 5);
         }
