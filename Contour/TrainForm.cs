@@ -22,21 +22,23 @@ namespace Contour
                 TermCrit = new MCvTermCriteria(100, 0.00001)
             };
         private const string ModelFileName = @"..\..\Contour\Resources\model";
-        private const string InfoFileName = @"..\..\Contour\Resources\info.xml";
+        private const string InfoFileName = @"..\..\Contour\Resources\info.csv";
         private MainForm form = new MainForm();
         private MainFormState state;
         private Dictionary<string, List<TextLineInfo>> data;
         private static readonly string TestBase = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\..\..\base";
         private string file;
         private TextLine line;
+        private Queue<string> files;
 
         public TrainForm()
         {
             InitializeComponent();
             model = CreateSvm();
             data = Directory.GetDirectories(TestBase).SelectMany(Directory.GetFiles).ToDictionary(file => file, file => new List<TextLineInfo>());
+            files = new Queue<string>(data.Keys);
             OpenNext();
-            LoadDetectedLine();
+//            LoadDetectedLine();
         }
 
         public static SVM CreateSvm()
@@ -61,7 +63,7 @@ namespace Contour
                 trainData.Data[i, 4] = (float) info.Line.RegressionVariance();
                 trainData.Data[i, 5] = (float) info.Line.MeanHeight(info.Size.Height);
                 trainData.Data[i, 6] = (float) info.Line.StandartDeviationHeight();*/
-                var vector = Util.GetVector(info.Line, info.Size);
+                var vector = info.GetVector();//info.Line.GetVector(info.Size);
                 trainData.Data[i, 0] = vector.Data[0, 0];
                 trainData.Data[i, 1] = vector.Data[0, 1];
                 trainData.Data[i, 2] = vector.Data[0, 2];
@@ -76,9 +78,14 @@ namespace Contour
 
         private void SaveButtonClick(object sender, EventArgs e)
         {
-            TrainData();
-            model.Save(ModelFileName);
             SaveDetectedLine();
+            try {
+                TrainData();
+                model.Save(ModelFileName);
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void LoadDetectedLine()
@@ -105,11 +112,21 @@ namespace Contour
 //            var serializer = new XmlSerializer(typeof (TextLineInfo));
 //            var writer = XmlWriter.Create(InfoFileName); 
 //            var reader = XmlReader.Create(InfoFileName);
-            var serializer = new BinaryFormatter();
+//            var serializer = new BinaryFormatter();
             var writer = new FileStream(InfoFileName, FileMode.Append);
+            var stream = new StreamWriter(writer);
 //            foreach (var info in data.Values.SelectMany(list => list))
 //                serializer.Serialize(writer, info);
-            serializer.Serialize(writer, data.Values.SelectMany(list => list).ToArray());
+//            serializer.Serialize(writer, data.Values.SelectMany(list => list).ToArray());
+            foreach (var info in data.Values.SelectMany(list => list)) {
+                var vector = info.GetVector();
+                var r = new List<float>();
+                for (var i = 0; i < vector.Cols; i++)
+                    r.Add(vector.Data[0, i]);
+                r.Add(info.Orientation ? 1 : 0);
+                stream.WriteLine(string.Join(",", r));
+            }
+            stream.Flush();
             writer.Close();
         }
 
@@ -123,9 +140,12 @@ namespace Contour
         {
             try
             {
-                file = data.Keys.ElementAt(new Random().Next(data.Count));
+                file = GetFile();
                 form.OpenFile(file);
                 Text = file;
+                var rotate = new Random().Next(3);
+                for (var i = 0; i < rotate; i++)
+                    form.RotateButtonClick(null, null);
                 state = form.state;
                 if (data[file].Count == state.Lines.Length) OpenNext();
                 line = GetLine();
@@ -136,6 +156,13 @@ namespace Contour
             {
                 MessageBox.Show("Примеры закончились");
             }
+        }
+
+        private string GetFile() {
+//            return data.Keys.ElementAt(new Random().Next(data.Count));
+            var res = files.Dequeue();
+            files.Enqueue(res);
+            return res;
         }
 
         private TextLine GetLine()

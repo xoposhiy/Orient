@@ -50,7 +50,7 @@ namespace Contour
                     remainingBoxes.Remove(next.Value);
                 } while (true);
 
-                if (line.Count > 1)
+                if (line.Count > 2)
                     result.Add(new TextLine(line.ToArray()));
             }
             return result.ToArray();

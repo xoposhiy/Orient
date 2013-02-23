@@ -23,7 +23,6 @@ namespace Contour
 
         public MainFormState state;
         private SVM model;
-        private bool b = true;
 
         public MainForm()
         {
@@ -203,10 +202,10 @@ namespace Contour
             UpdateHistPosition();
         }
 
-        private void RotateButtonClick(object sender, EventArgs e)
+        public void RotateButtonClick(object sender, EventArgs e)
         {
             if (state == null) return;
-            Image<Bgr, byte> rotate = state.OriginalImg.Rotate(90, new Bgr(Color.Red), false);
+            Image<Bgr, byte> rotate = state.OriginalImg.Rotate(90, new Bgr(Color.White), false);
             UpdateSettings(rotate);
         }
 

@@ -224,7 +224,6 @@
             this.optionsPanel.Controls.Add(this.binarizationThreshold);
             this.optionsPanel.Controls.Add(this.smoothMedianCheckbox);
             this.optionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.optionsPanel.Enabled = false;
             this.optionsPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.optionsPanel.Location = new System.Drawing.Point(0, 0);
             this.optionsPanel.Name = "optionsPanel";
@@ -327,6 +326,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.Enabled = false;
             this.label5.Location = new System.Drawing.Point(11, 204);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 8, 3, 0);
             this.label5.Name = "label5";

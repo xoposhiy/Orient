@@ -41,8 +41,7 @@ namespace Contour
 
     public static class Util
     {
-        public static bool InRange(this int value, int min, int max)
-        {
+        public static bool InRange(this int value, int min, int max) {
             return min <= value && value <= max;
         }
 
@@ -137,7 +136,7 @@ namespace Contour
         /// </summary>
         public static double RelativeWidth(this TextLine line, int imgWidth)
         {
-            return line.Chars.Sum(rect => rect.Width) / imgWidth;
+            return ((double) line.Chars.Sum(rect => rect.Width)) / imgWidth;
         }
 
         /// <summary>
@@ -145,7 +144,8 @@ namespace Contour
         /// </summary>
         public static double RelativeHeight(this TextLine line, int imgHeight)
         {
-            return line.Chars.Max(rect => rect.Height) / imgHeight;
+            return ((double) line.Chars.Max(rect => rect.Height)) / imgHeight;
+            //todo use max(rect.bottom) - min(rect.top)
         }
 
         /// <summary>
@@ -154,8 +154,7 @@ namespace Contour
         public static double RegressionVariance(this TextLine line)
         {
             var regression = line.LinearRegression(true);
-            var res = line.Chars.Sum(rec => Distance(regression, rec.CenterTop()).Sqr()) - line.Chars.Sum(rec => Distance(regression, rec.CenterTop())).Sqr();
-            return res;
+            return line.Chars.Sum(rec => Distance(regression, rec.CenterTop()).Sqr()) - line.Chars.Sum(rec => Distance(regression, rec.CenterTop())).Sqr();
         }
 
         /// <summary>
@@ -199,7 +198,7 @@ namespace Contour
             return Distance(p, v.X, v.Y);
         }
 
-        public static Matrix<float> GetVector(TextLine line, Size size)
+        public static Matrix<float> GetVector(this TextLine line, Size size)
         {
             var res = new Matrix<float>(1, 7);
             res.Data[0, 0] = (float)line.LinearRegression(true).Skew();
@@ -210,6 +209,10 @@ namespace Contour
             res.Data[0, 5] = (float)line.MeanHeight(size.Height);
             res.Data[0, 6] = (float)line.StandartDeviationHeight();
             return res;
+        }
+
+        public static Matrix<float> GetVector(this TextLineInfo info) {
+            return info.Line.GetVector(info.Size);
         }
     }
 }
