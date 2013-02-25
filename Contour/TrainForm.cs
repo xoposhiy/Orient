@@ -78,13 +78,16 @@ namespace Contour
 
         private void SaveButtonClick(object sender, EventArgs e)
         {
-            SaveDetectedLine();
             try {
+                SaveDetectedLine();
                 TrainData();
                 model.Save(ModelFileName);
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
+            }
+            finally {
+                MessageBox.Show(string.Format("Text lines marking saved to {0}\nSVM Model trained", InfoFileName));
             }
         }
 
