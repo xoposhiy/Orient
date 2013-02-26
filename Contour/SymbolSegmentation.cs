@@ -31,34 +31,44 @@ namespace Contour
                 result.Add(rect);
             }
             return result.ToArray();
+//            return FindContours(gray).ToArray();
         }
 
-        private Contour<Point> FindContours(Image<Gray, byte> gray) {
-            var storage = new MemStorage();
-//            storage.
+        private IEnumerable<Rectangle> FindContours(Image<Gray, byte> gray) {
+            //            var storage = new MemStorage();
+            //            storage.
+            var component = new List<List<Point>>();
             //Find start point
             var used = new HashSet<Point>();
             var queue = new Queue<Point>();
             var start = GetStart(gray, used);
-            if (start != null) queue.Enqueue((Point) start);
-            while (queue.Count != 0) {
-                var v = queue.Dequeue();
-                foreach (var to in GetPoints(v, gray)) {
-                    if (!used.Contains(to)) {
+//            if (start != null) queue.Enqueue((Point) start);
+            while (start != null) {
+                var comp = new List<Point>();
+                component.Add(comp);
+                queue.Enqueue((Point) start);
+                while (queue.Count != 0) {
+                    foreach (var to in GetPoints(queue.Dequeue(), gray)) {
+                        if (used.Contains(to)) continue;
                         used.Add(to);
                         queue.Enqueue(to);
-
+                        comp.Add(to);
                     }
                 }
+                start = GetStart(gray, used);
             }
-            return new Contour<Point>(storage);
+            return
+                component.Select(
+                    p =>
+                    new Rectangle(p.Min(poi => poi.X), p.Min(poi => poi.Y), p.Max(poi => poi.X) - p.Min(poi => poi.X),
+                                  p.Max(poi => poi.Y) - p.Min(poi => poi.Y)));
         }
 
         private static Point? GetStart(Image<Gray, byte> gray, HashSet<Point> used) {
             var start = new Point(0, 0);
             while (!gray[start].Equals(new Gray(255)) || used.Contains(start)) {
-                if (start.X == gray.Width) {
-                    if (start.Y == gray.Height)
+                if (start.X == gray.Width - 1) {
+                    if (start.Y == gray.Height - 1)
                         break;
                     start.Y += 1;
                     start.X = 0;
@@ -71,8 +81,9 @@ namespace Contour
             return null;
         }
 
-        private List<Point> GetPoints(Point point, Image<Gray, byte> gray) {
+        private IEnumerable<Point> GetPoints(Point point, Image<Gray, byte> gray) {
             var res = new List<Point> {
+                point,
                 new Point(point.X + 1, point.Y - 1),
                 new Point(point.X + 1, point.Y),
                 new Point(point.X + 1, point.Y + 1),
@@ -82,7 +93,7 @@ namespace Contour
                 new Point(point.X - 1, point.Y - 1),
                 new Point(point.X, point.Y - 1),
             };
-            return new List<Point>(res.Where(p => gray[p].Equals(new Gray(255))));
+            return res.Where(p => p.X >= 0 && p.X < gray.Width && p.Y >= 0 && p.Y < gray.Height && gray[p].Equals(new Gray(255)));
         } 
 
         public Rectangle[] FindPunctuation(Rectangle[] boxes)
