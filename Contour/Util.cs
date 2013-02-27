@@ -214,5 +214,10 @@ namespace Contour
         public static Matrix<float> GetVector(this TextLineInfo info) {
             return info.Line.GetVector(info.Size);
         }
+
+        public static bool IsBlack(this Gray color)
+        {
+            return color.Equals(new Gray(0));
+        }
     }
 }

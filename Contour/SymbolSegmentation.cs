@@ -23,15 +23,15 @@ namespace Contour
 
         public Rectangle[] GetBoundingBoxes(Image<Gray, byte> gray)
         {
-            var result = new List<Rectangle>();
+            /*var result = new List<Rectangle>();
             for (var contour = gray.FindContours(); contour != null; contour = contour.HNext)
             {
                 var rect = contour.BoundingRectangle;
 //                result.Add(new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1));
                 result.Add(rect);
             }
-            return result.ToArray();
-//            return FindContours(gray).ToArray();
+            return result.ToArray();*/
+            return FindContours(gray).ToArray();
         }
 
         private IEnumerable<Rectangle> FindContours(Image<Gray, byte> gray) {
@@ -66,7 +66,7 @@ namespace Contour
 
         private static Point? GetStart(Image<Gray, byte> gray, HashSet<Point> used) {
             var start = new Point(0, 0);
-            while (!gray[start].Equals(new Gray(255)) || used.Contains(start)) {
+            while (!gray[start].IsBlack() || used.Contains(start)) {
                 if (start.X == gray.Width - 1) {
                     if (start.Y == gray.Height - 1)
                         break;
@@ -76,7 +76,7 @@ namespace Contour
                 else
                     start.X += 1;
             }
-            if (gray[start].Equals(new Gray(255)) && !used.Contains(start))
+            if (gray[start].IsBlack() && !used.Contains(start))
                 return start;
             return null;
         }
@@ -93,7 +93,7 @@ namespace Contour
                 new Point(point.X - 1, point.Y - 1),
                 new Point(point.X, point.Y - 1),
             };
-            return res.Where(p => p.X >= 0 && p.X < gray.Width && p.Y >= 0 && p.Y < gray.Height && gray[p].Equals(new Gray(255)));
+            return res.Where(p => p.X >= 0 && p.X < gray.Width && p.Y >= 0 && p.Y < gray.Height && gray[p].IsBlack());
         } 
 
         public Rectangle[] FindPunctuation(Rectangle[] boxes)
