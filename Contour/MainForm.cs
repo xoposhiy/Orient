@@ -96,7 +96,7 @@ namespace Contour
                         markedImg.Draw(rect, new Bgr(Color.Green), 1);
 
                 if (ShowFilteredLines)
-                    foreach (TextLine line in state.Lines.Where(line => model.Predict(Util.GetVector(line, state.OriginalImg.Size)) == 1))
+                    foreach (TextLine line in state.Lines.Where(IsLine))
                         markedImg.Draw(line.MBR, new Bgr(Color.Orange), 1);
 
                 if (ShowPunctuation)
@@ -120,6 +120,36 @@ namespace Contour
 				    }
             }
             imageBox.Image = markedImg;
+        }
+
+        private bool IsLine(TextLine line) {
+            //            return model.Predict(Util.GetVector(line, state.OriginalImg.Size)) == 1;
+            //            skew, count, rWidth, meanHeight, stdDev (Use training set 88% correctly)
+            //            skew (85%)
+            /*skew < -2.29
+            |   skew < -8 : 0 (13/0) [4/0]
+            |   skew >= -8
+            |   |   stdDev < 3.26 : 0 (7/0) [2/0]
+            |   |   stdDev >= 3.26 : 1 (7/3) [1/0]
+            skew >= -2.29
+            |   stdDev < 4.33 : 1 (55/4) [31/6]
+            |   stdDev >= 4.33
+            |   |   skew < 1.91
+            |   |   |   skew < -1.19 : 0 (2/0) [1/0]
+            |   |   |   skew >= -1.19 : 1 (7/2) [4/1]
+            |   |   skew >= 1.91 : 0 (8/0) [7/2]*/
+            var skew = line.LinearRegression(true).Skew();
+            var standartDeviationHeight = line.StandartDeviationHeight();
+            if (skew < -2.29) {
+                if (skew < -8)
+                    return false;
+                return standartDeviationHeight >= 3.26;
+            }
+            if (standartDeviationHeight < 4.33)
+                return true;
+            if (skew < 1.91)
+                return skew >= -1.19;
+            return false;
         }
 
         protected bool ShowMarks

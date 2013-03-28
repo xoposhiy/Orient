@@ -150,6 +150,8 @@ namespace Contour
 
         /// <summary>
         /// Дисперсия расстояний от блоков до линии регрессии
+        /// 
+        /// TODO  Проверить нереальные числа
         /// </summary>
         public static double RegressionVariance(this TextLine line)
         {
