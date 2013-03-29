@@ -306,9 +306,8 @@ namespace Contour
             MessageBox.Show(Criteria90() ? "Image rotated to the right or left by 90° degrees" : "All right");
         }
 
-        private bool Criteria90()
-        {
-            var skew = new double[4];
+        private bool Criteria90() {
+            /*var skew = new double[4];
             for (int i = 0; i < 4; i++)
             {
                 double angle = GetAvgAngleOfLongLines();
@@ -316,7 +315,11 @@ namespace Contour
                 RotateButtonClick(null, null);
             }
             return skew[1] < skew[0] || skew[1] < skew[2] ||
-                   skew[3] < skew[0] || skew[3] < skew[2];
+                   skew[3] < skew[0] || skew[3] < skew[2];*/
+            var current = state.Lines.Count(IsLine);
+            RotateButtonClick(null, null);
+            var rotate = state.Lines.Count(IsLine);
+            return current > rotate;
         }
 
         private double GetAvgAngleOfLongLines() {
