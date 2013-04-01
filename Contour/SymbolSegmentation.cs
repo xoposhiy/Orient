@@ -23,25 +23,34 @@ namespace Contour
 
         public Rectangle[] GetBoundingBoxes(Image<Gray, byte> gray)
         {
-            /*var result = new List<Rectangle>();
+            var result = new List<Rectangle>();
             for (var contour = gray.FindContours(); contour != null; contour = contour.HNext)
             {
                 var rect = contour.BoundingRectangle;
-//                result.Add(new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1));
-                result.Add(rect);
+                result.Add(new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1));
+//                result.Add(rect);
             }
-            return result.ToArray();*/
-            return FindContours(gray).ToArray();
+            return result.ToArray();
+//            return FindContours(gray).ToArray();
+        }
+
+        private bool IsBlack(Color color) {
+//            return Color.FromName("ff000000").Equals(color) || Color.Black.Equals(color);
+            return "ff000000".Equals(color.Name) || Color.Black.Equals(color);
         }
 
         private IEnumerable<Rectangle> FindContours(Image<Gray, byte> gray) {
             var data = new bool[gray.Height][];
+            var map =  (Bitmap) gray.Bitmap.Clone();
             for (var i = 0; i < gray.Height; ++i)
             {
                 data[i] = new bool[gray.Width];
-                for (var j = 0; j < gray.Width; ++j)
-                    data[i][j] = gray[i, j].IsBlack();
+                for (var j = 0; j < gray.Width; ++j) {
+//                    data[i][j] = gray[i, j].IsBlack();
+                    data[i][j] = IsBlack(map.GetPixel(j, i));
+                }
             }
+//            var count = data.SelectMany(black => black).Count(black => black);
             var component = new List<List<Point>>();
             //Find start point
             var used = new HashSet<Point>();
