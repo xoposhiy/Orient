@@ -96,7 +96,7 @@ namespace Contour
                         markedImg.Draw(rect, new Bgr(Color.Green), 1);
 
                 if (ShowFilteredLines)
-                    foreach (TextLine line in state.Lines.Where(IsLine))
+                    foreach (TextLine line in GetLines())
                         markedImg.Draw(line.MBR, new Bgr(Color.Orange), 1);
 
                 if (ShowPunctuation)
@@ -120,6 +120,13 @@ namespace Contour
 				    }
             }
             imageBox.Image = markedImg;
+        }
+
+        private IEnumerable<TextLine> GetLines() {
+            var lines = state.Lines.Where(IsLine);
+//            return lines;
+            var nonFiltered = lines.Select(line => line.MBR).ToList();
+            return lines.Where(line => !nonFiltered.Where(rect => line.MBR != rect).IntersectsWith(line.MBR));
         }
 
         private bool IsLine(TextLine line) {
@@ -303,7 +310,7 @@ namespace Contour
 
         private void Run90ToolStripMenuItemClick(object sender, EventArgs e)
         {
-            MessageBox.Show(Criteria90() ? "Image rotated to the right or left by 90° degrees" : "All right");
+            MessageBox.Show(Criteria90() ? "All right" : "Image rotated to the right or left by 90° degrees");
         }
 
         private bool Criteria90() {
@@ -316,9 +323,11 @@ namespace Contour
             }
             return skew[1] < skew[0] || skew[1] < skew[2] ||
                    skew[3] < skew[0] || skew[3] < skew[2];*/
-            var current = state.Lines.Count(IsLine);
+//            var current = state.Lines.Count(IsLine);
+            var current = GetLines().Count();
             RotateButtonClick(null, null);
-            var rotate = state.Lines.Count(IsLine);
+//            var rotate = state.Lines.Count(IsLine);
+            var rotate = GetLines().Count();
             return current > rotate;
         }
 

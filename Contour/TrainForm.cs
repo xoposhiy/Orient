@@ -22,7 +22,7 @@ namespace Contour
                 TermCrit = new MCvTermCriteria(100, 0.00001)
             };
         private const string ModelFileName = @"..\..\Contour\Resources\model";
-        private const string InfoFileName = @"..\..\Contour\Resources\info.csv";
+        private const string InfoFileName = @"..\..\Contour\Resources\info.arff";
         private MainForm form = new MainForm();
         private MainFormState state;
         private Dictionary<string, List<TextLineInfo>> data;
@@ -147,7 +147,7 @@ namespace Contour
                 file = GetFile();
                 form.OpenFile(file);
                 Text = file;
-                var rotate = new Random().Next(3);
+                var rotate = new Random().Next(4);
                 for (var i = 0; i < rotate; i++)
                     form.RotateButtonClick(null, null);
                 state = form.state;

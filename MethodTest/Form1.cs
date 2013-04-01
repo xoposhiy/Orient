@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -15,9 +16,14 @@ namespace MethodTest
             InitializeComponent();
             var form = new MainForm();
             var orientation1 = new Dictionary<string, bool>();
-//            foreach (var folder in Directory.GetDirectories(TestBase))
-//                foreach (var file in Directory.GetFiles(folder))
-//                    orientation1.Add(file, form.Criteria90(file));
+            try {
+                foreach (var folder in Directory.GetDirectories(TestBase))
+                    foreach (var file in Directory.GetFiles(folder))
+                        orientation1.Add(file, form.Criteria90(file));
+            }
+            catch (Exception e) {
+                MessageBox.Show(e.Message);
+            }
 
             dataGridView1.DataSource = new BindingSource(orientation1, null);
         }
