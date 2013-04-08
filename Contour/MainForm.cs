@@ -125,10 +125,28 @@ namespace Contour
         }
 
         private IEnumerable<TextLine> GetLines() {
-            var lines = state.Lines.Where(IsLine);
 //            return lines;
+            var lines = state.Lines.Where(IsLine).ToList();
+            return GetNonIntersectedLines(lines);
+//            return GetJoinedLines(lines);
+        }
+
+        /// <summary>
+        /// Except any line with intersection 
+        /// </summary>
+        private static IEnumerable<TextLine> GetNonIntersectedLines(List<TextLine> lines) {
             var nonFiltered = lines.Select(line => line.MBR).ToList();
             return lines.Where(line => !nonFiltered.Where(rect => line.MBR != rect).IntersectsWith(line.MBR));
+        }
+
+        /// <summary>
+        /// Join intersected lines 
+        /// </summary>
+        private IEnumerable<TextLine> GetJoinedLines(List<TextLine> lines)
+        {
+            var rects = lines.Select(line => line.MBR).ToList();
+            var unionLines = rects.Select(rect => new TextLine(rects.Where(rect.IntersectsWith).ToArray())).ToList();
+            return new HashSet<TextLine>(unionLines.Where(IsLine), new TextEqualityComparer());
         }
 
         private bool IsLine(TextLine line) {

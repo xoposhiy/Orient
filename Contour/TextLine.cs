@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Emgu.CV.Structure;
@@ -23,6 +24,17 @@ namespace Contour
         		return Chars.LinearRegression(rect => rect.CenterBottom().X, rect => rect.Top);
 			else
         		return Chars.LinearRegression(rect => rect.CenterBottom().X, rect => rect.Bottom);
+        }
+
+    }
+
+    public class TextEqualityComparer : IEqualityComparer<TextLine> {
+        public bool Equals(TextLine x, TextLine y) {
+            return x.MBR.Equals(y.MBR);
+        }
+
+        public int GetHashCode(TextLine obj) {
+            return obj.MBR.GetHashCode();
         }
     }
 }
