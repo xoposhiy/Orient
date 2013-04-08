@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.imageFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.openFileButton = new System.Windows.Forms.ToolStripButton();
@@ -79,6 +79,11 @@
             this.showBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showPointPunctuationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showLinearRegressionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.correct = new System.Windows.Forms.Label();
+            this.incorrect = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -93,6 +98,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.hist)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox)).BeginInit();
             this.menuStrip.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageFileDialog
@@ -223,6 +229,7 @@
             this.optionsPanel.Controls.Add(this.label5);
             this.optionsPanel.Controls.Add(this.binarizationThreshold);
             this.optionsPanel.Controls.Add(this.smoothMedianCheckbox);
+            this.optionsPanel.Controls.Add(this.tableLayoutPanel1);
             this.optionsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.optionsPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.optionsPanel.Location = new System.Drawing.Point(0, 0);
@@ -367,13 +374,13 @@
             // 
             // hist
             // 
-            chartArea2.Name = "ChartArea1";
-            this.hist.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.hist.ChartAreas.Add(chartArea1);
             this.hist.Location = new System.Drawing.Point(333, 236);
             this.hist.Name = "hist";
-            series2.ChartArea = "ChartArea1";
-            series2.Name = "Series1";
-            this.hist.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Series1";
+            this.hist.Series.Add(series1);
             this.hist.Size = new System.Drawing.Size(316, 178);
             this.hist.TabIndex = 22;
             this.hist.Text = "chart1";
@@ -523,7 +530,6 @@
             this.runSVMFilterCriteriaToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
             this.runSVMFilterCriteriaToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.runSVMFilterCriteriaToolStripMenuItem.Text = "Run SVM filter criteria";
-            this.runSVMFilterCriteriaToolStripMenuItem.Click += new System.EventHandler(this.RunSvmFilterCriteriaToolStripMenuItemClick);
             // 
             // markToolStripMenuItem
             // 
@@ -596,6 +602,61 @@
             this.showLinearRegressionToolStripMenuItem.Text = "Show Linear Regression";
             this.showLinearRegressionToolStripMenuItem.Click += new System.EventHandler(this.ShowLinearRegressionToolStripMenuItemClick);
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 139F));
+            this.tableLayoutPanel1.Controls.Add(this.incorrect, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.correct, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label7, 1, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 269);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.05882F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.94118F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 136F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(198, 201);
+            this.tableLayoutPanel1.TabIndex = 15;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 30);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "correct:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 64);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(51, 13);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "incorrect:";
+            // 
+            // correct
+            // 
+            this.correct.AutoSize = true;
+            this.correct.Location = new System.Drawing.Point(62, 30);
+            this.correct.Name = "correct";
+            this.correct.Size = new System.Drawing.Size(0, 13);
+            this.correct.TabIndex = 18;
+            // 
+            // incorrect
+            // 
+            this.incorrect.AutoSize = true;
+            this.incorrect.Location = new System.Drawing.Point(62, 64);
+            this.incorrect.Name = "incorrect";
+            this.incorrect.Size = new System.Drawing.Size(0, 13);
+            this.incorrect.TabIndex = 19;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -629,6 +690,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.imageBox)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -683,6 +746,11 @@
         private System.Windows.Forms.ToolStripMenuItem showFilteredTextLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem run90ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runSVMFilterCriteriaToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label correct;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label incorrect;
     }
 }
 

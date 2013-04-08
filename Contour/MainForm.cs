@@ -22,13 +22,13 @@ namespace Contour
         private Binarizaton binarizaton;
 
         public MainFormState state;
-        private SVM model;
+//        private SVM model;
 
         public MainForm()
         {
             InitializeComponent();
             imageFileDialog.InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\..\..\base\certificates\";
-            model = TrainForm.CreateSvm();
+//            model = TrainForm.CreateSvm();
         }
 
         private void ImageFileClick(object sender, EventArgs e)
@@ -120,6 +120,8 @@ namespace Contour
 				    }
             }
             imageBox.Image = markedImg;
+            correct.Text = GetLines().Count().ToString();
+            incorrect.Text = (state.Lines.Count() - GetLines().Count()).ToString();
         }
 
         private IEnumerable<TextLine> GetLines() {
@@ -384,7 +386,7 @@ namespace Contour
             UpdateImage();
         }
 
-        private void RunSvmFilterCriteriaToolStripMenuItemClick(object sender, EventArgs e)
+        /*private void RunSvmFilterCriteriaToolStripMenuItemClick(object sender, EventArgs e)
         {
             var skew = new int[4];
             for (int i = 0; i < 4; i++)
@@ -393,7 +395,7 @@ namespace Contour
                 RotateButtonClick(null, null);
             }
             MessageBox.Show(skew[0] >= skew[1] || skew[0] >= skew[3] || skew[2] >= skew[1] || skew[2] >= skew[3] ? "Write orientation" : "Rotated by 90 degrees");
-        }
+        }*/
     }
 
     public class MainFormState

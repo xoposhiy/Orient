@@ -21,18 +21,21 @@ namespace Contour
             this.minCharSize = minCharSize;
         }
 
-        public Rectangle[] GetBoundingBoxes(Image<Gray, byte> gray)
-        {
+        public Rectangle[] GetBoundingBoxes(Image<Gray, byte> gray) {
+            return FindRectangles(gray);
+//            return FindContours(gray).ToArray();
+        }
+
+        private static Rectangle[] FindRectangles(Image<Gray, byte> gray) {
             var result = new List<Rectangle>();
-            for (var contour = gray.FindContours(); contour != null; contour = contour.HNext)
-            {
+            for (var contour = gray.FindContours(); contour != null; contour = contour.HNext) {
                 var rect = contour.BoundingRectangle;
                 result.Add(new Rectangle(rect.X, rect.Y, rect.Width - 1, rect.Height - 1));
 //                result.Add(rect);
             }
             return result.ToArray();
-//            return FindContours(gray).ToArray();
         }
+
 
         private bool IsBlack(Color color) {
 //            return Color.FromName("ff000000").Equals(color) || Color.Black.Equals(color);
@@ -62,7 +65,8 @@ namespace Contour
                 component.Add(comp);
                 queue.Enqueue((Point) start);
                 while (queue.Count != 0) {
-                    foreach (var to in GetPoints(queue.Dequeue(), data)) {
+                    var points = GetPoints(queue.Dequeue(), data, used);
+                    foreach (var to in points) {
                         if (used.Contains(to)) continue;
                         used.Add(to);
                         queue.Enqueue(to);
@@ -116,7 +120,7 @@ namespace Contour
             return null;
         }
 
-        private IEnumerable<Point> GetPoints(Point point, bool[][] gray) {
+        private IEnumerable<Point> GetPoints(Point point, bool[][] gray, HashSet<Point> used) {
             var res = new List<Point> {
                 point,
                 new Point(point.X + 1, point.Y - 1),
@@ -128,7 +132,7 @@ namespace Contour
                 new Point(point.X - 1, point.Y - 1),
                 new Point(point.X, point.Y - 1),
             };
-            return res.Where(p => p.X >= 0 && p.X < gray[0].Length && p.Y >= 0 && p.Y < gray.Length && gray[p.Y][p.X]);
+            return res.Where(p => p.X >= 0 && p.X < gray[0].Length && p.Y >= 0 && p.Y < gray.Length && gray[p.Y][p.X] && !used.Contains(p));
         } 
 
         public Rectangle[] FindPunctuation(Rectangle[] boxes)
