@@ -6,6 +6,7 @@ using System.Linq;
 using Contour;
 using Emgu.CV.Structure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Orient;
 
 namespace Test
 {

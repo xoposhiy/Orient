@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.ML;
 using Emgu.CV.Structure;
+using Orient;
 
 namespace Contour
 {
@@ -56,21 +57,9 @@ namespace Contour
             int i = 0;
             foreach (var info in dataInfo)
             {
-                /*trainData.Data[i, 0] = (float) info.Line.LinearRegression(true).Skew();
-                trainData.Data[i, 1] = info.Line.Chars.Length;
-                trainData.Data[i, 2] = (float) info.Line.RelativeWidth(info.Size.Width);
-                trainData.Data[i, 3] = (float) info.Line.RelativeHeight(info.Size.Height);
-                trainData.Data[i, 4] = (float) info.Line.RegressionVariance();
-                trainData.Data[i, 5] = (float) info.Line.MeanHeight(info.Size.Height);
-                trainData.Data[i, 6] = (float) info.Line.StandartDeviationHeight();*/
                 var vector = info.GetVector();//info.Line.GetVector(info.Size);
-                trainData.Data[i, 0] = vector.Data[0, 0];
-                trainData.Data[i, 1] = vector.Data[0, 1];
-                trainData.Data[i, 2] = vector.Data[0, 2];
-                trainData.Data[i, 3] = vector.Data[0, 3];
-                trainData.Data[i, 4] = vector.Data[0, 4];
-                trainData.Data[i, 5] = vector.Data[0, 5];
-                trainData.Data[i, 6] = vector.Data[0, 6];
+                for (var j = 0; j < 7; ++j)
+                    trainData.Data[i, j] = vector.Data[0, j];
                 trainClass.Data[i, 0] = info.Orientation ? 1 : 0;
 	            i++;
             }

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Windows.Forms;
 using Emgu.CV;
 using Emgu.CV.Structure;
 
-namespace Contour
+namespace Orient
 {
     public class SymbolSegmentation
     {

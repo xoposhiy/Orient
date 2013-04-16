@@ -55,6 +55,11 @@
             this.label5 = new System.Windows.Forms.Label();
             this.binarizationThreshold = new System.Windows.Forms.NumericUpDown();
             this.smoothMedianCheckbox = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.incorrect = new System.Windows.Forms.Label();
+            this.correct = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.hist = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.imageBox = new Emgu.CV.UI.ImageBox();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
@@ -79,11 +84,6 @@
             this.showBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showPointPunctuationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showLinearRegressionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.correct = new System.Windows.Forms.Label();
-            this.incorrect = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -95,10 +95,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.minPunctuationSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxWordDistance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThreshold)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hist)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox)).BeginInit();
             this.menuStrip.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageFileDialog
@@ -324,7 +324,7 @@
             this.maxWordDistance.Size = new System.Drawing.Size(120, 20);
             this.maxWordDistance.TabIndex = 9;
             this.maxWordDistance.Value = new decimal(new int[] {
-            50,
+            10,
             0,
             0,
             0});
@@ -371,6 +371,61 @@
             this.smoothMedianCheckbox.Text = "smooth median";
             this.smoothMedianCheckbox.UseVisualStyleBackColor = true;
             this.smoothMedianCheckbox.CheckedChanged += new System.EventHandler(this.OptionsValueChanged);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 139F));
+            this.tableLayoutPanel1.Controls.Add(this.incorrect, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.correct, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label7, 1, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 269);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.05882F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.94118F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 136F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(198, 201);
+            this.tableLayoutPanel1.TabIndex = 15;
+            // 
+            // incorrect
+            // 
+            this.incorrect.AutoSize = true;
+            this.incorrect.Location = new System.Drawing.Point(62, 64);
+            this.incorrect.Name = "incorrect";
+            this.incorrect.Size = new System.Drawing.Size(0, 13);
+            this.incorrect.TabIndex = 19;
+            // 
+            // correct
+            // 
+            this.correct.AutoSize = true;
+            this.correct.Location = new System.Drawing.Point(62, 30);
+            this.correct.Name = "correct";
+            this.correct.Size = new System.Drawing.Size(0, 13);
+            this.correct.TabIndex = 18;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 30);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(43, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "correct:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 64);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(51, 13);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "incorrect:";
             // 
             // hist
             // 
@@ -602,61 +657,6 @@
             this.showLinearRegressionToolStripMenuItem.Text = "Show Linear Regression";
             this.showLinearRegressionToolStripMenuItem.Click += new System.EventHandler(this.ShowLinearRegressionToolStripMenuItemClick);
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 139F));
-            this.tableLayoutPanel1.Controls.Add(this.incorrect, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.correct, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.label7, 1, 1);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 269);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.05882F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.94118F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 136F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(198, 201);
-            this.tableLayoutPanel1.TabIndex = 15;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 30);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(43, 13);
-            this.label6.TabIndex = 16;
-            this.label6.Text = "correct:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 64);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(51, 13);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "incorrect:";
-            // 
-            // correct
-            // 
-            this.correct.AutoSize = true;
-            this.correct.Location = new System.Drawing.Point(62, 30);
-            this.correct.Name = "correct";
-            this.correct.Size = new System.Drawing.Size(0, 13);
-            this.correct.TabIndex = 18;
-            // 
-            // incorrect
-            // 
-            this.incorrect.AutoSize = true;
-            this.incorrect.Location = new System.Drawing.Point(62, 64);
-            this.incorrect.Name = "incorrect";
-            this.incorrect.Size = new System.Drawing.Size(0, 13);
-            this.incorrect.TabIndex = 19;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -686,12 +686,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.minPunctuationSize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxWordDistance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.binarizationThreshold)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hist)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox)).EndInit();
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

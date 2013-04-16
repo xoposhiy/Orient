@@ -7,9 +7,9 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Emgu.CV;
-using Emgu.CV.ML;
 using Emgu.CV.Structure;
 using Emgu.CV.UI;
+using Orient;
 
 namespace Contour
 {
@@ -20,15 +20,12 @@ namespace Contour
         private Image<Bgr, byte> markedImg;
         private SymbolSegmentation segmentation;
         private Binarizaton binarizaton;
-
         public MainFormState state;
-//        private SVM model;
 
         public MainForm()
         {
             InitializeComponent();
             imageFileDialog.InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\..\..\base\certificates\";
-//            model = TrainForm.CreateSvm();
         }
 
         private void ImageFileClick(object sender, EventArgs e)
@@ -96,7 +93,7 @@ namespace Contour
                         markedImg.Draw(rect, new Bgr(Color.Green), 1);
 
                 if (ShowFilteredLines)
-                    foreach (TextLine line in GetLines())
+                    foreach (TextLine line in state.GetLines())
                         markedImg.Draw(line.MBR, new Bgr(Color.Orange), 1);
 
                 if (ShowPunctuation)
@@ -120,63 +117,8 @@ namespace Contour
 				    }
             }
             imageBox.Image = markedImg;
-            correct.Text = GetLines().Count().ToString();
-            incorrect.Text = (state.Lines.Count() - GetLines().Count()).ToString();
-        }
-
-        private IEnumerable<TextLine> GetLines() {
-//            return lines;
-            var lines = state.Lines.Where(IsLine).ToList();
-            return GetNonIntersectedLines(lines);
-//            return GetJoinedLines(lines);
-        }
-
-        /// <summary>
-        /// Except any line with intersection 
-        /// </summary>
-        private static IEnumerable<TextLine> GetNonIntersectedLines(List<TextLine> lines) {
-            var nonFiltered = lines.Select(line => line.MBR).ToList();
-            return lines.Where(line => !nonFiltered.Where(rect => line.MBR != rect).IntersectsWith(line.MBR));
-        }
-
-        /// <summary>
-        /// Join intersected lines 
-        /// </summary>
-        private IEnumerable<TextLine> GetJoinedLines(List<TextLine> lines)
-        {
-            var rects = lines.Select(line => line.MBR).ToList();
-            var unionLines = rects.Select(rect => new TextLine(rects.Where(rect.IntersectsWith).ToArray())).ToList();
-            return new HashSet<TextLine>(unionLines.Where(IsLine), new TextEqualityComparer());
-        }
-
-        private bool IsLine(TextLine line) {
-            //            return model.Predict(Util.GetVector(line, state.OriginalImg.Size)) == 1;
-            //            skew, count, rWidth, meanHeight, stdDev (Use training set 88% correctly)
-            //            skew (85%)
-            /*skew < -2.29
-            |   skew < -8 : 0 (13/0) [4/0]
-            |   skew >= -8
-            |   |   stdDev < 3.26 : 0 (7/0) [2/0]
-            |   |   stdDev >= 3.26 : 1 (7/3) [1/0]
-            skew >= -2.29
-            |   stdDev < 4.33 : 1 (55/4) [31/6]
-            |   stdDev >= 4.33
-            |   |   skew < 1.91
-            |   |   |   skew < -1.19 : 0 (2/0) [1/0]
-            |   |   |   skew >= -1.19 : 1 (7/2) [4/1]
-            |   |   skew >= 1.91 : 0 (8/0) [7/2]*/
-            var skew = line.LinearRegression(true).Skew();
-            var standartDeviationHeight = line.StandartDeviationHeight();
-            if (skew < -2.29) {
-                if (skew < -8)
-                    return false;
-                return standartDeviationHeight >= 3.26;
-            }
-            if (standartDeviationHeight < 4.33)
-                return true;
-            if (skew < 1.91)
-                return skew >= -1.19;
-            return false;
+            correct.Text = state.GetLines().Count().ToString();
+            incorrect.Text = (state.Lines.Count() - state.GetLines().Count()).ToString();
         }
 
         protected bool ShowMarks
@@ -330,37 +272,13 @@ namespace Contour
 
         private void Run90ToolStripMenuItemClick(object sender, EventArgs e)
         {
-            MessageBox.Show(Criteria90() ? "All right" : "Image rotated to the right or left by 90° degrees");
-        }
-
-        private bool Criteria90() {
-            /*var skew = new double[4];
-            for (int i = 0; i < 4; i++)
-            {
-                double angle = GetAvgAngleOfLongLines();
-                skew[i] = angle;
-                RotateButtonClick(null, null);
-            }
-            return skew[1] < skew[0] || skew[1] < skew[2] ||
-                   skew[3] < skew[0] || skew[3] < skew[2];*/
-//            var current = state.Lines.Count(IsLine);
-            var current = GetLines().Count();
-            RotateButtonClick(null, null);
-//            var rotate = state.Lines.Count(IsLine);
-            var rotate = GetLines().Count();
-            return current > rotate;
-        }
-
-        private double GetAvgAngleOfLongLines() {
-            int longetLineLength = state.Lines.Max(lin => lin.Chars.Count())/2;
-            return state.Lines.Where(line => line.Chars.Count() > longetLineLength).
-                Average(line => Math.Abs(line.LinearRegression(false).Skew()));
+            MessageBox.Show(state.Criteria90() ? "All right" : "Image rotated to the right or left by 90° degrees");
         }
 
         public bool Criteria90(string fileName)
         {
             OpenFile(fileName);
-            return Criteria90();
+            return state.Criteria90();
         }
 
         private void ShowToolbarToolStripMenuItemClick(object sender, EventArgs e)
@@ -402,37 +320,6 @@ namespace Contour
         private void ShowLinearRegressionToolStripMenuItemClick(object sender, EventArgs e)
         {
             UpdateImage();
-        }
-
-        /*private void RunSvmFilterCriteriaToolStripMenuItemClick(object sender, EventArgs e)
-        {
-            var skew = new int[4];
-            for (int i = 0; i < 4; i++)
-            {
-                skew[i] = state.Lines.Count(line => model.Predict(Util.GetVector(line, state.OriginalImg.Size)) == 1);
-                RotateButtonClick(null, null);
-            }
-            MessageBox.Show(skew[0] >= skew[1] || skew[0] >= skew[3] || skew[2] >= skew[1] || skew[2] >= skew[3] ? "Write orientation" : "Rotated by 90 degrees");
-        }*/
-    }
-
-    public class MainFormState
-    {
-        public Rectangle[] Boxes;
-        public Rectangle[] Chars;
-        public Image<Gray, byte> GrayImage;
-        public TextLine[] Lines;
-        public Image<Bgr, byte> OriginalImg;
-        public Rectangle[] Points;
-
-        public MainFormState(Image<Bgr, byte> image, DocumentAnalyser analyser, SymbolSegmentation segmentation, Binarizaton binarizaton)
-        {
-            OriginalImg = image;
-            GrayImage = binarizaton.Process(OriginalImg);
-            Boxes = segmentation.GetBoundingBoxes(GrayImage);
-            Chars = segmentation.FindChars(Boxes);
-            Points = segmentation.FindPunctuation(Boxes);
-            Lines = analyser.Extract(Chars);
         }
     }
 }

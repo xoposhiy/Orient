@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using Emgu.CV.Structure;
 
-namespace Contour
+namespace Orient
 {
     [Serializable]
     public class TextLine
@@ -18,14 +18,12 @@ namespace Contour
         public Rectangle[] Chars { get; private set; }
         public Rectangle MBR { get; private set; }
 
-        public LineSegment2D LinearRegression(bool upsideDown)
-        {
-			if (upsideDown)
-        		return Chars.LinearRegression(rect => rect.CenterBottom().X, rect => rect.Top);
-			else
-        		return Chars.LinearRegression(rect => rect.CenterBottom().X, rect => rect.Bottom);
+        public LineSegment2D LinearRegression(bool upsideDown = false) {
+            Func<Rectangle, double> func = rect => rect.Bottom;
+            if (upsideDown)
+        		func = rect => rect.Top;
+            return Chars.LinearRegression(rect => rect.CenterBottom().X, func);
         }
-
     }
 
     public class TextEqualityComparer : IEqualityComparer<TextLine> {

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Linq;
 using Emgu.CV;
 
-namespace Contour
+namespace Orient
 {
     [Serializable]
     public class TextLineInfo
