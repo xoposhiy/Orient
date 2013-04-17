@@ -5,38 +5,51 @@ using System.Linq;
 using Emgu.CV;
 using Emgu.CV.Structure;
 
-namespace Orient
-{
-    public class MainFormState
-    {
+namespace Orient {
+    public class MainFormState : IDisposable {
         public Rectangle[] Boxes;
         public Rectangle[] Chars;
         public Image<Gray, byte> GrayImage;
         public TextLine[] Lines;
         public Image<Bgr, byte> OriginalImg;
+        private readonly DocumentAnalyser analyser;
+        private readonly SymbolSegmentation segmentation;
+        private readonly Binarizaton binarizaton;
         public Rectangle[] Points;
+        public TextLine[] FilteredLines;
 
-        public MainFormState(string filename, int maxWordDistance = 10, int maxCharSize = 50, int minPunctuationSize = 3, int minCharSize = 10, int binarizationThreshold = 230, bool smoothMedianCheckbox = false)
-        {
-            var image = new Image<Bgr, byte>(filename);
-            var analyser = new DocumentAnalyser(maxWordDistance);
-            var segmentation = new SymbolSegmentation(maxCharSize, minPunctuationSize, minCharSize);
-            var binarizaton = new Binarizaton(binarizationThreshold, smoothMedianCheckbox);
-            new MainFormState(image, analyser, segmentation, binarizaton);
-        }
-        
-        public MainFormState(Image<Bgr, byte> image, DocumentAnalyser analyser, SymbolSegmentation segmentation, Binarizaton binarizaton)
-        {
+        public MainFormState(Image<Bgr, byte> image, int maxWordDistance = 10, int maxCharSize = 50,
+                             int minPunctuationSize = 3, int minCharSize = 10, int binarizationThreshold = 230,
+                             bool smoothMedianCheckbox = false)
+            : this(
+                image,
+                new DocumentAnalyser(maxWordDistance),
+                new SymbolSegmentation(maxCharSize, minPunctuationSize, minCharSize),
+                new Binarizaton(binarizationThreshold, smoothMedianCheckbox)) {}
+
+        public MainFormState(string filename) : this(new Image<Bgr, byte>(filename)) {}
+
+        public MainFormState(Image<Bgr, byte> image, DocumentAnalyser analyser, SymbolSegmentation segmentation,
+                             Binarizaton binarizaton) {
             OriginalImg = image;
+            this.analyser = analyser;
+            this.segmentation = segmentation;
+            this.binarizaton = binarizaton;
             GrayImage = binarizaton.Process(OriginalImg);
             Boxes = segmentation.GetBoundingBoxes(GrayImage);
             Chars = segmentation.FindChars(Boxes);
             Points = segmentation.FindPunctuation(Boxes);
             Lines = analyser.Extract(Chars);
+            FilteredLines = GetLines().ToArray();
         }
 
-        public bool Criteria90()
+        public void Dispose()
         {
+            OriginalImg.Dispose();
+            GrayImage.Dispose();
+        }
+
+        public bool Criteria90() {
             /*var skew = new double[4];
             for (int i = 0; i < 4; i++)
             {
@@ -47,29 +60,26 @@ namespace Orient
             return skew[1] < skew[0] || skew[1] < skew[2] ||
                    skew[3] < skew[0] || skew[3] < skew[2];*/
             //            var current = state.Lines.Count(IsLine);
-            var current = GetLines().Count();
-            Rotate();
-            //            var rotate = state.Lines.Count(IsLine);
-            var rotate = GetLines().Count();
+            var current = FilteredLines.Count();
+//            var rotate = state.Lines.Count(IsLine);
+            var rotate = new MainFormState(Rotate(), analyser, segmentation, binarizaton).FilteredLines.Count();
             return current > rotate;
         }
 
-        private double GetAvgAngleOfLongLines()
-        {
-            int longetLineLength = Lines.Max(lin => lin.Chars.Count()) / 2;
+        private double GetAvgAngleOfLongLines() {
+            int longetLineLength = Lines.Max(lin => lin.Chars.Count())/2;
             return Lines.Where(line => line.Chars.Count() > longetLineLength).
-                Average(line => Math.Abs(line.LinearRegression().Skew()));
+                         Average(line => Math.Abs(line.LinearRegression().Skew()));
         }
 
-        public void Rotate(double angle = 90) {
-            OriginalImg.Rotate(angle, new Bgr(Color.White), false);
+        public Image<Bgr, byte> Rotate(double angle = 90) {
+            return OriginalImg.Rotate(angle, new Bgr(Color.White), false);
         }
 
         /// <summary>
         /// Get filtered (approved) lines
         /// </summary>
-        public IEnumerable<TextLine> GetLines()
-        {
+        public IEnumerable<TextLine> GetLines() {
             //            return lines;
             var lines = Lines.Where(IsLine).ToList();
             return GetNonIntersectedLines(lines);
@@ -79,8 +89,7 @@ namespace Orient
         /// <summary>
         /// Except any line with intersection 
         /// </summary>
-        private static IEnumerable<TextLine> GetNonIntersectedLines(List<TextLine> lines)
-        {
+        private static IEnumerable<TextLine> GetNonIntersectedLines(List<TextLine> lines) {
             var nonFiltered = lines.Select(line => line.MBR).ToList();
             return lines.Where(line => !nonFiltered.Where(rect => line.MBR != rect).IntersectsWith(line.MBR));
         }
@@ -88,18 +97,16 @@ namespace Orient
         /// <summary>
         /// Join intersected lines 
         /// </summary>
-        private IEnumerable<TextLine> GetJoinedLines(List<TextLine> lines)
-        {
+        private IEnumerable<TextLine> GetJoinedLines(List<TextLine> lines) {
             var rects = lines.Select(line => line.MBR).ToList();
             var unionLines = rects.Select(rect => new TextLine(rects.Where(rect.IntersectsWith).ToArray())).ToList();
             return new HashSet<TextLine>(unionLines.Where(IsLine), new TextEqualityComparer());
         }
 
-        private bool IsLine(TextLine line)
-        {
-//            return model.Predict(Util.GetVector(line, state.OriginalImg.Size)) == 1;
-//            skew, count, rWidth, meanHeight, stdDev (Use training set 88% correctly)
-//            skew (85%)
+        private bool IsLine(TextLine line) {
+            //            return model.Predict(Util.GetVector(line, state.OriginalImg.Size)) == 1;
+            //            skew, count, rWidth, meanHeight, stdDev (Use training set 88% correctly)
+            //            skew (85%)
             /*skew < -2.29
             |   skew < -8 : 0 (13/0) [4/0]
             |   skew >= -8
@@ -114,8 +121,7 @@ namespace Orient
             |   |   skew >= 1.91 : 0 (8/0) [7/2]*/
             var skew = line.LinearRegression(true).Skew();
             var standartDeviationHeight = line.StandartDeviationHeight();
-            if (skew < -2.29)
-            {
+            if (skew < -2.29) {
                 if (skew < -8)
                     return false;
                 return standartDeviationHeight >= 3.26;

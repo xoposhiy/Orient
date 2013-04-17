@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Contour;
+using Orient;
 
 namespace MethodTest
 {
@@ -26,6 +27,7 @@ namespace MethodTest
             }
 
             dataGridView1.DataSource = new BindingSource(orientation1, null);
+            Text = orientation1.Count.ToString();
         }
     }
 }
