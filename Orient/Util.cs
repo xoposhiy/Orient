@@ -37,9 +37,29 @@ namespace Orient
             return Math.Max(rect.Width, rect.Height);
         }
 
-        public static bool IntersectsWith(this IEnumerable<Rectangle> boxes, Rectangle rect)
-        {
+        public static bool IntersectsWith(this IEnumerable<Rectangle> boxes, Rectangle rect) {
             return boxes.Any(box => box.IntersectsWith(rect));
+        }
+
+        public static bool IntersectsWith(this Dictionary<Rectangle, List<Rectangle>> dict, Rectangle rect) {
+            return dict[rect.Sector()].Any(box => box.IntersectsWith(rect));
+        }
+
+        public static Dictionary<Rectangle, List<Rectangle>> Group(this IEnumerable<Rectangle> rectangles) {
+            return rectangles.GroupBy(rect => rect.Sector(), rect => rect).ToDictionary(group => group.Key, group => group.ToList());
+        } 
+
+        public static Rectangle Sector(this Rectangle rect, int size = 100) {
+            return new Rectangle((rect.X / size) * size, (rect.Y / size) * size, size, size);
+        }
+
+        public static Rectangle[] Sectors(this Rectangle rect, int size = 100) {
+            return new[] {
+                             new Rectangle((rect.Left/size)*size, (rect.Top/size)*size, size, size),
+                             new Rectangle((rect.Right/size)*size, (rect.Top/size)*size, size, size),
+                             new Rectangle((rect.Left/size)*size, (rect.Bottom/size)*size, size, size),
+                             new Rectangle((rect.Right/size)*size, (rect.Bottom/size)*size, size, size)
+                         }.Distinct().ToArray();
         }
 
         public static Rectangle Join(this Rectangle r1, Rectangle r2)

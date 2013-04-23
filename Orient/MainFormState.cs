@@ -82,6 +82,7 @@ namespace Orient
         private static IEnumerable<TextLine> GetNonIntersectedLines(List<TextLine> lines)
         {
             var nonFiltered = lines.Select(line => line.MBR).ToList();
+            var dictionary = nonFiltered.ToArray().Group();
             return lines.Where(line => !nonFiltered.Where(rect => line.MBR != rect).IntersectsWith(line.MBR));
         }
 

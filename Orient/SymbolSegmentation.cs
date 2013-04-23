@@ -137,15 +137,16 @@ namespace Orient
         {
             Rectangle[] points = boxes.Where(box => box.Diameter().InRange(minPunctuationSize, maxCharSize-1)).ToArray();
             Rectangle[] chars = FindChars(boxes);
+            var groupBy = chars.Group();
             return 
                 points
-                .Where(p => !chars.IntersectsWith(p))
-                //.Where(p => chars.Any(ch => ch.MaxCoordDistanceTo(p) < ch.Diameter())) // significantly slow down. need optimization (for example with KD-Tree)
+//                .Where(p => !chars.IntersectsWith(p))
+//                .Where(p => chars.Any(ch => ch.MaxCoordDistanceTo(p) < ch.Diameter())) // significantly slow down. need optimization (for example with KD-Tree)
+                .Where(p => !groupBy.IntersectsWith(p))
                 .ToArray();
         }
 
-        public Rectangle[] FindChars(Rectangle[] boxes)
-        {
+        public Rectangle[] FindChars(Rectangle[] boxes) {
             return boxes.Where(box => box.Diameter().InRange(minCharSize, maxCharSize)).ToArray();
         }
     }
