@@ -15,11 +15,8 @@ namespace Contour
 {
     public partial class MainForm : Form
     {
-        private DocumentAnalyser analyser;
         private string filename;
         private Image<Bgr, byte> markedImg;
-        private SymbolSegmentation segmentation;
-        private Binarizaton binarizaton;
         public MainFormState state;
 
         public MainForm()
@@ -44,10 +41,9 @@ namespace Contour
         private void UpdateSettings(Image<Bgr, byte> image = null)
         {
             if (state == null && image == null) return;
-            analyser = new DocumentAnalyser((int) maxWordDistance.Value);
-            segmentation = new SymbolSegmentation((int) maxCharSize.Value, (int) minPunctuationSize.Value, (int)minCharSize.Value);
-            binarizaton = new Binarizaton((int)binarizationThreshold.Value, smoothMedianCheckbox.Checked);
-            state = new MainFormState(image ?? state.OriginalImg, analyser, segmentation, binarizaton);
+            state = new MainFormState(image ?? state.OriginalImg, (int) maxWordDistance.Value, (int) maxCharSize.Value,
+                                      (int) minPunctuationSize.Value, (int) minCharSize.Value,
+                                      (int) binarizationThreshold.Value, smoothMedianCheckbox.Checked);
             UpdateImage();
             UpdateHistogram();
         }
@@ -78,7 +74,8 @@ namespace Contour
 
         private void UpdateImage()
         {
-            markedImg = state.GrayImage.Convert<Bgr, byte>();
+//            markedImg = state.GrayImage.Convert<Bgr, byte>();
+            markedImg = new Image<Bgr, byte>(state.GrayImage.Bitmap);
             if (ShowMarks)
             {
                 if (ShowBoxes)
@@ -93,7 +90,7 @@ namespace Contour
                         markedImg.Draw(rect, new Bgr(Color.Green), 1);
 
                 if (ShowFilteredLines)
-                    foreach (TextLine line in state.GetLines())
+                    foreach (TextLine line in state.FilteredLines)
                         markedImg.Draw(line.MBR, new Bgr(Color.Orange), 1);
 
                 if (ShowPunctuation)
@@ -117,8 +114,8 @@ namespace Contour
 				    }
             }
             imageBox.Image = markedImg;
-            correct.Text = state.GetLines().Count().ToString();
-            incorrect.Text = (state.Lines.Count() - state.GetLines().Count()).ToString();
+            correct.Text = state.FilteredLines.Count().ToString();
+            incorrect.Text = (state.Lines.Count() - state.FilteredLines.Count()).ToString();
         }
 
         protected bool ShowMarks
@@ -204,8 +201,7 @@ namespace Contour
         public void RotateButtonClick(object sender, EventArgs e)
         {
             if (state == null) return;
-            Image<Bgr, byte> rotate = state.OriginalImg.Rotate(90, new Bgr(Color.White), false);
-            UpdateSettings(rotate);
+            UpdateSettings(state.Rotate());
         }
 
         private void NextFileButtonClick(object sender, EventArgs e)

@@ -80,6 +80,10 @@
       <Project>{FFF26B45-E340-4333-AD87-EE4945FFCAB7}</Project>
       <Name>Contour</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orient\Orient.csproj">
+      <Project>{1BB8F17F-9412-4C66-98F9-C71BBCE95F3D}</Project>
+      <Name>Orient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
