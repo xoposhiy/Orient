@@ -142,7 +142,7 @@ namespace Orient
                 points
 //                .Where(p => !chars.IntersectsWith(p))
 //                .Where(p => chars.Any(ch => ch.MaxCoordDistanceTo(p) < ch.Diameter())) // significantly slow down. need optimization (for example with KD-Tree)
-                .Where(p => !groupBy.IntersectsWith(p))
+                .Where(p => groupBy.ContainsKey(p.Sector()) && !groupBy.IntersectsWith(p))
                 .ToArray();
         }
 
