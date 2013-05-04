@@ -14,13 +14,6 @@ namespace Orient
             this.maxBetweenWordsDistance = maxBetweenWordsDistance;
         }
 
-        private static bool IntersectsY(Rectangle r1, Rectangle r2)
-        {
-            int lowestCommon = Math.Min(r1.Bottom, r2.Bottom);
-            int highestCommon = Math.Max(r1.Top, r2.Top);
-            return lowestCommon >= highestCommon;
-        }
-
         private static Rectangle GetLineEndingMBR(ICollection<Rectangle> line, int count)
         {
             List<Rectangle> ending = line.Skip(Math.Max(0, line.Count - count)).ToList();
@@ -40,7 +33,7 @@ namespace Orient
                 do
                 {
                     Rectangle lineEnding = GetLineEndingMBR(line, 3);
-                    IEnumerable<Rectangle> yCompatible = remainingBoxes.Where(r => IntersectsY(r, lineEnding));
+                    IEnumerable<Rectangle> yCompatible = remainingBoxes.Where(r => r.IntersectsY(lineEnding));
                     IEnumerable<Rectangle> yxCompatible =
                         yCompatible.Where(
                             r => r.Left.InRange(lineEnding.Right, lineEnding.Right + maxBetweenWordsDistance));

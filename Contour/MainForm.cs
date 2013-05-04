@@ -13,51 +13,48 @@ using Orient;
 
 namespace Contour
 {
-    public partial class MainForm : Form
-    {
+    public partial class MainForm : Form {
         private string filename;
         private Image<Bgr, byte> markedImg;
         public MainFormState state;
 
-        public MainForm()
-        {
+        public MainForm() {
             InitializeComponent();
-            imageFileDialog.InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\..\..\base\certificates\";
+            imageFileDialog.InitialDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) +
+                                               @"\..\..\base\certificates\";
         }
 
-        private void ImageFileClick(object sender, EventArgs e)
-        {
+        private void ImageFileClick(object sender, EventArgs e) {
             if (imageFileDialog.ShowDialog() != DialogResult.OK) return;
             OpenFile(imageFileDialog.FileName);
         }
 
-        public void OpenFile(string filenameToOpen)
-        {
+        public void OpenFile(string filenameToOpen) {
             filename = filenameToOpen;
             Text = filenameToOpen;
             UpdateSettings(new Image<Bgr, byte>(filename));
         }
 
-        private void UpdateSettings(Image<Bgr, byte> image = null)
-        {
+        private void UpdateSettings(Image<Bgr, byte> image = null) {
             if (state == null && image == null) return;
-            state = new MainFormState(image ?? state.OriginalImg, (int) maxWordDistance.Value, (int) maxCharSize.Value,
+            var img = image != null ? image.Clone() : state.OriginalImg.Clone();
+            if (state != null) state.Dispose();
+            state = new MainFormState(img, (int) maxWordDistance.Value, (int) maxCharSize.Value,
                                       (int) minPunctuationSize.Value, (int) minCharSize.Value,
                                       (int) binarizationThreshold.Value, smoothMedianCheckbox.Checked);
             UpdateImage();
             UpdateHistogram();
         }
 
-        private void UpdateHistogram()
-        {
+        private void UpdateHistogram() {
             hist.Titles.Clear();
             hist.Titles.Add("Колличество — Диаметр");
 
             IEnumerable<KeyValuePair<int, int>> data = state.Boxes
-                .GroupBy(Util.Diameter)
-                .ToDictionary(grp => grp.Key, grp => grp.Count())
-                .OrderByDescending(entry => entry.Key)
-                .Where(entry => entry.Key < 100);
+                                                            .GroupBy(Util.Diameter)
+                                                            .ToDictionary(grp => grp.Key, grp => grp.Count())
+                                                            .OrderByDescending(entry => entry.Key)
+                                                            .Where(entry => entry.Key < 100);
 
             var ser = new Series();
             foreach (var dataEntry in data)
@@ -72,12 +69,10 @@ namespace Contour
                 smoothMedianCheckbox.Checked = true;
         }
 
-        private void UpdateImage()
-        {
-//            markedImg = state.GrayImage.Convert<Bgr, byte>();
+        private void UpdateImage() {
+            //            markedImg = state.GrayImage.Convert<Bgr, byte>();
             markedImg = new Image<Bgr, byte>(state.GrayImage.Bitmap);
-            if (ShowMarks)
-            {
+            if (ShowMarks) {
                 if (ShowBoxes)
                     foreach (Rectangle box in state.Boxes.Except(state.Chars).Except(state.Points))
                         markedImg.Draw(box, new Bgr(Color.DarkGray), 1);
@@ -98,8 +93,7 @@ namespace Contour
                         markedImg.Draw(rect, new Bgr(Color.Red), 1);
 
                 if (ShowLinearRegression)
-                    foreach (TextLine line in state.Lines)
-                    {
+                    foreach (TextLine line in state.Lines) {
                         /*Rectangle prev = line.Chars.First();
                         foreach (Rectangle next in line.Chars.Skip(1))
                         {
@@ -109,113 +103,96 @@ namespace Contour
                             markedImg.Draw(new CircleF(next.CenterBottom(), 2), new Bgr(Color.Aqua), 2);
                             prev = next;
                         }*/
-					    markedImg.Draw(line.LinearRegression(false), new Bgr(Color.RoyalBlue), 2);
-					    markedImg.Draw(line.LinearRegression(true), new Bgr(Color.BlueViolet), 2);
-				    }
+                        markedImg.Draw(line.LinearRegression(false), new Bgr(Color.RoyalBlue), 2);
+                        markedImg.Draw(line.LinearRegression(true), new Bgr(Color.BlueViolet), 2);
+                    }
             }
             imageBox.Image = markedImg;
             correct.Text = state.FilteredLines.Count().ToString();
             incorrect.Text = (state.Lines.Count() - state.FilteredLines.Count()).ToString();
         }
 
-        protected bool ShowMarks
-        {
+        #region MarksProperties
+
+        protected bool ShowMarks {
             get { return showMarksToolStripMenuItem.Checked; }
         }
 
-        protected bool ShowLines
-        {
+        protected bool ShowLines {
             get { return showTextLineToolStripMenuItem.Checked; }
         }
 
-        protected bool ShowFilteredLines
-        {
+        protected bool ShowFilteredLines {
             get { return showFilteredTextLineToolStripMenuItem.Checked; }
         }
-        
-        protected bool ShowBoxes
-        {
+
+        protected bool ShowBoxes {
             get { return showBoxToolStripMenuItem.Checked; }
         }
 
-        protected bool ShowChars
-        {
+        protected bool ShowChars {
             get { return showCharToolStripMenuItem.Checked; }
         }
 
-        protected bool ShowLinearRegression
-        {
+        protected bool ShowLinearRegression {
             get { return showLinearRegressionToolStripMenuItem.Checked; }
         }
-        
-        protected bool ShowPunctuation
-        {
+
+        protected bool ShowPunctuation {
             get { return showPointPunctuationToolStripMenuItem.Checked; }
         }
 
-        private void HistClick(object sender, EventArgs e)
-        {
+        #endregion
+
+        private void HistClick(object sender, EventArgs e) {
             hist.Visible = histButton.Checked;
         }
 
-        private void MainFormKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Space)
-            {
+        private void MainFormKeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Space) {
                 if (state != null)
                     imageBox.Image = state.OriginalImg;
             }
         }
 
-        private void MainFormKeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Space)
-            {
+        private void MainFormKeyUp(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Space) {
                 if (markedImg != null)
                     imageBox.Image = markedImg;
             }
         }
 
-        private void MainFormLoad(object sender, EventArgs e)
-        {
-        }
+        private void MainFormLoad(object sender, EventArgs e) {}
 
-        private void ImageResize(object sender, EventArgs e)
-        {
+        private void ImageResize(object sender, EventArgs e) {
             UpdateHistPosition();
         }
 
-        private void UpdateHistPosition()
-        {
+        private void UpdateHistPosition() {
             hist.Width = Width/3;
             hist.Height = Height/3;
             hist.Left = hist.Parent.ClientSize.Width - hist.Width - SystemInformation.VerticalScrollBarWidth;
             hist.Top = hist.Parent.ClientSize.Height - hist.Height - SystemInformation.HorizontalScrollBarHeight;
         }
 
-        private void MainFormShown(object sender, EventArgs e)
-        {
+        private void MainFormShown(object sender, EventArgs e) {
             UpdateHistPosition();
         }
 
-        public void RotateButtonClick(object sender, EventArgs e)
-        {
+        public void RotateButtonClick(object sender, EventArgs e) {
             if (state == null) return;
             UpdateSettings(state.Rotate());
         }
 
-        private void NextFileButtonClick(object sender, EventArgs e)
-        {
+        private void NextFileButtonClick(object sender, EventArgs e) {
             MoveInDirectoryBy(1);
         }
 
-        private void PrevFileButtonClick(object sender, EventArgs e)
-        {
+        private void PrevFileButtonClick(object sender, EventArgs e) {
             MoveInDirectoryBy(-1);
         }
 
-        private void MoveInDirectoryBy(int d)
-        {
+        private void MoveInDirectoryBy(int d) {
             if (filename == null) return;
             string dir = Path.GetDirectoryName(filename);
             if (dir == null) return;
@@ -226,96 +203,82 @@ namespace Contour
                 OpenFile(files[ind]);
         }
 
-        private void PrevToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void PrevToolStripMenuItemClick(object sender, EventArgs e) {
             prevFileButton.PerformClick();
         }
 
-        private void NextToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void NextToolStripMenuItemClick(object sender, EventArgs e) {
             nextFileButton.PerformClick();
         }
 
-        private void HistogramToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void HistogramToolStripMenuItemClick(object sender, EventArgs e) {
             histButton.PerformClick();
         }
 
-        private void OpenFileToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void OpenFileToolStripMenuItemClick(object sender, EventArgs e) {
             openFileButton.PerformClick();
         }
 
-        private void OptionsValueChanged(object sender, EventArgs e)
-        {
+        private void OptionsValueChanged(object sender, EventArgs e) {
             UpdateSettings();
         }
 
-        private void RotateImageToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void RotateImageToolStripMenuItemClick(object sender, EventArgs e) {
             rotateButton.PerformClick();
         }
 
-        private void ColorHistogramToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void ColorHistogramToolStripMenuItemClick(object sender, EventArgs e) {
             HistogramViewer.Show(state.OriginalImg.Convert<Gray, byte>(), 128);
         }
 
-        private void ShowMarksToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void ShowMarksToolStripMenuItemClick(object sender, EventArgs e) {
             UpdateImage();
         }
 
-        private void Run90ToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void Run90ToolStripMenuItemClick(object sender, EventArgs e) {
             MessageBox.Show(state.Criteria90() ? "All right" : "Image rotated to the right or left by 90° degrees");
         }
 
-        public bool Criteria90(string fileName)
-        {
+        public bool Criteria90(string fileName) {
             OpenFile(fileName);
             return state.Criteria90();
         }
 
-        private void ShowToolbarToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void ShowToolbarToolStripMenuItemClick(object sender, EventArgs e) {
             if (toolStrip1.Visible) toolStrip1.Hide();
             else toolStrip1.Show();
         }
 
-        private void TrainSvmToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void TrainSvmToolStripMenuItemClick(object sender, EventArgs e) {
             new TrainForm().Show();
         }
 
-        private void ShowFilteredTextLineToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void ShowFilteredTextLineToolStripMenuItemClick(object sender, EventArgs e) {
             UpdateImage();
         }
 
-        private void ShowTextLineToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void ShowTextLineToolStripMenuItemClick(object sender, EventArgs e) {
             UpdateImage();
         }
 
-        private void ShowCharToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void ShowCharToolStripMenuItemClick(object sender, EventArgs e) {
             UpdateImage();
         }
 
-        private void ShowBoxToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void ShowBoxToolStripMenuItemClick(object sender, EventArgs e) {
             UpdateImage();
         }
 
-        private void ShowPointPunctuationToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void ShowPointPunctuationToolStripMenuItemClick(object sender, EventArgs e) {
             UpdateImage();
         }
 
-        private void ShowLinearRegressionToolStripMenuItemClick(object sender, EventArgs e)
-        {
+        private void ShowLinearRegressionToolStripMenuItemClick(object sender, EventArgs e) {
             UpdateImage();
+        }
+
+        private void RunAlgorithmToolStripMenuItemClick(object sender, EventArgs e) {
+            MessageBox.Show(new Algorithm(filename).Run() ? "All right" : "Image rotated 180° degrees");
         }
     }
 }

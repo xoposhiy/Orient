@@ -35,6 +35,10 @@ namespace Orient {
             this.analyser = analyser;
             this.segmentation = segmentation;
             this.binarizaton = binarizaton;
+            Update();
+        }
+
+        private void Update() {
             GrayImage = binarizaton.Process(OriginalImg);
             Boxes = segmentation.GetBoundingBoxes(GrayImage);
             Chars = segmentation.FindChars(Boxes);
@@ -62,7 +66,7 @@ namespace Orient {
             //            var current = state.Lines.Count(IsLine);
             var current = FilteredLines.Count();
 //            var rotate = state.Lines.Count(IsLine);
-            var rotate = new MainFormState(Rotate(), analyser, segmentation, binarizaton).FilteredLines.Count();
+            var rotate = new MainFormState(RotateImage(90), analyser, segmentation, binarizaton).FilteredLines.Count();
             return current > rotate;
         }
 
@@ -73,6 +77,12 @@ namespace Orient {
         }
 
         public Image<Bgr, byte> Rotate(double angle = 90) {
+            OriginalImg = RotateImage(angle);
+            Update();
+            return OriginalImg;
+        }
+
+        private Image<Bgr, byte> RotateImage(double angle) {
             return OriginalImg.Rotate(angle, new Bgr(Color.White), false);
         }
 

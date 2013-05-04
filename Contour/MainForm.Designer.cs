@@ -76,7 +76,7 @@
             this.rotateImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.run90ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trainSVMToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.runSVMFilterCriteriaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runAlgorithmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.markToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showFilteredTextLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.showTextLineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -549,7 +549,7 @@
             this.rotateImageToolStripMenuItem,
             this.run90ToolStripMenuItem,
             this.trainSVMToolStripMenuItem,
-            this.runSVMFilterCriteriaToolStripMenuItem});
+            this.runAlgorithmToolStripMenuItem});
             this.operationsToolStripMenuItem.Name = "operationsToolStripMenuItem";
             this.operationsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.operationsToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
@@ -559,7 +559,7 @@
             // 
             this.rotateImageToolStripMenuItem.Name = "rotateImageToolStripMenuItem";
             this.rotateImageToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.R)));
-            this.rotateImageToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.rotateImageToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.rotateImageToolStripMenuItem.Text = "Rotate image";
             this.rotateImageToolStripMenuItem.Click += new System.EventHandler(this.RotateImageToolStripMenuItemClick);
             // 
@@ -567,7 +567,7 @@
             // 
             this.run90ToolStripMenuItem.Name = "run90ToolStripMenuItem";
             this.run90ToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D9)));
-            this.run90ToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.run90ToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.run90ToolStripMenuItem.Text = "Run 90° criteria";
             this.run90ToolStripMenuItem.Click += new System.EventHandler(this.Run90ToolStripMenuItemClick);
             // 
@@ -575,16 +575,17 @@
             // 
             this.trainSVMToolStripMenuItem.Name = "trainSVMToolStripMenuItem";
             this.trainSVMToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.trainSVMToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
+            this.trainSVMToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.trainSVMToolStripMenuItem.Text = "Train SVM";
             this.trainSVMToolStripMenuItem.Click += new System.EventHandler(this.TrainSvmToolStripMenuItemClick);
             // 
-            // runSVMFilterCriteriaToolStripMenuItem
+            // runAlgorithmToolStripMenuItem
             // 
-            this.runSVMFilterCriteriaToolStripMenuItem.Name = "runSVMFilterCriteriaToolStripMenuItem";
-            this.runSVMFilterCriteriaToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
-            this.runSVMFilterCriteriaToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
-            this.runSVMFilterCriteriaToolStripMenuItem.Text = "Run SVM filter criteria";
+            this.runAlgorithmToolStripMenuItem.Name = "runAlgorithmToolStripMenuItem";
+            this.runAlgorithmToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
+            this.runAlgorithmToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.runAlgorithmToolStripMenuItem.Text = "Run 180° criteria";
+            this.runAlgorithmToolStripMenuItem.Click += new System.EventHandler(this.RunAlgorithmToolStripMenuItemClick);
             // 
             // markToolStripMenuItem
             // 
@@ -745,7 +746,7 @@
         private System.Windows.Forms.ToolStripMenuItem showLinearRegressionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showFilteredTextLineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem run90ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem runSVMFilterCriteriaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runAlgorithmToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label correct;
         private System.Windows.Forms.Label label6;

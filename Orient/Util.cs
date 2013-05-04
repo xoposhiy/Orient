@@ -37,6 +37,12 @@ namespace Orient
             return Math.Max(rect.Width, rect.Height);
         }
 
+        public static bool IntersectsY(this Rectangle r1, Rectangle r2, int topIndent = 0, int bottomIndent = 0) {
+            int lowestCommon = Math.Min(r1.Bottom, r2.Bottom) - topIndent;
+            int highestCommon = Math.Max(r1.Top, r2.Top) + bottomIndent;
+            return lowestCommon >= highestCommon;
+        }
+
         public static bool IntersectsWith(this IEnumerable<Rectangle> boxes, Rectangle rect) {
             return boxes.Any(box => box.IntersectsWith(rect));
         }
@@ -46,7 +52,7 @@ namespace Orient
         }
 
         public static Dictionary<Rectangle, List<Rectangle>> Group(this IEnumerable<Rectangle> rectangles) {
-            return rectangles.GroupBy(rect => rect.Sector(), rect => rect).ToDictionary(group => group.Key, group => group.ToList());
+            return rectangles.GroupBy(rect => rect.Sector(), rect => rect).ToDictionary(group => @group.Key, group => @group.ToList());
         } 
 
         public static Rectangle Sector(this Rectangle rect, int size = 100) {
