@@ -1,33 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using Contour;
 using Orient;
 
-namespace MethodTest
-{
-    public partial class Form1 : Form
-    {
-        private static readonly string TestBase = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + @"\..\..\base";
+namespace MethodTest {
+    public partial class Form1 : Form {
+        private static readonly string TestBase = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) +
+                                                  @"\..\..\base";
 
-        public Form1()
-        {
+        private IEnumerable<string> files;
+
+        public Form1() {
             InitializeComponent();
-            var form = new MainForm();
-            var orientation1 = new Dictionary<string, bool>();
+            files = Directory.GetDirectories(TestBase).SelectMany(Directory.GetFiles);
+        }
+
+        private void Run90Criteria(object sender, EventArgs e) {
+            var orientation = new Dictionary<string, bool>();
             try {
-                foreach (var folder in Directory.GetDirectories(TestBase))
-                    foreach (var file in Directory.GetFiles(folder))
-                        orientation1.Add(file, form.Criteria90(file));
+                foreach (var file in files) {
+                    orientation[file] = new MainFormState(file).Criteria90();
+                }
             }
-            catch (Exception e) {
-                MessageBox.Show(e.Message);
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
             }
 
-            dataGridView1.DataSource = new BindingSource(orientation1, null);
-            Text = orientation1.Count.ToString();
+            dataGridView1.Visible = true;
+            dataGridView1.DataSource = new BindingSource(orientation, null);
+            Text = orientation.Count.ToString() + '/' + files.Count();
+        }
+
+        private void Run180Criteria(object sender, EventArgs e) {
+            var orientation = new Dictionary<string, bool>();
+            try
+            {
+                foreach (var file in files) {
+                    var state = new MainFormState(file);
+                    state.Rotate(180);
+                    orientation[file] = state.Criteria180();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            dataGridView1.Visible = true;
+            dataGridView1.DataSource = new BindingSource(orientation, null);
+            foreach (var b in orientation) {
+                
+            }
+            Text = orientation.Values.Count(value => value).ToString() + '/' + orientation.Count + '/' + files.Count();
         }
     }
 }

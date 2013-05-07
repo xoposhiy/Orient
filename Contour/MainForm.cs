@@ -278,7 +278,7 @@ namespace Contour
         }
 
         private void RunAlgorithmToolStripMenuItemClick(object sender, EventArgs e) {
-            MessageBox.Show(new Algorithm(filename).Run() ? "All right" : "Image rotated 180° degrees");
+            MessageBox.Show(state.Criteria180() ? "All right" : "Image rotated 180° degrees");
         }
     }
 }

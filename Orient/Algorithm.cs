@@ -11,9 +11,11 @@ namespace Orient
         private Dictionary<Rectangle, List<Rectangle>> lineGroup;
         private const int BetweenWordAndPoint = 2;
 
-        public Algorithm(string file) {
-            state = new MainFormState(file);
+        public Algorithm(MainFormState state) {
+            this.state = state;
         }
+
+        public Algorithm(string file) : this(new MainFormState(file)) {}
 
         public bool Run() {
             if (!state.Criteria90())

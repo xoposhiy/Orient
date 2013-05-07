@@ -143,5 +143,9 @@ namespace Orient {
                 return skew >= -1.19;
             return false;
         }
+
+        public bool Criteria180() {
+            return new Algorithm(this).Run();
+        }
     }
 }
