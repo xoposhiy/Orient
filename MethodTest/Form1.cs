@@ -40,7 +40,7 @@ namespace MethodTest {
             {
                 foreach (var file in files) {
                     var state = new MainFormState(file);
-                    state.Rotate(180);
+//                    state.Rotate(180);
                     orientation[file] = state.Criteria180();
                 }
             }

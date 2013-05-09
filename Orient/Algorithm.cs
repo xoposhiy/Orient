@@ -23,55 +23,48 @@ namespace Orient
             var skew = state.FilteredLines.Average(line => line.LinearRegression().Skew());
             state.Rotate(skew);
             
-            lineGroup = state.FilteredLines.Select(line => line.MBR).Group();
+//            lineGroup = state.FilteredLines.Select(line => line.MBR).Group();
             pointGroup = state.Points.Group();
-            var score = state.FilteredLines.Sum(line => FindBraces(line) + FindPunctuation(line));
+            var score = state.FilteredLines.Sum(line => CountPattern(line));
             state.Rotate(180);
 
-            lineGroup = state.FilteredLines.Select(line => line.MBR).Group();
+//            lineGroup = state.FilteredLines.Select(line => line.MBR).Group();
             pointGroup = state.Points.Group();
-            var rotateScore = state.FilteredLines.Sum(line => FindBraces(line) + FindPunctuation(line));
+            var rotateScore = state.FilteredLines.Sum(line => CountPattern(line));
             
             return score >= rotateScore;
         }
 
+        private int CountPattern(TextLine line) {
+            return FindBraces(line) + FindPunctuation(line) + FindUpperCase(line);
+        }
+
+        private int FindUpperCase(TextLine line) {
+            var firstChar = line.Chars.First();
+            var regression = line.LinearRegression(true);
+            return regression.P1.Y > firstChar.Y ? 1 : 0;
+        }
+
         private int FindPunctuation(TextLine line) {
-            var result = 0;
             if (!pointGroup.ContainsKey(line.MBR.Sector())) return 0;
             var pointList = pointGroup[line.MBR.Sector()];
-            var lineList = lineGroup[line.MBR.Sector()];
-            var remainingLines = lineList.OrderBy(box => box.X).ToList();
-            while (remainingLines.Any()) {
-                var remainingLine = remainingLines.First();
-                remainingLines.Remove(remainingLine);
-                IEnumerable<Rectangle> yCompatible = pointList.Where(point => point.IntersectsY(remainingLine, -49, 5));
-                IEnumerable<Rectangle> punctuation =
-                        yCompatible.Where(
-                            r => r.Left.InRange(remainingLine.Right, remainingLine.Right + BetweenWordAndPoint));
-                if (punctuation.Count() != 0)
-                    result++;
-            }
-            return result;
+            var remainingLine = line.MBR;
+            var yCompatible = pointList.Where(point => point.IntersectsY(remainingLine, -49, 5));
+            var punctuation =
+                    yCompatible.Where(
+                        r => r.Left.InRange(remainingLine.Right, remainingLine.Right + BetweenWordAndPoint));
+            return punctuation.Count() != 0 ? 1 : 0;
         }
 
         private int FindBraces(TextLine line) {
-            var result = 0;
             if (!pointGroup.ContainsKey(line.MBR.Sector())) return 0;
             var pointList = pointGroup[line.MBR.Sector()];
-            var lineList = lineGroup[line.MBR.Sector()];
-            var remainingLines = lineList.OrderBy(box => box.X).ToList();
-            while (remainingLines.Any())
-            {
-                var remainingLine = remainingLines.First();
-                remainingLines.Remove(remainingLine);
-                IEnumerable<Rectangle> yCompatible = pointList.Where(point => point.IntersectsY(remainingLine, 5, -45));
-                IEnumerable<Rectangle> punctuation =
-                        yCompatible.Where(
-                            r => r.Left.InRange(remainingLine.Left - BetweenWordAndPoint, remainingLine.Right + BetweenWordAndPoint));
-                if (punctuation.Count() != 0)
-                    result++;
-            }
-            return result;
+            var remainingLine = line.MBR;
+            var yCompatible = pointList.Where(point => point.IntersectsY(remainingLine, 5, -45));
+            var punctuation =
+                    yCompatible.Where(
+                        r => r.Left.InRange(remainingLine.Left - BetweenWordAndPoint, remainingLine.Right + BetweenWordAndPoint));
+            return punctuation.Count() != 0 ? 1 : 0;
         }
     }
 }
