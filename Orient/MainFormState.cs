@@ -145,7 +145,7 @@ namespace Orient {
         }
 
         public bool Criteria180() {
-            return new Algorithm(this).Run();
+            return new Orient(this).HasCorrectOrientation();
         }
     }
 }

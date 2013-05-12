@@ -4,20 +4,20 @@ using System.Linq;
 
 namespace Orient
 {
-    public class Algorithm
+    public class Orient
     {
         private MainFormState state;
         private Dictionary<Rectangle, List<Rectangle>> pointGroup;
-        private Dictionary<Rectangle, List<Rectangle>> lineGroup;
+//        private Dictionary<Rectangle, List<Rectangle>> lineGroup;
         private const int BetweenWordAndPoint = 2;
 
-        public Algorithm(MainFormState state) {
+        public Orient(MainFormState state) {
             this.state = state;
         }
 
-        public Algorithm(string file) : this(new MainFormState(file)) {}
+        public Orient(string file) : this(new MainFormState(file)) {}
 
-        public bool Run() {
+        public bool HasCorrectOrientation() {
             if (!state.Criteria90())
                 state.Rotate();
             var skew = state.FilteredLines.Average(line => line.LinearRegression().Skew());
@@ -35,7 +35,7 @@ namespace Orient
             return score >= rotateScore;
         }
 
-        private int CountPattern(TextLine line) {
+        public int CountPattern(TextLine line) {
             return FindBraces(line) + FindPunctuation(line) + FindUpperCase(line);
         }
 
