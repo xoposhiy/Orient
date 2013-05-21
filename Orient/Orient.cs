@@ -23,19 +23,19 @@ namespace Orient
             var skew = state.FilteredLines.Average(line => line.LinearRegression().Skew());
             state.Rotate(skew);
             
-//            lineGroup = state.FilteredLines.Select(line => line.MBR).Group();
-            pointGroup = state.Points.Group();
-            var score = state.FilteredLines.Sum(line => CountPattern(line));
+            var score = CountPattern();
             state.Rotate(180);
-
-//            lineGroup = state.FilteredLines.Select(line => line.MBR).Group();
-            pointGroup = state.Points.Group();
-            var rotateScore = state.FilteredLines.Sum(line => CountPattern(line));
+            var rotateScore = CountPattern();
             
             return score >= rotateScore;
         }
 
-        public int CountPattern(TextLine line) {
+        public int CountPattern() {
+            pointGroup = state.Points.Group();
+            return state.FilteredLines.Sum(line => CountPattern(line));
+        }
+
+        private int CountPattern(TextLine line) {
             return FindBraces(line) + FindPunctuation(line) + FindUpperCase(line);
         }
 
