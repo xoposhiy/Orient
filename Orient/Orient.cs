@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -35,20 +36,25 @@ namespace Orient
             return state.FilteredLines.Sum(line => CountPattern(line));
         }
 
-        private int CountPattern(TextLine line) {
-            return FindBraces(line) + FindPunctuation(line) + FindUpperCase(line);
+		public int CountPattern(Func<TextLine, int> countPatterns) {
+            pointGroup = state.Points.Group();
+            return state.FilteredLines.Sum(countPatterns);
         }
 
-        private int FindUpperCase(TextLine line) {
+        private int CountPattern(TextLine line) {
+            return CountQuotations(line) + CountPunctuation(line) + CountUpperCase(line);
+        }
+
+	    public int CountUpperCase(TextLine line) {
             var firstChar = line.Chars.First();
             var regression = line.LinearRegression(true);
             return regression.P1.Y > firstChar.Y ? 1 : 0;
         }
 
-        private int FindPunctuation(TextLine line) {
-            if (!pointGroup.ContainsKey(line.MBR.Sector())) return 0;
-            var pointList = pointGroup[line.MBR.Sector()];
-            var remainingLine = line.MBR;
+	    public int CountPunctuation(TextLine word) {
+            if (!pointGroup.ContainsKey(word.MBR.Sector())) return 0;
+            var pointList = pointGroup[word.MBR.Sector()];
+            var remainingLine = word.MBR;
             var yCompatible = pointList.Where(point => point.IntersectsY(remainingLine, -49, 5));
             var punctuation =
                     yCompatible.Where(
@@ -56,14 +62,14 @@ namespace Orient
             return punctuation.Count() != 0 ? 1 : 0;
         }
 
-        private int FindBraces(TextLine line) {
+	    public int CountQuotations(TextLine line) {
             if (!pointGroup.ContainsKey(line.MBR.Sector())) return 0;
             var pointList = pointGroup[line.MBR.Sector()];
             var remainingLine = line.MBR;
             var yCompatible = pointList.Where(point => point.IntersectsY(remainingLine, 5, -45));
             var punctuation =
                     yCompatible.Where(
-                        r => r.Left.InRange(remainingLine.Left - BetweenWordAndPoint, remainingLine.Right + BetweenWordAndPoint));
+                        r => r.Left.InRange(remainingLine.Right, remainingLine.Right + BetweenWordAndPoint));
             return punctuation.Count() != 0 ? 1 : 0;
         }
     }

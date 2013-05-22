@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orient", "Orient\Orient.csproj", "{1BB8F17F-9412-4C66-98F9-C71BBCE95F3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{99CD2025-0130-46F9-BCB0-ED4BE58D010C}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Orient.vsmdi
@@ -86,6 +88,16 @@ Global
 		{1BB8F17F-9412-4C66-98F9-C71BBCE95F3D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{1BB8F17F-9412-4C66-98F9-C71BBCE95F3D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1BB8F17F-9412-4C66-98F9-C71BBCE95F3D}.Release|x86.ActiveCfg = Release|Any CPU
+		{99CD2025-0130-46F9-BCB0-ED4BE58D010C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{99CD2025-0130-46F9-BCB0-ED4BE58D010C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{99CD2025-0130-46F9-BCB0-ED4BE58D010C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{99CD2025-0130-46F9-BCB0-ED4BE58D010C}.Debug|x86.ActiveCfg = Debug|x86
+		{99CD2025-0130-46F9-BCB0-ED4BE58D010C}.Debug|x86.Build.0 = Debug|x86
+		{99CD2025-0130-46F9-BCB0-ED4BE58D010C}.Release|Any CPU.ActiveCfg = Release|x86
+		{99CD2025-0130-46F9-BCB0-ED4BE58D010C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{99CD2025-0130-46F9-BCB0-ED4BE58D010C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{99CD2025-0130-46F9-BCB0-ED4BE58D010C}.Release|x86.ActiveCfg = Release|x86
+		{99CD2025-0130-46F9-BCB0-ED4BE58D010C}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
