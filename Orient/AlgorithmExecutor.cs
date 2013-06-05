@@ -5,18 +5,18 @@ using System.Linq;
 
 namespace Orient
 {
-    public class Orient
+    public class AlgorithmExecutor
     {
         private MainFormState state;
         private Dictionary<Rectangle, List<Rectangle>> pointGroup;
 //        private Dictionary<Rectangle, List<Rectangle>> lineGroup;
         private const int BetweenWordAndPoint = 2;
 
-        public Orient(MainFormState state) {
+        public AlgorithmExecutor(MainFormState state) {
             this.state = state;
         }
 
-        public Orient(string file) : this(new MainFormState(file)) {}
+        public AlgorithmExecutor(string file) : this(new MainFormState(file)) {}
 
         public bool HasCorrectOrientation() {
             if (!state.Criteria90())
