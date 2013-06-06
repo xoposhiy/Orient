@@ -62,9 +62,9 @@ namespace Testing
 					var punctBad = orient.CountPattern(orient.HasPunctuation);
 					var upperBad = orient.CountPattern(orient.HasUpperCase);
                     var quatBad = orient.CountPattern(orient.HasQuotations);
-
-                    int sumOk = 2 * (punctOk + quatOk) + upperOk;
-                    int sumBad = 2 * (punctBad + quatBad) + upperBad;
+                    
+                    var sumOk =  (punctOk + quatOk) + upperOk;
+                    var sumBad =  (punctBad + quatBad) + upperBad;
                     var result = string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9}", 
                         punctOk, punctBad, 
                         upperOk, upperBad, 

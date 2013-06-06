@@ -7,25 +7,26 @@ namespace Orient
 {
     public class AlgorithmExecutor
     {
-        private MainFormState state;
         private Dictionary<Rectangle, List<Rectangle>> pointGroup;
 //        private Dictionary<Rectangle, List<Rectangle>> lineGroup;
         private const int BetweenWordAndPoint = 2;
 
         public AlgorithmExecutor(MainFormState state) {
-            this.state = state;
+            State = state;
         }
 
         public AlgorithmExecutor(string file) : this(new MainFormState(file)) {}
 
+        public MainFormState State { get; set; }
+
         public bool HasCorrectOrientation() {
-            if (!state.Criteria90())
-                state.Rotate();
-            var skew = state.FilteredLines.Average(line => line.LinearRegression().Skew());
-            state.Rotate(skew);
+            if (!State.Criteria90())
+                State.Rotate();
+            var skew = State.FilteredLines.Average(line => line.LinearRegression().Skew());
+            State.Rotate(skew);
             
             var score = CountPatterns();
-            state.Rotate(180);
+            State.Rotate(180);
             var rotateScore = CountPatterns();
             
             return score >= rotateScore;
@@ -36,14 +37,14 @@ namespace Orient
         }
 
         public int CountPattern(Func<TextLine, bool> countPatterns) {
-            pointGroup = state.Points.Group();
-            return state.FilteredLines.Count(countPatterns);
+            pointGroup = State.Points.Group();
+            return State.FilteredLines.Count(countPatterns);
         }
 
 	    public bool HasUpperCase(TextLine line) {
             var firstChar = line.Chars.First();
             var regression = line.LinearRegression(true);
-	        return regression.P1.Y >= firstChar.Y;
+	        return regression.P1.Y > firstChar.Y;
 	    }
 
 	    public bool HasPunctuation(TextLine word) {
@@ -52,7 +53,7 @@ namespace Orient
         }
 
         public IEnumerable<Rectangle> GetPunctuation(TextLine word) {
-            return GetRectangles(word, -49, 5);
+            return GetRectangles(word, new Rectangle(word.MBR.Right, word.MBR.Bottom - 10, 5, 15));
         }
 
         public bool HasQuotations(TextLine word) {
@@ -61,18 +62,17 @@ namespace Orient
         }
 
         public IEnumerable<Rectangle> GetQuatation(TextLine word) {
-            return GetRectangles(word, 5, -45);
+            return GetRectangles(word, new Rectangle(word.MBR.Right, word.MBR.Top - 5, 5, 15));
         }
 
-        private IEnumerable<Rectangle> GetRectangles(TextLine word, int topIndent, int bottomIndent) {
-            if (!pointGroup.ContainsKey(word.MBR.Sector())) return new List<Rectangle>();
-            var pointList = pointGroup[word.MBR.Sector()];
-            var remainingLine = word.MBR;
-            var yCompatible = pointList.Where(point => point.IntersectsY(remainingLine, topIndent, bottomIndent));
-            var punctuation =
-                yCompatible.Where(
-                    r => r.Left.InRange(remainingLine.Right, remainingLine.Right + BetweenWordAndPoint));
-            return punctuation;
+        private IEnumerable<Rectangle> GetRectangles(TextLine word, Rectangle box) {
+            pointGroup = State.Points.Group();
+            var pointList = GetPoints(word.MBR.Sector());
+            return pointList.Where(box.IntersectsWith);
+        }
+
+        private IEnumerable<Rectangle> GetPoints(Rectangle box) {
+            return pointGroup.ContainsKey(box) ? pointGroup[box] : new List<Rectangle>();
         }
     }
 }
