@@ -48,24 +48,36 @@ namespace Testing
 			try
 			{
                 var writer = new StreamWriter(Output, false);
+			    int count = 0, wrong = 0;
                 foreach (var file in files)
 				{
 					var state = new MainFormState(file);
 					var orient = new AlgorithmExecutor(state);
-					var punctOk = orient.CountPattern(orient.CountPunctuation);
-					var upperOk = orient.CountPattern(orient.CountUpperCase);
-				    var quatOk = orient.CountPattern(orient.CountQuotations);
+					var punctOk = orient.CountPattern(orient.HasPunctuation);
+					var upperOk = orient.CountPattern(orient.HasUpperCase);
+				    var quatOk = orient.CountPattern(orient.HasQuotations);
 					state = new MainFormState(file);
 					state.Rotate(180);
 					orient = new AlgorithmExecutor(state);
-					var punctBad = orient.CountPattern(orient.CountPunctuation);
-					var upperBad = orient.CountPattern(orient.CountUpperCase);
-                    var quatBad = orient.CountPattern(orient.CountQuotations);
+					var punctBad = orient.CountPattern(orient.HasPunctuation);
+					var upperBad = orient.CountPattern(orient.HasUpperCase);
+                    var quatBad = orient.CountPattern(orient.HasQuotations);
 
-				    var result = string.Format("{0};{1};{2};{3};{4};{5};{6}", punctOk, punctBad, upperOk, upperBad, quatOk, quatBad, file);
-				    writer.WriteLine(result);
+                    int sumOk = 2 * (punctOk + quatOk) + upperOk;
+                    int sumBad = 2 * (punctBad + quatBad) + upperBad;
+                    var result = string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9}", 
+                        punctOk, punctBad, 
+                        upperOk, upperBad, 
+                        quatOk, quatBad, 
+                        sumOk, sumBad,
+                        sumBad > sumOk ? 1 : 0, file);
+                    count++;
+                    if (sumBad > sumOk) wrong++;
+                    writer.WriteLine(result);
                     Console.WriteLine(result);
 				}
+                writer.Flush();
+                Console.WriteLine("{0}/{1}", wrong, count);
 			}
 			catch (Exception ex)
 			{

@@ -41,7 +41,7 @@ namespace MethodTest {
                     var state = new MainFormState(file);
 //                    state.Rotate(180);
                     orientation[file] = state.Criteria180();
-//                    orientation[file] = new Orient.AlgorithmExecutor(file).CountPattern();
+//                    orientation[file] = new Orient.AlgorithmExecutor(file).CountPatterns();
                 }
             }
             catch (Exception ex) {

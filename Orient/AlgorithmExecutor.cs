@@ -24,53 +24,55 @@ namespace Orient
             var skew = state.FilteredLines.Average(line => line.LinearRegression().Skew());
             state.Rotate(skew);
             
-            var score = CountPattern();
+            var score = CountPatterns();
             state.Rotate(180);
-            var rotateScore = CountPattern();
+            var rotateScore = CountPatterns();
             
             return score >= rotateScore;
         }
 
-        public int CountPattern() {
+        public int CountPatterns() {
+            return 2*(CountPattern(HasPunctuation) + CountPattern(HasQuotations)) + CountPattern(HasUpperCase);
+        }
+
+        public int CountPattern(Func<TextLine, bool> countPatterns) {
             pointGroup = state.Points.Group();
-            return state.FilteredLines.Sum(line => CountPattern(line));
+            return state.FilteredLines.Count(countPatterns);
         }
 
-		public int CountPattern(Func<TextLine, int> countPatterns) {
-            pointGroup = state.Points.Group();
-            return state.FilteredLines.Sum(countPatterns);
-        }
-
-        private int CountPattern(TextLine line) {
-            return CountQuotations(line) + CountPunctuation(line) + CountUpperCase(line);
-        }
-
-	    public int CountUpperCase(TextLine line) {
+	    public bool HasUpperCase(TextLine line) {
             var firstChar = line.Chars.First();
             var regression = line.LinearRegression(true);
-            return regression.P1.Y > firstChar.Y ? 1 : 0;
+	        return regression.P1.Y >= firstChar.Y;
+	    }
+
+	    public bool HasPunctuation(TextLine word) {
+            var punctuation = GetPunctuation(word);
+	        return punctuation.Count() != 0;
         }
 
-	    public int CountPunctuation(TextLine word) {
-            if (!pointGroup.ContainsKey(word.MBR.Sector())) return 0;
+        public IEnumerable<Rectangle> GetPunctuation(TextLine word) {
+            return GetRectangles(word, -49, 5);
+        }
+
+        public bool HasQuotations(TextLine word) {
+            var punctuation = GetQuatation(word);
+	        return punctuation.Count() != 0;
+        }
+
+        public IEnumerable<Rectangle> GetQuatation(TextLine word) {
+            return GetRectangles(word, 5, -45);
+        }
+
+        private IEnumerable<Rectangle> GetRectangles(TextLine word, int topIndent, int bottomIndent) {
+            if (!pointGroup.ContainsKey(word.MBR.Sector())) return new List<Rectangle>();
             var pointList = pointGroup[word.MBR.Sector()];
             var remainingLine = word.MBR;
-            var yCompatible = pointList.Where(point => point.IntersectsY(remainingLine, -49, 5));
+            var yCompatible = pointList.Where(point => point.IntersectsY(remainingLine, topIndent, bottomIndent));
             var punctuation =
-                    yCompatible.Where(
-                        r => r.Left.InRange(remainingLine.Right, remainingLine.Right + BetweenWordAndPoint));
-            return punctuation.Count() != 0 ? 1 : 0;
-        }
-
-	    public int CountQuotations(TextLine line) {
-            if (!pointGroup.ContainsKey(line.MBR.Sector())) return 0;
-            var pointList = pointGroup[line.MBR.Sector()];
-            var remainingLine = line.MBR;
-            var yCompatible = pointList.Where(point => point.IntersectsY(remainingLine, 5, -45));
-            var punctuation =
-                    yCompatible.Where(
-                        r => r.Left.InRange(remainingLine.Right, remainingLine.Right + BetweenWordAndPoint));
-            return punctuation.Count() != 0 ? 1 : 0;
+                yCompatible.Where(
+                    r => r.Left.InRange(remainingLine.Right, remainingLine.Right + BetweenWordAndPoint));
+            return punctuation;
         }
     }
 }
