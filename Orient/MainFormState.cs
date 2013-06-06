@@ -18,8 +18,8 @@ namespace Orient {
         public Rectangle[] Points;
         public TextLine[] FilteredLines;
 
-        public MainFormState(Image<Bgr, byte> image, int maxWordDistance = 10, int maxCharSize = 50,
-                             int minPunctuationSize = 3, int minCharSize = 10, int binarizationThreshold = 230,
+        public MainFormState(Image<Bgr, byte> image, int maxWordDistance = 15, int maxCharSize = 50,
+                             int minPunctuationSize = 3, int minCharSize = 11, int binarizationThreshold = 230,
                              bool smoothMedian = false)
             : this(
                 image,
@@ -99,7 +99,8 @@ namespace Orient {
         public IEnumerable<TextLine> GetLines() {
             //            return lines;
             var lines = Lines.Where(IsLine).ToList();
-            return GetNonIntersectedLines(lines);
+            return lines;
+            //return GetNonIntersectedLines(lines);
             //            return GetJoinedLines(lines);
         }
 

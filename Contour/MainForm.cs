@@ -88,24 +88,25 @@ namespace Contour
                         markedImg.Draw(rect, new Bgr(Color.Green), 1);
 
                 if (ShowFilteredLines)
-                    foreach (TextLine line in state.FilteredLines) {
+                    foreach (TextLine line in state.FilteredLines)
                         markedImg.Draw(line.MBR, new Bgr(Color.Orange), 1);
-                        //знаки пунктуации
-                        foreach (var rectangle in algorithm.GetPunctuation(line))
-                            markedImg.Draw(rectangle, new Bgr(Color.Red), 1);
-                        //кавычки
-                        foreach (var rectangle in algorithm.GetQuatation(line))
-                            markedImg.Draw(rectangle, new Bgr(Color.Red), 1);
-                        //заглавные буквы
-                        if (algorithm.HasUpperCase(line))
-                            markedImg.Draw(line.Chars.First(), new Bgr(Color.Green), 1);
-                        //окно поиска знаков пунктуации
+                foreach (TextLine line in state.FilteredLines) {
+                    //знаки пунктуации
+                    foreach (var rectangle in algorithm.GetPunctuation(line))
+                        markedImg.Draw(rectangle, new Bgr(Color.Red), 2);
+                    //кавычки
+                    foreach (var rectangle in algorithm.GetQuatation(line))
+                        markedImg.Draw(rectangle, new Bgr(Color.Red), 2);
+                    //заглавные буквы
+                    if (algorithm.HasUpperCase(line))
+                        markedImg.Draw(line.Chars.First(), new Bgr(Color.Green), 3);
+                    //окно поиска знаков пунктуации
 //                        var rect = new Rectangle(line.MBR.Right, line.MBR.Bottom - 10, 15, 15);
 //                        markedImg.Draw(rect, new Bgr(Color.Purple), 1);
-                        //окно поиска кавычек
-//                        rect = new Rectangle(line.MBR.Right, line.MBR.Top - 5, 15, 15);
-//                        markedImg.Draw(rect, new Bgr(Color.Purple), 1);
-                    }
+                    //окно поиска кавычек
+//                    rect = new Rectangle(line.MBR.Right, line.MBR.Top - 5, 15, 15);
+//                    markedImg.Draw(rect, new Bgr(Color.Purple), 1);
+                }
 
                 if (ShowPunctuation)
                     foreach (Rectangle rect in state.Points)
@@ -126,9 +127,11 @@ namespace Contour
                         markedImg.Draw(line.LinearRegression(true), new Bgr(Color.BlueViolet), 2);
                     }
             }
-            imageBox.Image = markedImg;
-            correct.Text = state.FilteredLines.Count().ToString();
-            incorrect.Text = (state.Lines.Count() - state.FilteredLines.Count()).ToString();
+            imageBox.Image = markedImg; 
+            correct.Text = string.Format("{0} - {1} - {2}", algorithm.CountPattern(algorithm.HasPunctuation),
+                         algorithm.CountPattern(algorithm.HasUpperCase), algorithm.CountPattern(algorithm.HasQuotations));
+//            correct.Text = state.FilteredLines.Count().ToString();
+//            incorrect.Text = (state.Lines.Count() - state.FilteredLines.Count()).ToString();
         }
 
         #region MarksProperties
@@ -200,7 +203,7 @@ namespace Contour
 
         public void RotateButtonClick(object sender, EventArgs e) {
             if (state == null) return;
-            UpdateSettings(state.Rotate());
+            UpdateSettings(state.Rotate(180));
         }
 
         private void NextFileButtonClick(object sender, EventArgs e) {

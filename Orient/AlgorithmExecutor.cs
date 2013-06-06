@@ -44,7 +44,7 @@ namespace Orient
 	    public bool HasUpperCase(TextLine line) {
             var firstChar = line.Chars.First();
             var regression = line.LinearRegression(true);
-	        return regression.P1.Y > firstChar.Y;
+	        return regression.P1.Y > firstChar.Y;// && (line.MBR.Bottom - firstChar.Bottom) <= 3; //ухудшило
 	    }
 
 	    public bool HasPunctuation(TextLine word) {
@@ -66,7 +66,7 @@ namespace Orient
         }
 
         private IEnumerable<Rectangle> GetRectangles(TextLine word, Rectangle box) {
-            pointGroup = State.Points.Group();
+//            pointGroup = State.Points.Group();
             var pointList = GetPoints(word.MBR.Sector());
             return pointList.Where(box.IntersectsWith);
         }

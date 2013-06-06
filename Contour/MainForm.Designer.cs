@@ -278,7 +278,7 @@
             this.minCharSize.Size = new System.Drawing.Size(120, 20);
             this.minCharSize.TabIndex = 5;
             this.minCharSize.Value = new decimal(new int[] {
-            10,
+            11,
             0,
             0,
             0});
