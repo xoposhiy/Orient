@@ -17,6 +17,7 @@ namespace Contour
         private string filename;
         private Image<Bgr, byte> markedImg;
         public MainFormState state;
+        private AlgorithmExecutor algorithm;
 
         public MainForm() {
             InitializeComponent();
@@ -42,6 +43,7 @@ namespace Contour
             state = new MainFormState(img, (int) maxWordDistance.Value, (int) maxCharSize.Value,
                                       (int) minPunctuationSize.Value, (int) minCharSize.Value,
                                       (int) binarizationThreshold.Value, smoothMedianCheckbox.Checked);
+            algorithm = new AlgorithmExecutor(state);
             UpdateImage();
             UpdateHistogram();
         }
@@ -64,13 +66,14 @@ namespace Contour
             hist.Series.Add(ser);
 
             //Find peak of small boxes (pepper noise)
-            var sum = data.Where(keyValuePair => keyValuePair.Key < 5).Sum(keyValuePair => keyValuePair.Value);
+            //Check occurs in AlgorithExecutor
+            /*var sum = data.Where(keyValuePair => keyValuePair.Key < 5).Sum(keyValuePair => keyValuePair.Value);
             if (!smoothMedianCheckbox.Checked && sum > 5000)
-                smoothMedianCheckbox.Checked = true;
+                smoothMedianCheckbox.Checked = true;*/
         }
 
         private void UpdateImage() {
-            //            markedImg = state.GrayImage.Convert<Bgr, byte>();
+            //markedImg = state.GrayImage.Convert<Bgr, byte>();
             markedImg = new Image<Bgr, byte>(state.GrayImage.Bitmap);
             if (ShowMarks) {
                 if (ShowBoxes)
@@ -85,8 +88,24 @@ namespace Contour
                         markedImg.Draw(rect, new Bgr(Color.Green), 1);
 
                 if (ShowFilteredLines)
-                    foreach (TextLine line in state.FilteredLines)
+                    foreach (TextLine line in state.FilteredLines) {
                         markedImg.Draw(line.MBR, new Bgr(Color.Orange), 1);
+                        //знаки пунктуации
+                        foreach (var rectangle in algorithm.GetPunctuation(line))
+                            markedImg.Draw(rectangle, new Bgr(Color.Red), 1);
+                        //кавычки
+                        foreach (var rectangle in algorithm.GetQuatation(line))
+                            markedImg.Draw(rectangle, new Bgr(Color.Red), 1);
+                        //заглавные буквы
+                        if (algorithm.HasUpperCase(line))
+                            markedImg.Draw(line.Chars.First(), new Bgr(Color.Green), 1);
+                        //окно поиска знаков пунктуации
+//                        var rect = new Rectangle(line.MBR.Right, line.MBR.Bottom - 10, 15, 15);
+//                        markedImg.Draw(rect, new Bgr(Color.Purple), 1);
+                        //окно поиска кавычек
+//                        rect = new Rectangle(line.MBR.Right, line.MBR.Top - 5, 15, 15);
+//                        markedImg.Draw(rect, new Bgr(Color.Purple), 1);
+                    }
 
                 if (ShowPunctuation)
                     foreach (Rectangle rect in state.Points)

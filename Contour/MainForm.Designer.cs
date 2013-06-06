@@ -620,9 +620,7 @@
             // 
             // showCharToolStripMenuItem
             // 
-            this.showCharToolStripMenuItem.Checked = true;
             this.showCharToolStripMenuItem.CheckOnClick = true;
-            this.showCharToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showCharToolStripMenuItem.Name = "showCharToolStripMenuItem";
             this.showCharToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.showCharToolStripMenuItem.Text = "Show Char";
@@ -630,9 +628,7 @@
             // 
             // showBoxToolStripMenuItem
             // 
-            this.showBoxToolStripMenuItem.Checked = true;
             this.showBoxToolStripMenuItem.CheckOnClick = true;
-            this.showBoxToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showBoxToolStripMenuItem.Name = "showBoxToolStripMenuItem";
             this.showBoxToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.showBoxToolStripMenuItem.Text = "Show Bounding Box";
@@ -640,9 +636,7 @@
             // 
             // showPointPunctuationToolStripMenuItem
             // 
-            this.showPointPunctuationToolStripMenuItem.Checked = true;
             this.showPointPunctuationToolStripMenuItem.CheckOnClick = true;
-            this.showPointPunctuationToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showPointPunctuationToolStripMenuItem.Name = "showPointPunctuationToolStripMenuItem";
             this.showPointPunctuationToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.showPointPunctuationToolStripMenuItem.Text = "Show Point (Punctuation)";
@@ -650,9 +644,7 @@
             // 
             // showLinearRegressionToolStripMenuItem
             // 
-            this.showLinearRegressionToolStripMenuItem.Checked = true;
             this.showLinearRegressionToolStripMenuItem.CheckOnClick = true;
-            this.showLinearRegressionToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.showLinearRegressionToolStripMenuItem.Name = "showLinearRegressionToolStripMenuItem";
             this.showLinearRegressionToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.showLinearRegressionToolStripMenuItem.Text = "Show Linear Regression";
