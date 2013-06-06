@@ -20,12 +20,12 @@ namespace Orient {
 
         public MainFormState(Image<Bgr, byte> image, int maxWordDistance = 10, int maxCharSize = 50,
                              int minPunctuationSize = 3, int minCharSize = 10, int binarizationThreshold = 230,
-                             bool smoothMedianCheckbox = false)
+                             bool smoothMedian = false)
             : this(
                 image,
                 new DocumentAnalyser(maxWordDistance),
                 new SymbolSegmentation(maxCharSize, minPunctuationSize, minCharSize),
-                new Binarizaton(binarizationThreshold, smoothMedianCheckbox)) {}
+                new Binarizaton(binarizationThreshold, smoothMedian)) {}
 
         public MainFormState(string filename) : this(new Image<Bgr, byte>(filename)) {}
 
@@ -41,6 +41,13 @@ namespace Orient {
         private void Update() {
             GrayImage = binarizaton.Process(OriginalImg);
             Boxes = segmentation.GetBoundingBoxes(GrayImage);
+            if (!binarizaton.SmoothMedian) {
+                if (Boxes.Count(rect => rect.Diameter() < 5) > 5000) {
+                    binarizaton.SmoothMedian = true;
+                    Update();
+                    return;
+                }
+            }
             Chars = segmentation.FindChars(Boxes);
             Points = segmentation.FindPunctuation(Boxes);
             Lines = analyser.Extract(Chars);

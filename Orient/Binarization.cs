@@ -10,16 +10,16 @@ namespace Orient
         public Binarizaton(int threshold, bool smoothMedian)
         {
             this.threshold = threshold;
-            this.smoothMedian = smoothMedian;
+            SmoothMedian = smoothMedian;
         }
 
         private int threshold;
-        private readonly bool smoothMedian;
+        public bool SmoothMedian { get; set; }
 
         public Image<Gray, byte> Process(Image<Bgr, byte> img)
         {
             var processed = img.Convert<Gray, Byte>();
-            if (smoothMedian) processed = processed.SmoothMedian(3);
+            if (SmoothMedian) processed = processed.SmoothMedian(3);
 //            var binary = processed.ThresholdBinary(new Gray(threshold), new Gray(255));
 //            var binary = processed.ThresholdAdaptive(new Gray(255), ADAPTIVE_THRESHOLD_TYPE.CV_ADAPTIVE_THRESH_MEAN_C, THRESH.CV_THRESH_OTSU, 3, new Gray(0));
             var binary = new Image<Gray, Byte>(processed.Size);
