@@ -1,1 +1,9 @@
+Contour/ - application demonstrates image preparing, text segmentation, criteria for horizontal orientation and correct orientation. Also there is a form to recognize words by user (using markup construct a decision tree)
+HoughDemonstration/ - playing with Hough Transform for line search
+MethodTest/ - run 90 and 180 degree criteria on base and visualize it in table
+Orient/ - main lib with all algorithm in criteria
+RTree/ - lib with RTree component classes. Need for method optimisation
+Test/ - unit tests
+Testing/ - Console project to process all base images and create statistic
 base/ — set of the test documents
+lib/ - external libs (EmguCV, OpenCV)
